@@ -5,7 +5,7 @@ node {
     try {
         stage 'Checkout'
 
-            dir('/apps/npt'){
+            dir('/apps/nptbeta'){
             sh "pwd"
        
             checkout scm
@@ -23,7 +23,7 @@ node {
             // sh 'env/bin/python3.5 manage.py test --testrunner=djtrump.tests.test_runners.NoDbTestRunner'
 
         stage 'Deploy'
-         dir('/apps/npt'){
+         dir('/apps/nptbeta'){
             sh 'chmod +x deploy_prod.sh'
             sh 'cat deploy_prod.sh'
             sh './deploy_prod.sh'

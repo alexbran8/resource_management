@@ -17,7 +17,7 @@ RUN npm install -g npm@latest
 # RUN npm install webpack webpack-dev-server --save-dev
 # # RUN cd.. & cd /opt/app/src/client &  pwd
 # RUN pwd
-# RUN npm run dev
+RUN npm run dev
 
 # backend
 WORKDIR /opt/app/server
