@@ -107,7 +107,7 @@ export default class Header extends Component {
   _handleLogoutClick = () => {
     // Logout using Twitter passport api
     // Set authenticated state to false in the HomePage
-    window.open(config.baseURL + "/auth/logout", "_self");
+    window.open(config.baseURL + config.baseLOCATION + "/auth/logout", "_self");
     this.props.handleNotAuthenticated();
   };
 }
