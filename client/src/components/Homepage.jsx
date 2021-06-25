@@ -1,6 +1,7 @@
 import Header from "./Header.jsx";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import {config} from "../config"
 
 export default class HomePage extends Component {
   static propTypes = {
@@ -21,7 +22,7 @@ export default class HomePage extends Component {
 
   componentDidMount() {
     // Fetch does not send cookies. So you should add credentials: 'include'
-    fetch("https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta//auth/login/success/", {
+    fetch( config.baseURL + "/auth/login/success/", {
       method: "GET",
       credentials: "include",
       headers: {
