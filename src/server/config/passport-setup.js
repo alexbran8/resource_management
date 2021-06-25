@@ -27,7 +27,6 @@ const config = require('../config2/config')
 
   passport.deserializeUser((profile, done) => {
     done(null, profile)
-    console.log(profile)
   })
 
 

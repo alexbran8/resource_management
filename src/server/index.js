@@ -55,7 +55,7 @@ const authCheck = (req, res, next) => {
   }
 };
 
-app.use("/", express.static(path.resolve(__dirname, "../client/build")));
+app.use("/", express.static(path.resolve(__dirname, "../client/client/public/dist")));
 
 // if it's already login, send the profile response,
 // otherwise, send a 401 response that the user is not authenticated

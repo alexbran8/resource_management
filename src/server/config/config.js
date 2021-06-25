@@ -3,7 +3,7 @@
  * create a `.env` file with environment variables in order to laod at runtime.
 */
 
-const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:3000" :  'http://localhost:4000/auth/twitter/redirect';
+const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:3000" :  'http://localhost:3000';
 const baseLocation = process.env.NODE_ENV === `development` ? "" :  '/nptbeta';
 
 
