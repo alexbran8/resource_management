@@ -13,7 +13,7 @@ RUN pwd
 # RUN rm package-lock.json
 RUN rm -rf node_modules
 RUN npm install -g npm@latest
-npm install --save-dev cross-env
+RUN npm install --save-dev cross-env
 # RUN npm install
 # RUN npm install webpack webpack-dev-server --save-dev
 # # RUN cd.. & cd /opt/app/src/client &  pwd
