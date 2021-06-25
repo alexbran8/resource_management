@@ -6,7 +6,7 @@ export const AppRouter = () => {
   return (
     <Router>
       <div>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/nptbeta" component={HomePage} />
       </div>
     </Router>
   );
