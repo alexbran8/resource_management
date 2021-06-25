@@ -14,4 +14,4 @@ docker stop nptjenkins && docker rm nptjenkins
 # delete existing image
 
 # run new image
-docker run  -d -p 5002:5000  --name nptjenkins nptjenkins
+docker run  -d -p 5003:5000  --name nptjenkins nptjenkins
