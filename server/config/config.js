@@ -3,7 +3,7 @@
  * create a `.env` file with environment variables in order to laod at runtime.
 */
 
-const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:3000" :  'http://localhost:3000';
+const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:3000" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta/';
 const baseLocation = process.env.NODE_ENV === `development` ? "" :  '/nptbeta';
 
 
