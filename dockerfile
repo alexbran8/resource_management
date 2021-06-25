@@ -25,7 +25,7 @@ WORKDIR /opt/app/server
 # RUN chmod +x build.sh
 # RUN build.sh
 RUN npm install
-npm install --save-dev cross-env
+RUN npm install --save-dev cross-env
 # RUN cd client
 # RUN npm build
 # RUN cd ..
