@@ -12,7 +12,7 @@ const regeneratorRuntime = require("regenerator-runtime");
 const watch = process.env.NODE_ENV !== 'production'
 console.log('ENV',process.env.NODE_ENV)
 
-process.env.NODE_ENV == "development" ? location = "/" : location = "/"
+process.env.NODE_ENV == "development" ? location = "/" : location = "/nptbeta"
 
 // const location = process.env.NODE_ENV !== 'production'
 
