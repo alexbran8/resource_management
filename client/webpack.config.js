@@ -21,7 +21,7 @@ module.exports = {
   entry: path.resolve(__dirname, "src/index.tsx"),
   // devtool: "inline-source-map",
   output: {
-    path: path.join(__dirname, '/client/public/dist/'),
+    path: path.join(__dirname, '/public/dist/'),
     filename: 'main.js',
     publicPath: location,
   },
