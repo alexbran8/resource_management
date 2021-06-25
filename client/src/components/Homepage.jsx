@@ -21,7 +21,7 @@ export default class HomePage extends Component {
 
   componentDidMount() {
     // Fetch does not send cookies. So you should add credentials: 'include'
-    fetch("http://localhost:4000/auth/login/success/", {
+    fetch("https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta//auth/login/success/", {
       method: "GET",
       credentials: "include",
       headers: {
