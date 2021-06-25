@@ -34,6 +34,6 @@ RUN npm install pm2 -g
 # RUN ln -s /usr/share/zoneinfo/Etc/GMT-2 /etc/localtime
 
 # start server
-EXPOSE 5000 587
+EXPOSE 4000
 STOPSIGNAL SIGTERM
 CMD rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Etc/GMT-3 /etc/localtime && pm2-runtime start index.js -i max
