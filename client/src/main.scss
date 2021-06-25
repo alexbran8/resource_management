@@ -1,0 +1,270 @@
+$trans-time: 300ms;
+$width: 100%;
+$hl-color: #142431;
+$bg-color: #424242;
+$muted-color: mix(white, $bg-color, 70%);
+$button-color: #424242;
+
+//first things first
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.upload-container .alert  {
+  top: 100px;
+  text-align: center;
+  margin: auto;
+  width: 400px;
+}
+
+.navbar {
+  background: #000000;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right,
+      #000000,
+      #414141);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right,
+      #000000,
+      #414141);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.button {
+  background: $button-color;
+  color: #fff;
+  border: none;
+  position: relative;
+  font-size: 1.6em;
+  padding: 0 2em;
+  cursor: pointer;
+  transition: 800ms ease all;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.button:hover {
+  background: #fff;
+  color: $button-color;
+}
+
+.button:before,
+.button:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: $button-color;
+  transition: 400ms ease all;
+}
+
+.button:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+
+.button:hover:before,
+.button:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
+.dropdown {
+  .customButton {
+    border: none;
+    background: none !important;
+  }
+
+  .customButton:focus,
+  .customButton:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+
+  .btn-secondary:not(:disabled):not(.disabled):active:focus,
+  .show>.btn-secondary.dropdown-toggle:focus {
+    box-shadow: none;
+  }
+
+  .dropdownCustom {
+    margin-right: -20px;
+    margin-top: 10px;
+    background-color: #414141;
+    width: 100%;
+
+    .dropitemCustom:hover {
+      background-color: #414141;
+    }
+  }
+}
+
+.wrapper {
+  .form-login {
+    fieldset {
+      width: 400px;
+      margin: auto;
+    }
+  }
+
+  .signing {
+    margin: 0 auto;
+    width: 80%;
+  }
+}
+
+.filter {
+  margin: 0
+}
+
+.legend {
+  .box {
+    border-top: 3px solid black;
+    border-right: 3px solid black;
+  }
+
+  .box-bottom {
+    border-bottom: 3px solid black;
+  }
+
+  .row {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.eventBar {
+  margin-left: 0;
+  width: 100%;
+  background-color: rgba($color: grey, $alpha: 0.05);
+}
+
+.request {
+  padding: 10% 0;
+  margin: auto;
+}
+
+.noApprove {
+  height: 90vh;
+
+  h1 {
+    padding: 20% 0;
+    font-size: 12vh;
+    color: rgba($color: #000000, $alpha: 0.3);
+  }
+}
+
+.customSpan {
+  min-width: 110px;
+}
+
+.modal-footer {
+  display: block;
+  align-items: center;
+  justify-content: unset;
+}
+
+.passwordSpan {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 255px) {
+  .container {
+    min-width: 100%;
+  }
+}
+
+.group {
+  position: relative;
+  margin: 45px 0;
+
+  input {
+    background: none;
+    color: #343a40;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: $width;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $muted-color;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus~label,
+    &:valid~label {
+      top: -14px;
+      font-size: 12px;
+      color: $hl-color;
+    }
+
+    &:focus~.bar:before {
+      width: $width;
+    }
+  }
+
+  input[type="password"] {
+    letter-spacing: 0.3em;
+  }
+
+  label {
+    color: $muted-color;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: $trans-time ease all;
+  }
+
+  .bar {
+    position: relative;
+    display: block;
+    width: $width;
+
+    &:before {
+      content: "";
+      height: 2px;
+      width: 0;
+      bottom: 0px;
+      position: absolute;
+      background: $hl-color;
+      transition: $trans-time ease all;
+      left: 0%;
+    }
+  }
+}
+
+.checkboxContainer {
+  display: inline-flex;
+  // left: 51px;  
+  margin:auto;
+  // left: 25%;
+  // width: 500px;
+}
+
+.checkbox {
+  // border: 1px solid #ced4da;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 4px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #495057;
+  // font-size: 16px;
+  // font-weight: normal;
+  // position: absolute;
+}
+

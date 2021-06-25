@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import {config} from "../config"
 
+
 export default class HomePage extends Component {
   static propTypes = {
     user: PropTypes.shape({
@@ -40,6 +41,7 @@ export default class HomePage extends Component {
           authenticated: true,
           user: responseJson.user
         });
+        // save to localstorage and redux
       })
       .catch(error => {
         this.setState({
@@ -50,11 +52,12 @@ export default class HomePage extends Component {
   }
 
   render() {
-    const { authenticated } = this.state;
+    const { authenticated, user } = this.state;
     return (
       <div>
         <Header
           authenticated={authenticated}
+          user={user}
           handleNotAuthenticated={this._handleNotAuthenticated}
         />
         <div>
@@ -62,6 +65,7 @@ export default class HomePage extends Component {
             <h1>Welcome!</h1>
           ) : (
             <div>
+              {console.log(this.state.user)}
               <h1>You have login succcessfully!</h1>
               <h2>Welcome {this.state.user.email}!</h2>
             </div>
