@@ -13,6 +13,7 @@ RUN pwd
 # RUN rm package-lock.json
 RUN rm -rf node_modules
 RUN npm install -g npm@latest
+npm install --save-dev cross-env
 # RUN npm install
 # RUN npm install webpack webpack-dev-server --save-dev
 # # RUN cd.. & cd /opt/app/src/client &  pwd
@@ -24,9 +25,10 @@ WORKDIR /opt/app/server
 # RUN chmod +x build.sh
 # RUN build.sh
 RUN npm install
+npm install --save-dev cross-env
 # RUN cd client
 # RUN npm build
-RUN cd ..
+# RUN cd ..
 RUN npm install pm2 -g
 # RUN rm -rf /etc/localtime
 # RUN ln -s /usr/share/zoneinfo/Etc/GMT-2 /etc/localtime
