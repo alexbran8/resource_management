@@ -2,7 +2,7 @@ import React from "react";
 import HomePage from "./components/Homepage.jsx";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import {config} from "./config"
-import { signUpForm } from './components/Signup'
+import { signUpForm } from './components/SignUp'
 
 export const AppRouter = () => {
   return (
