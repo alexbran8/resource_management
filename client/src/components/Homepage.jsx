@@ -23,7 +23,7 @@ export default class HomePage extends Component {
 
   componentDidMount() {
     // Fetch does not send cookies. So you should add credentials: 'include'
-    fetch( config.baseURL + config.baseLOCATION + "/", {
+    fetch( config.baseURL + config.baseLOCATION + "/auth/login/success/", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -65,8 +65,9 @@ export default class HomePage extends Component {
             <h1>Welcome!</h1>
           ) : (
             <div>
+              {console.log(this.state.user)}
               <h1>You have login succcessfully!</h1>
-              <h2>Welcome, {this.state.user.email}!</h2>
+              <h2>Welcome {this.state.user.email}!</h2>
             </div>
           )}
         </div>

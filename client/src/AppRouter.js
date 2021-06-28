@@ -8,7 +8,8 @@ export const AppRouter = () => {
   return (
     <Router>
       <div>
-        <Route exact path={config.baseLOCATION + "/"} component={HomePage} />
+        <HomePage />
+        {/* <Route exact path={config.baseLOCATION + "/"} component={HomePage} /> */}
         <Route exact path={config.baseLOCATION + "/signup"} component={signUpForm} />
       </div>
     </Router>
