@@ -55,6 +55,10 @@ const authCheck = (req, res, next) => {
   }
 };
 
+const authCheckMiddleware = require('./middleware/auth-check')
+app.use("/users", authCheck,  require("./controllers/users"));
+
+
 app.use("/", express.static(path.resolve(__dirname, "../client/public/dist")));
 
 // if it's already login, send the profile response,
