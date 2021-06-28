@@ -9,6 +9,9 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import reduxThunk from 'redux-thunk'
 import reducers from './redux/reducers/index'
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { config } from "./config"
 
 const userName = sessionStorage.getItem('email'),
   role = JSON.parse(sessionStorage.getItem('permisiuni')),
@@ -17,8 +20,9 @@ const userName = sessionStorage.getItem('email'),
   jwtToken = sessionStorage.getItem('token'),
   nokiaid = sessionStorage.getItem('nokiaid')
 
+  const apiclient = new ApolloClient({ uri: config.baseURL + config.baseLOCATION + `/graphql`, });
 
-ReactDOM.render(<Provider
+ReactDOM.render(  <ApolloProvider client={apiclient}><Provider
     store={createStore(
         reducers,
         {
@@ -34,7 +38,7 @@ ReactDOM.render(<Provider
         },
         applyMiddleware(reduxThunk)
     )}
-><App /> </Provider>, document.getElementById('root'));
+><App /> </Provider></ApolloProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

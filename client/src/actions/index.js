@@ -9,11 +9,6 @@ export const SignUp = data => {
   return dispatch => {
     try {
       console.log('data',data)
-      const headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true
-      }
       Axios.post(`${config.baseURL + config.baseLOCATION}/users/signup`, data, { withCredentials: true })
         .then(function (response) {
           console.log('res', response.data.message)

@@ -27,7 +27,7 @@ signToken = user => {
 }
 
 UsersController.post('/signup', async (req, res, next) => {
-  console.log('SIGNUP')
+
   let foundUser = await User.findOne({
     where: { nokiaid: req.body.nokiaid },
     limit: 1

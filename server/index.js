@@ -1,4 +1,6 @@
 const cookieSession = require("cookie-session");
+
+const bodyParser = require('body-parser')
 const express = require("express");
 const app = express();
 const port = 4000;
@@ -6,15 +8,47 @@ const passport = require("passport");
 const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const authRoutes = require("./routes/auth-routes");
-const mongoose = require("mongoose");
+
 const keys = require("./config/keys");
 const cors = require("cors");
 const cookieParser = require("cookie-parser"); // parse cookie header
 const path = require("path");
-// connect to mongodb
-mongoose.connect(keys.MONGODB_URI, () => {  
-  console.log("connected to mongo db");
+const config = require("./config/configProvider")();
+
+const { ApolloServer } = require("apollo-server-express");
+var { graphqlHTTP } = require("express-graphql");
+var { buildSchema } = require("graphql");
+
+const typeDefs = require("./graphql/schemas");
+const resolvers = require("./graphql/resolvers");
+const context = require("./graphql/context");
+
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  // uploads: false,
+  // context,
+  // introspection: true,
+  // playground: {
+  //   settings: {
+  //     "schema.polling.enable": false,
+  //     "editor.fontSize": 18,
+  //   },
+  // },
 });
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+config.db
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
 
 app.use(
   cookieSession({
@@ -72,6 +106,9 @@ app.get("/", authCheck, (req, res) => {
     cookies: req.cookies
   });
 });
+
+apolloServer.applyMiddleware({ app, path: "/graphql" });
+
 
 // connect react to nodejs express server
 app.listen(port, () => console.log(`Server is running on port ${port}!`));

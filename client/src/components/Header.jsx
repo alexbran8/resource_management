@@ -83,6 +83,14 @@ export default class Header extends Component {
               Add Users
             </Link>
           </li>
+          <li className="nav-item">
+            <Link
+              className="nav-link text-white"
+              to={config.baseLOCATION + "/normcheck"}
+            >
+              NormCheck
+            </Link>
+          </li>
             <ul className="menu">
               {authenticated ? (
                 <Button color="danger" onClick={this._handleLogoutClick}>Logout {user.email}</Button>
