@@ -10,11 +10,11 @@ import {config} from "./config"
 export const AppRouter = () => {
   return (
     <HashRouter  >
-        <Header basename="/nptbeta"/>
+        <Header basename={config.baseLOCATION}/>
         <Route  path={"/home/"} component={HomePage} />
-        <Route  path={"/normcheck/"} component={NormCheck} />
-        <Route  path={"/signup"} component={signUpForm} />
-        <Route  path={"/schedule"} component={Calendar} />
+        <Route  path={config.baseLOCATION + "/normcheck/"} component={NormCheck} />
+        <Route  path={config.baseLOCATION + "/signup"} component={signUpForm} />
+        <Route  path={config.baseLOCATION + "/schedule"} component={Calendar} />
     </HashRouter>
   );
 };
