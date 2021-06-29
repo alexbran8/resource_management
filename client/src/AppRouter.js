@@ -9,13 +9,14 @@ import Tasks from './components/Tasks.js'
 import { HashRouter,Route } from "react-router-dom";
 import { signUpForm } from './components/SignUp'
 import {config} from "./config"
+import authGuard from "./HOCs/authGuard.js";
 
 export const AppRouter = () => {
   return (
     <HashRouter  >
         <Header basename={config.baseLOCATION}/>
         <Route  path={"/home/"} component={Homepage} />
-        <Route  path={config.baseLOCATION + "/normcheck/"} component={NormCheck} />
+        <Route  path={config.baseLOCATION + "/normcheck/"} component={authGuard(NormCheck)} />
         <Route  path={config.baseLOCATION + "/tasks/"} component={Tasks} />
         <Route path={config.baseLOCATION + "/approvals"} component={Approvals} />
         <Route  path={config.baseLOCATION + "/request/"} component={Request} />

@@ -49,18 +49,14 @@ export const OnEditModal = props => {
                         <Form.Label>Name</Form.Label>
                         <Form.Control type="text" name="projectName" defaultValue={modalTask.projectName}{...register('test', { required: true })} />
                     </Form.Group>
-
                     <Form.Group controlId="formProjectName">
                         <Form.Label>Task</Form.Label>
                         <Form.Control type="text" name="task" defaultValue={modalTask.task} {...register('task', { required: true })} />
                     </Form.Group>
-
                     <Form.Group controlId="formProjectName">
                         <Form.Label>Resource Name</Form.Label>
-                        
                         <Form.Control type="text" name="resourceName" as="select" onChange={(e) => {console.log(e.target.value) }} defaultValue={modalTask.resourceName} {...register('resourceName', { required: true })}>
                             {
-                                
                                 resources.map((resource, index) => {
                                     return <option key={index} value={resource.shortid}>{resource.lastname + ', ' + resource.firstname}</option>
                                 })
@@ -75,7 +71,6 @@ export const OnEditModal = props => {
                         <Form.Label>Phase</Form.Label>
                         <Form.Control type="text" name="phase" defaultValue={modalTask.phase} {...register('phase', { required: true })} />
                     </Form.Group>
-
                     <Form.Group controlId="formResourceName">
                         <Form.Label>Start</Form.Label>
                         <Form.Control type="date" name="start" defaultValue={modalTask.start} {...register('start', { required: true })}/>
