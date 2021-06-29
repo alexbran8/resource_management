@@ -1,5 +1,5 @@
 import React from "react";
-import HomePage from "./components/HomePage.jsx";
+import HomePage from "./components/Homepage.jsx";
 import Header from "./components/Header.jsx";
 import NormCheck from './components/NormCheck'
 import Calendar from './components/Calendar.js'
