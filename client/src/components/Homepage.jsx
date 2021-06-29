@@ -15,52 +15,16 @@ export default class HomePage extends Component {
     })
   };
 
-  state = {
-    user: {},
-    error: null,
-    authenticated: false
-  };
 
-  componentDidMount() {
-    // Fetch does not send cookies. So you should add credentials: 'include'
-    fetch( config.baseURL + config.baseLOCATION + "/auth/login/success/", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true
-      }
-    })
-      .then(response => {
-        if (response.status === 200) return response.json();
-        throw new Error("failed to authenticate user");
-      })
-      .then(responseJson => {
-        this.setState({
-          authenticated: true,
-          user: responseJson.user
-        });
-        // save to localstorage and redux
-      })
-      .catch(error => {
-        this.setState({
-          authenticated: false,
-          error: "Failed to authenticate user"
-        });
-      });
-  }
+
+  
 
   render() {
     const { authenticated, user } = this.state;
     return (
       <div>
-        <Header
-          authenticated={authenticated}
-          user={user}
-          handleNotAuthenticated={this._handleNotAuthenticated}
-        />
         <div>
+          <h3>asdfasdfasdf sadfsadfasdf</h3>
           {!authenticated ? (
             <h1>Welcome!</h1>
           ) : (
@@ -75,7 +39,5 @@ export default class HomePage extends Component {
     );
   }
 
-  _handleNotAuthenticated = () => {
-    this.setState({ authenticated: false });
-  };
+
 }

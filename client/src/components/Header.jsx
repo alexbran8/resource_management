@@ -22,13 +22,47 @@ export default class Header extends Component {
       loginName: null,
       isOpen: false
     }
+    // state = {
+    //   user: {},
+    //   error: null,
+    //   authenticated: false
+    // };
   }
-  static propTypes = {
-    authenticated: PropTypes.bool.isRequired,
-    user: PropTypes.object
-  };
+  // static propTypes = {
+  //   authenticated: PropTypes.bool.isRequired,
+  //   user: PropTypes.object
+  // };
 
-  
+  componentDidMount() {
+    // Fetch does not send cookies. So you should add credentials: 'include'
+    fetch( config.baseURL + config.baseLOCATION + "/auth/login/success/", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => {
+        if (response.status === 200) return response.json();
+        throw new Error("failed to authenticate user");
+      })
+      .then(responseJson => {
+        this.setState({
+          authenticated: true,
+          user: responseJson.user
+        });
+        // save to localstorage and redux
+      })
+      .catch(error => {
+        this.setState({
+          authenticated: false,
+          error: "Failed to authenticate user"
+        });
+      });
+  }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -37,10 +71,10 @@ export default class Header extends Component {
 
 
   render() {
-    const { authenticated, user } = this.props;
+    const { authenticated, user } = this.state;
     return (
       <Navbar className="navbar" expand="sm">
-        <Link className="navbar-brand text-white" to={config.baseLOCATION}>
+        <Link className="navbar-brand text-white" to={config.baseLOCATION + "/home"}>
           <b>NOKIA</b> {config.appversion}
         </Link>
         <Collapse isOpen={this.state.isOpen} navbar>
@@ -117,5 +151,8 @@ export default class Header extends Component {
     // Set authenticated state to false in the HomePage
     window.open(config.baseURL + config.baseLOCATION + "/auth/logout", "_self");
     this.props.handleNotAuthenticated();
+  };
+  _handleNotAuthenticated = () => {
+    this.setState({ authenticated: false });
   };
 }
