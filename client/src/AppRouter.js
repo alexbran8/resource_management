@@ -7,7 +7,7 @@ import { signUpForm } from './components/SignUp'
 
 export const AppRouter = () => {
   return (
-    <HashRouter basename="/nptbeta" >
+    <HashRouter  >
         <HomePage />
         {/* <Route exact path={config.baseLOCATION + "/"} component={HomePage} /> */}
         <Route path={"/normcheck/"} component={NormCheck} />
