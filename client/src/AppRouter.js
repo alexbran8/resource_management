@@ -11,7 +11,7 @@ export const AppRouter = () => {
         <HomePage />
         {/* <Route exact path={config.baseLOCATION + "/"} component={HomePage} /> */}
         <Route path={"/normcheck/"} component={NormCheck} />
-        <Route exact path={config.baseLOCATION + "/signup"} component={signUpForm} />
+        <Route exact path={"/signup"} component={signUpForm} />
     </HashRouter>
   );
 };
