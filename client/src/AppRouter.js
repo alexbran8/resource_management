@@ -5,11 +5,12 @@ import NormCheck from './components/NormCheck'
 import Calendar from './components/Calendar.js'
 import { HashRouter,Route } from "react-router-dom";
 import { signUpForm } from './components/SignUp'
+import {config} from "./config"
 
 export const AppRouter = () => {
   return (
     <HashRouter  >
-        <Header />
+        <Header basename="/nptbeta"/>
         <Route  path={"/home/"} component={HomePage} />
         <Route  path={"/normcheck/"} component={NormCheck} />
         <Route  path={"/signup"} component={signUpForm} />
