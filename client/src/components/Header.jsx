@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { config } from "../config"
+import { AUTH_SIGN_UP, AUTH_SIGN_IN, AUTH_SIGN_OUT, AUTH_ERROR } from '../actions/types'
 import {
   Collapse,
   Navbar,
@@ -53,13 +54,33 @@ export default class Header extends Component {
           authenticated: true,
           user: responseJson.user
         });
-        // save to localstorage and redux
+
+           // save to localstorage and redux
+           sessionStorage.setItem('userEmail', responseJson.user.email)
+           sessionStorage.setItem('token', responseJson.user.id)
+           sessionStorage.setItem('name', responseJson.user.first_name)
+           sessionStorage.setItem('userEmail', responseJson.user.email)
+
+        console.log(responseJson)
+        return async dispatch => {
+           dispatch({
+        type: AUTH_SIGN_IN,
+        payload: responseJson.user.id,
+        payload_role: responseJson.user.role,
+        payload_email: responseJson.user.email,
+        payload_name: responseJson.user.first_name,
+        payload_nokiaid: responseJson.user.sub
+      })
+    }
+
+     
       })
       .catch(error => {
         this.setState({
           authenticated: false,
           error: "Failed to authenticate user"
         });
+        console.log(error)
       });
   }
 
@@ -74,7 +95,7 @@ export default class Header extends Component {
     const { authenticated, user } = this.state;
     return (
       <Navbar className="navbar" expand="sm">
-        <Link className="navbar-brand text-white" to={config.baseLOCATION + "/home"}>
+        <Link className="navbar-brand text-white" to={config.baseLOCATION + "/"}>
           <b>NOKIA</b> {config.appversion}
         </Link>
         <Collapse isOpen={this.state.isOpen} navbar>
@@ -158,6 +179,7 @@ export default class Header extends Component {
     // Logout using Twitter passport api
     // Set authenticated state to false in the HomePage
     window.open(config.baseURL + config.baseLOCATION + "/auth/logout", "_self");
+    sessionStorage.removeItem('userEmail')
     this.props.handleNotAuthenticated();
   };
   _handleNotAuthenticated = () => {

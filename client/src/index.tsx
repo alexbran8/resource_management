@@ -13,11 +13,13 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { config } from "./config"
 
+import { composeWithDevTools } from "redux-devtools-extension";
+
 const userName = sessionStorage.getItem('email'),
   role = JSON.parse(sessionStorage.getItem('permisiuni')),
   name = sessionStorage.getItem('name'),
   user = sessionStorage.getItem('userEmail'),
-  jwtToken = sessionStorage.getItem('token'),
+  jwtToken = sessionStorage.getItem('id'),
   nokiaid = sessionStorage.getItem('nokiaid')
 
   const apiclient = new ApolloClient({ uri: config.baseURL + config.baseLOCATION + `/graphql`, });
@@ -36,7 +38,7 @@ ReactDOM.render(  <ApolloProvider client={apiclient}><Provider
                 isAuthenticated: user ? true : false
             }
         },
-        applyMiddleware(reduxThunk)
+        composeWithDevTools(applyMiddleware(reduxThunk))
     )}
 ><App /> </Provider></ApolloProvider>, document.getElementById('root'));
 

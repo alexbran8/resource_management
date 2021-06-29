@@ -15,13 +15,13 @@ export const AppRouter = () => {
   return (
     <HashRouter  >
         <Header basename={config.baseLOCATION}/>
-        <Route  path={"/home/"} component={Homepage} />
+        <Route  path={"/"} component={Homepage} />
         <Route  path={config.baseLOCATION + "/normcheck/"} component={authGuard(NormCheck)} />
-        <Route  path={config.baseLOCATION + "/tasks/"} component={Tasks} />
-        <Route path={config.baseLOCATION + "/approvals"} component={Approvals} />
-        <Route  path={config.baseLOCATION + "/request/"} component={Request} />
-        <Route  path={config.baseLOCATION + "/signup"} component={signUpForm} />
-        <Route  path={config.baseLOCATION + "/schedule"} component={Calendar} />
+        <Route  path={config.baseLOCATION + "/tasks/"} component={authGuard(Tasks)} />
+        <Route path={config.baseLOCATION + "/approvals"} component={authGuard(Approvals)} />
+        <Route  path={config.baseLOCATION + "/request/"} component={authGuard(Request)} />
+        <Route  path={config.baseLOCATION + "/signup"} component={authGuard(signUpForm)} />
+        <Route  path={config.baseLOCATION + "/schedule"} component={authGuard(Calendar)} />
     </HashRouter>
   );
 };
