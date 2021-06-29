@@ -91,17 +91,25 @@ export default class Header extends Component {
               <li className="nav-item">
                 <Link
                   className="nav-link text-white"
-                  to={config.baseLOCATION + "/schedule"}
+                  to={config.baseLOCATION + "/approvals"}
                 >
-                  Request
+                  Approvals
                       </Link>
               </li>
               <li className="nav-item">
                 <Link
                   className="nav-link text-white"
-                  to={config.baseLOCATION + "/schedule"}
+                  to={config.baseLOCATION + "/request"}
                 >
                   Add
+                      </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link text-white"
+                  to={config.baseLOCATION + "/tasks"}
+                >
+                  Tasks
                       </Link>
               </li>
             </ul>

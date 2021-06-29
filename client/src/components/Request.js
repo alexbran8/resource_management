@@ -25,7 +25,7 @@ class Request extends Component {
     }
   }
   async componentDidMount() {
-    const users = await Axios.get(`${ config.baseURL + config.baseLOCATION }/usersPrivate/get`)
+    const users = await Axios.get(`${ config.baseURL + config.baseLOCATION }/usersPrivate/get`, {withCredentials: true})
     if (users) {
       const fmtUsers = users.data.users.reduce((prev, entry) => {
         prev.push({
@@ -38,7 +38,7 @@ class Request extends Component {
         resources: fmtUsers
       })
     }
-    const types = await Axios.get(`${ config.baseURL + config.baseLOCATION }/types`)
+    const types = await Axios.get(`${ config.baseURL + config.baseLOCATION }/types`,  {withCredentials: true})
     if (types) this.setState({ types: types.data.data })
   }
 

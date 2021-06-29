@@ -8,7 +8,10 @@ const passport = require("passport");
 const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const authRoutes = require("./routes/auth-routes");
-
+const { find } = require("./middlewares/mysql");
+const sequelize = require("sequelize");
+const DataTypes = sequelize.DataTypes;
+const Types = require("./models/types")(sequelize, DataTypes);
 const keys = require("./config/keys");
 const cors = require("cors");
 const cookieParser = require("cookie-parser"); // parse cookie header
@@ -77,6 +80,10 @@ app.use(
 
 // set up routes
 app.use("/auth", authRoutes);
+require("./routes/dailyTasks.routes")(app);
+require("./routes/competence.routes")(app);
+require("./routes/resource.routes")(app);
+
 
 const authCheck = (req, res, next) => {
   if (!req.user) {
@@ -93,6 +100,7 @@ const authCheckMiddleware = require('./middleware/auth-check')
 app.use("/users", authCheck,  require("./controllers/users"));
 app.use("/usersPrivate", authCheck, require("./controllers/usersPrivate"));
 app.use("/schedule",  authCheck, require("./controllers/schedule"));
+app.use("/types", find(Types));
 
 
 app.use("/", express.static(path.resolve(__dirname, "../client/public/dist")));

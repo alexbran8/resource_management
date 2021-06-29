@@ -14,7 +14,11 @@ export default class HomePage extends Component {
       _id: PropTypes.string
     })
   };
-
+    state = {
+      user: {},
+      error: null,
+      authenticated: false
+    };
 
 
   
@@ -24,7 +28,6 @@ export default class HomePage extends Component {
     return (
       <div>
         <div>
-          <h3>asdfasdfasdf sadfsadfasdf</h3>
           {!authenticated ? (
             <h1>Welcome!</h1>
           ) : (
