@@ -91,6 +91,8 @@ const authCheck = (req, res, next) => {
 
 const authCheckMiddleware = require('./middleware/auth-check')
 app.use("/users", authCheck,  require("./controllers/users"));
+app.use("/usersPrivate", authCheck, require("./controllers/usersPrivate"));
+app.use("/schedule",  authCheck, require("./controllers/schedule"));
 
 
 app.use("/", express.static(path.resolve(__dirname, "../client/public/dist")));

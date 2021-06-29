@@ -25,7 +25,7 @@ const Calendar = () => {
   var moment = require("moment");
 
   useEffect(() => {
-    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, params)
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, params, {withCredentials: true})
       .then(res => {
         const fmtEvents = res.data.schedule.reduce((prev, entry) => {
           prev.push({
@@ -45,7 +45,7 @@ const Calendar = () => {
 
       }
       )
-    Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, data)
+    Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, data, {withCredentials: true})
       .then(res => {
         const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
           prev.push({
