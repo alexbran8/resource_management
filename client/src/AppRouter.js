@@ -8,12 +8,9 @@ import { signUpForm } from './components/SignUp'
 export const AppRouter = () => {
   return (
     <HashRouter>
-      <div>
         <HomePage />
-        {/* <Route exact path={config.baseLOCATION + "/"} component={HomePage} /> */}
-        <Route path={"/normcheck/"} component={NormCheck} />
-        <Route exact path={config.baseLOCATION + "/signup"} component={signUpForm} />
-      </div>
+        <Route exact path={"/normcheck/"} component={NormCheck} />
+        <Route exact path={ "/signup"} component={signUpForm} />
     </HashRouter>
   );
 };
