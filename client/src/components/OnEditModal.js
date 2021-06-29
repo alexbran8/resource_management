@@ -45,20 +45,20 @@ export const OnEditModal = props => {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    {/* <Form.Group controlId="formTaskName">
+                    <Form.Group controlId="formTaskName">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" name="projectName" defaultValue={modalTask.projectName} ref={register} />
-                    </Form.Group> */}
+                        <Form.Control type="text" name="projectName" defaultValue={modalTask.projectName}{...register('test', { required: true })} />
+                    </Form.Group>
 
-                    {/* <Form.Group controlId="formProjectName">
+                    <Form.Group controlId="formProjectName">
                         <Form.Label>Task</Form.Label>
-                        <Form.Control type="text" name="task" defaultValue={modalTask.task} ref={register} />
+                        <Form.Control type="text" name="task" defaultValue={modalTask.task} {...register('task', { required: true })} />
                     </Form.Group>
 
                     <Form.Group controlId="formProjectName">
                         <Form.Label>Resource Name</Form.Label>
                         
-                        <Form.Control type="text" name="resourceName" as="select" onChange={(e) => {console.log(e.target.value) }} defaultValue={modalTask.resourceName} ref={register}>
+                        <Form.Control type="text" name="resourceName" as="select" onChange={(e) => {console.log(e.target.value) }} defaultValue={modalTask.resourceName} {...register('resourceName', { required: true })}>
                             {
                                 
                                 resources.map((resource, index) => {
@@ -69,29 +69,29 @@ export const OnEditModal = props => {
                     </Form.Group>
                     <Form.Group controlId="formReviewDate">
                         <Form.Label>TT</Form.Label>
-                        <Form.Control type="text" name="tt" defaultValue={modalTask.tt} ref={register} />
+                        <Form.Control type="text" name="tt" defaultValue={modalTask.tt} {...register('tt', { required: true })} />
                     </Form.Group>
                     <Form.Group controlId="formResourceName">
                         <Form.Label>Phase</Form.Label>
-                        <Form.Control type="text" name="phase" defaultValue={modalTask.phase} ref={register} />
+                        <Form.Control type="text" name="phase" defaultValue={modalTask.phase} {...register('phase', { required: true })} />
                     </Form.Group>
 
                     <Form.Group controlId="formResourceName">
                         <Form.Label>Start</Form.Label>
-                        <Form.Control type="date" name="start" defaultValue={modalTask.start} ref={register} />
+                        <Form.Control type="date" name="start" defaultValue={modalTask.start} {...register('start', { required: true })}/>
                     </Form.Group>
                     <Form.Group controlId="formResourceName">
                         <Form.Label>END</Form.Label>
-                        <Form.Control type="date" name="end" defaultValue={modalTask.end} ref={register} />
+                        <Form.Control type="date" name="end" defaultValue={modalTask.end} {...register('end', { required: true })}/>
                     </Form.Group>
                     <Form.Group controlId="formResourceName">
                         <Form.Label>Status</Form.Label>
-                        <Form.Control type="text" name="status" defaultValue={modalTask.status} ref={register} />
+                        <Form.Control type="text" name="status" defaultValue={modalTask.status} {...register('status', { required: true })}/>
                     </Form.Group>
                     <Form.Group controlId="formCompeteneceLevel">
                         <Form.Label>Site</Form.Label>
-                        <Form.Control type="text" name="site" defaultValue={modalTask.site} ref={register} />
-                    </Form.Group> */}
+                        <Form.Control type="text" name="site" defaultValue={modalTask.site} {...register('site', { required: true })}/>
+                    </Form.Group>
                     <Button type="submit">Save</Button>
                 </Form>
             </Modal.Body>
