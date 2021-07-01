@@ -15,7 +15,7 @@ export const AppRouter = () => {
   return (
     <HashRouter  >
         <Header basename={config.baseLOCATION}/>
-        <Route  path={"/"} component={Homepage} />
+        <Route  exact path={"/"} component={Homepage} />
         <Route  path={config.baseLOCATION + "/normcheck/"} component={authGuard(NormCheck)} />
         <Route  path={config.baseLOCATION + "/tasks/"} component={authGuard(Tasks)} />
         <Route path={config.baseLOCATION + "/approvals"} component={authGuard(Approvals)} />

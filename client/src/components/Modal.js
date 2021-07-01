@@ -63,7 +63,7 @@ class CustomModal extends Component {
   }
   // TODO: add start, end date (will have initial values from newEvent- EditEvent)
   render() {
-    console.log(this.state);
+    console.log(this.props);
     console.log("date", this.state.start.split(" ")[0]);
     return (
       <>
@@ -139,7 +139,7 @@ class CustomModal extends Component {
                   {this.props.editEvent.type}
                 </option>
               ) : null}
-              {/* {this.props.types.map(type => {
+              {this.props.types.map(type => {
                 return (
                   <option
                     key={type.type}
@@ -148,7 +148,7 @@ class CustomModal extends Component {
                     label={type.type}
                   />
                 );
-              })} */}
+              })}
             </select>
             <br />
             {this.renderReplacement(this.state.type)}

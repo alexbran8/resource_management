@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery, gql } from "@apollo/client";
-import { Table, Container, Row, Col } from 'react-bootstrap'
+import { Table, Container, Row, Col, Checkbox, CardGroup  } from 'react-bootstrap'
 
 const GET_NORMS = gql`
   query {
@@ -41,9 +41,28 @@ const GET_NORMS_NA = gql`
 `;
 
 const NormCheck = () => {
+    const [checked, setChecked] = useState([])
     const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS);
     const { data: dataNa, loading, error } = useQuery(GET_NORMS_NA);
 
+    const _onChangeHeaderCheckbox = data => {
+        data.checked ? setChecked(data.map(row => row.id)) : setChecked([]);
+      };
+
+      const _onChangeRowCheckbox = data => {
+        const newRow = data[data.index].id;
+        checked.includes(newRow)
+          ? setChecked(old => old.filter(row => row !== newRow))
+          : setChecked(old => [...old, newRow]);
+      };
+
+      const createArr = (id, item) => {
+        if (checked.find((y) => y.id == id)) {
+            checked.find((y) => checked.splice(y,1))
+        } else {
+            checked.push({id:id, data:item.Date, resource: item.Resource, task:item.Task, taskComments:item.taskComments, bh:item.billableHours, rh:item.realHour, twc: item.timeWrittingComments, var: item.variation})
+        }
+      }
 
     return (
         <div>
@@ -52,6 +71,7 @@ const NormCheck = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>Select</th>
                         <th>
                             Date
                         </th>
@@ -96,6 +116,10 @@ const NormCheck = () => {
                     {data && data.normCheckQuery && data.normCheckQuery.map((item, index) => {
                         return (
                             <tr key={item.index}>
+                                 <td> <input
+  type="checkbox"
+  onChange={(e) => createArr(index, item)}
+ /></td>
                                 <td>{item.Date}</td>
                                 <td>{item.Resource}</td>
                                 <td>{item.wbsCustomer}</td>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Scheduler, { SchedulerData, ViewTypes } from 'react-big-scheduler';
 import Axios from "axios";
 //include react-big-scheduler/lib/css/style.css for styles, link it in html or import it here
@@ -13,18 +13,131 @@ import { config } from "../config";
 let schedulerData = new SchedulerData('2021-05-20', ViewTypes.Week);
 schedulerData.localeMoment.locale('en');
 
+
+function useForceUpdate() {
+  const [, setTick] = useState(0);
+  const update = useCallback(() => {
+    setTick(tick => tick + 1);
+  }, [])
+  return update;
+}
+
 const Calendar = () => {
   const [viewModal2, setViewModal2] = useState(schedulerData);
   const [viewModal, setViewModal] = useState(schedulerData);
   const [events, setEvents] = useState([])
   const [event, setEvent] = useState()
   const [slot, setSlot] = useState()
+  const [types, setTypes] = useState()
   const [editEvent, setEditEvent] = useState()
+  const forceUpdate = useForceUpdate();
   // eslint-disable-next-line no-unused-vars
   const [renderCounter, setRenderCounter] = useState(0);
   var moment = require("moment");
 
+  const sendData = async(data, viewModal) => {
+    data.status =
+      localStorage.getItem("permisiuni") !== undefined
+        ? localStorage.getItem("permisiuni")
+        : "L1";
+    console.log(data.status);
+    if (
+      data.bgColor === undefined ||
+      data.bgColor === null ||
+      data.bgColor === ""
+    ) {
+      data.bgColor = "#5DB5F4";
+    }
+    if (data.type === undefined || data.type === null || data.type === "") {
+      data.type = "Null";
+    }
+    
+    // const response = await Axios.post(`${ config.baseURL + baseLOCATION }/schedule/add`, data, {withCredentials: true} );
+
+    // if (!response) {
+    //   alert("failed");
+    // }
+    console.log(data);
+    if (data.id === undefined) {
+      data.id = 0;
+      console.log("aici");
+    }
+    // console.log(viewModal2)
+    // schedulerData.addEvent(data);
+    // setViewModal(schedulerData);
+    // setEvent(undefined)
+    // setRenderCounter(o => ++o);
+    // console.log(schedulerData)
+    // forceUpdate();
+
+    let newFreshId = 0;
+    schedulerData.events.forEach(item => {
+      if (item.id >= newFreshId) newFreshId = item.id + 1;
+    });
+
+    let newEvent = {
+      id: newFreshId,
+      title: "New event you just created",
+      start: data.start,
+      end: data.end,
+      resourceId: data.slotId,
+      bgColor: "purple"
+    };
+    schedulerData.addEvent(newEvent);
+    setViewModal(schedulerData);
+    setEvent(undefined)
+  
+
+    
+//     let newFreshId = 0;
+//     data2.renderData.forEach((item) => {
+//       newFreshId = item.id + 1000;
+//       console.log(item)
+// });
+    // console.log('2',data2)
+    // this.reset();
+    // this.getType();
+    // console.log('here');
+    
+    // console.log(3,this.state.viewModel);
+    // this.setState(prevState => ({
+    //   data2: [...prevState.viewModel.events, data2]
+    // }));
+    // console.log(4,this.state.viewModel);
+    // state update
+    // this.setState({
+    //   viewModel: data2,
+    // });
+    // console.log(this.state.viewModel);
+    // window.location.reload();
+
+    
+  }
+
+  
+
+ const getType = async () => {
+    const types = await Axios.get(`${ config.baseURL + config.baseLOCATION }/types`, {withCredentials: true});
+    if (types) setTypes(types.data.data);
+  }
+
+
+ const  toggleLegend = () => {
+    this.setState({ legend: !this.state.legend });
+  }
+
+  const reset = () =>  {
+    setEvents(undefined)
+  }
+
+  const resetEdit = () =>  {
+    setEditEvent(undefined)
+  }
+
+
+
   useEffect(() => {
+    getType();
     Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, params, {withCredentials: true})
       .then(res => {
         const fmtEvents = res.data.schedule.reduce((prev, entry) => {
@@ -72,6 +185,24 @@ const Calendar = () => {
     setViewModal(schedulerData);
   };
 
+ const deleteItem = (schedulerData, event) => {
+    if (this.props.role === "L3") {
+      if (
+        window.confirm(
+          `Are you sure you want to delete: ${event.title}  assigned to ${event.name} with ${event.replacement} as replacement?`
+        )
+      )
+        schedulerData.removeEvent(event);
+        Axios.delete(`${ config.baseURL + baseLOCATION }/schedule/delete/${event.id}`, event);
+        this.setState({
+          viewModel: schedulerData,
+        });
+    } else {
+      return;
+    }
+  };
+
+
 
   const onSelectDate = (schedulerData, date) => {
     setEvents(schedulerData.events)
@@ -96,6 +227,15 @@ const Calendar = () => {
     setRenderCounter(o => ++o);
   };
 
+  const  eventClicked = (schedulerData, event) => {
+    alert(
+      `You clicked event: ${event.title} with ${
+        event.replacement ? event.replacement : `no one`
+      } as replacement.`
+    );
+  };
+
+
   const slotClickedFunc = (schedulerData, slot) => {
     console.log(slot)
     setSlot(slot.slotId);
@@ -114,46 +254,30 @@ const Calendar = () => {
       dayDiff: moment(end).diff(start, "days") + 1,
       // bgColor: "purple"
     };
-    alert(newEvent)
-    console.log(newEvent)
-    setEditEvent(newEvent)
-    // let newFreshId = 0;
-    // schedulerData.events.forEach((item) => {
-    //         newFreshId = item.id + 1;
-    // });
-    //   this.setState({
-    //     viewModel: schedulerData
-    // })
-    //   let newEvent = {
-    //     schedulerData: schedulerData,
-    //     id: newFreshId,
-    //     title: 'Hotline',
-    //     start: start,
-    //     nokiaid: slotId,
-    //     end: end,
-    //     repalcement: "",
-    //     fullname: slotName,
-    //     createdBy: this.props.name,
-    //     type: 'Hotline',
-    //     status:this.props.role,
-    //     dayDiff: moment(end).diff(start, "days") + 1,
-    //     resourceId: slotId,
-    //     bgColor: '#2ECC71'
-    // }
-    // this.setState({ event: newEvent });
-    // console.log(schedulerData)
-    // // Axios.post(`${ config }/schedule/add`, newEvent);
-    // schedulerData.addEvent(newEvent);
-    // console.log(schedulerData)
-    // this.setState({ viewModel: schedulerData });
-    // console.log(this.state.viewModel)
-    // console.log(schedulerData)
-    // schedulerData.addEvent(newEvent);
-    // // console.log('here2', newEvent)
-    // this.setState({
-    //     viewModel: schedulerData
-    // })
-    // console.log(schedulerData)
+    console.log(types)
+    setEvent(newEvent)
+    if (
+      confirm(
+        `Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`
+      )
+    ) {
+      let newFreshId = 0;
+      schedulerData.events.forEach(item => {
+        if (item.id >= newFreshId) newFreshId = item.id + 1;
+      });
+
+      let newEvent = {
+        id: newFreshId,
+        title: "New event you just created",
+        start: start,
+        end: end,
+        resourceId: slotId,
+        bgColor: "purple"
+      };
+      schedulerData.addEvent(newEvent);
+      setViewModal(schedulerData);
+    }
+   
   };
 
   let params = { 'admin': true, 'operational': false }
@@ -173,13 +297,15 @@ const Calendar = () => {
         {event || editEvent ? (
           <CustomModal
             resources={schedulerData.resources}
-            // reset={() => this.reset()}
-            // resetEdit={() => this.resetEdit()}
+            reset={() => reset()}
+            resetEdit={() => resetEdit()}
             event={event}
             editEvent={editEvent}
-            // sendData={(e) => this.sendData(e, viewModel)}
-            // updateData={(e) => this.updateData(e)}
-            // types={types}
+            viewEvent2Text={ "Delete"}
+            viewEvent2Click={deleteItem}
+            sendData={(e) => sendData(e, schedulerData)}
+            updateData={(e) => updateData(e)}
+            types={types}
           />
         ) : null}
       {slot ? (
@@ -190,12 +316,14 @@ const Calendar = () => {
         />
       ) : null}
       <Scheduler
-        schedulerData={schedulerData}
+        schedulerData={viewModal2}
         prevClick={prevClick}
         nextClick={nextClick}
+        eventItemClick={eventClicked}
         onViewChange={onViewChange}
         onSelectDate={onSelectDate}
         newEvent={newEvent}
+        renderCounter={renderCounter}
         slotClickedFunc={slotClickedFunc}
       />
     </div>

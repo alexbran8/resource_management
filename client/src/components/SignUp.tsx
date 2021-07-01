@@ -6,7 +6,7 @@ import { compose } from "redux";
 import { SignUp } from "../actions/index"
 import { Form, Select } from "react-bootstrap"
 
-// import "../css/signup.scss"
+import "./SignUp.scss"
 
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -55,17 +55,6 @@ export const signUpForm = () => {
           <Form.Label>shortId</Form.Label>
           <Form.Control type="text" label="Enter NokiaID" required={true} name="shortId" defaultValue="xx" {...register('shortId')} />
         </Form.Group>
-        <Form.Group controlId="employeer">
-          <Form.Label>Employeer</Form.Label>
-          <Form.Control as="select" label="select employeer" name="employeer" defaultValue="" {...register('employeer')}>
-            <option>Deltatel</option>
-            <option>Nokia</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId="upalu">
-          <Form.Label>Upalu</Form.Label>
-          <Form.Control type="text" label="Enter NokiaID" required={true} name="upalu" defaultValue="x" {...register('upalu')} />
-        </Form.Group>
         <Form.Group controlId="city">
           <Form.Label>CITY</Form.Label>
           <Form.Control as="select" label="select CITY" name="city" defaultValue="" {...register('city')}>
@@ -73,11 +62,31 @@ export const signUpForm = () => {
             <option>BU</option>
           </Form.Control>
         </Form.Group>
+        <Form.Group controlId="employeer">
+          <Form.Label>Employeer</Form.Label>
+          <Form.Control as="select" label="select employeer" name="employeer" defaultValue="" {...register('employeer')}>
+            <option>Deltatel</option>
+            <option>Nokia</option>
+          </Form.Control>
+        </Form.Group> 
       </Form.Row>
       <Form.Row>
+      <Form.Group controlId="upalu">
+          <Form.Label>Upalu</Form.Label>
+          <Form.Control type="text" label="Enter NokiaID" required={true} name="upalu" defaultValue="x" {...register('upalu')} />
+        </Form.Group>
         <Form.Group controlId="main_team">
           <Form.Label>main_team</Form.Label>
-          <Form.Control type="text" label="Enter NokiaID" required={false} name="main_team" defaultValue="" {...register('main_team')} />
+          <Form.Control as="select" label="select main_team" name="main_team" {...register('main_team')}>
+            <option>TAC</option>
+            <option>CDI</option>
+            <option>RADIO CDP</option>
+            <option>RADIO LDP</option>
+            <option>AMO</option>
+            <option>TFT</option>
+            <option>BUILD</option>
+            <option>SAO</option>
+          </Form.Control>
         </Form.Group>
         <Form.Group controlId="second_team">
           <Form.Label>second_team</Form.Label>
@@ -133,9 +142,11 @@ export const signUpForm = () => {
               {this.props.errorMessage}
             </div>
           ) : null} */}
+          <div className="centred">
       <button type="submit" className="button">
         Sign Up
             </button>
+            </div>
     </Form>
 
   )
