@@ -5,8 +5,8 @@ import { Button } from 'reactstrap'
 import "./NormCheck.scss"
 
 const GET_NORMS = gql`
-  query {
-    normCheckQuery {
+  query ($department: String!) { 
+    normCheckQuery (department: $department) {
             Date 
             Resource 
             wbsCustomer 
@@ -52,7 +52,7 @@ const NormCheck = () => {
     const [checked, setChecked] = useState([])
     const [status, setStatus] = useState()
     const [selected, setSelected] = useState()
-    const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS);
+    const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS, {variables: {department: 'radio'}});
     const { data: dataNa, loading, error } = useQuery(GET_NORMS_NA);
     const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
         onCompleted: () => setStatus("Item has been succesfully added!"),

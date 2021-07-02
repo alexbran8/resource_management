@@ -21,7 +21,8 @@ const emailHandler = async (metadata) => {
 module.exports = {
   Query: {
     async normCheckQuery(root, args, context) {
-      let result = await db.query(`SELECT * FROM get_norms_check()`);
+      console.log(args)
+      let result = await db.query(`SELECT * FROM get_norms_check('${args.department}')`);
       return result[0];
 
     },

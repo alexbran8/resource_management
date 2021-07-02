@@ -32,7 +32,7 @@ type normCheck {
    }
 
 extend  type Query  {
-    normCheckQuery: [normCheck]
+    normCheckQuery(department: String!): [normCheck]
     normCheckQueryNA: [normCheck]
 } 
 
