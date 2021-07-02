@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery, gql } from "@apollo/client";
-import { Table, Container, Row, Col, Checkbox, CardGroup  } from 'react-bootstrap'
+import { Table, Container, Row, Col, Checkbox, CardGroup } from 'react-bootstrap'
+import { Button } from 'reactstrap'
+import "./NormCheck.scss"
 
 const GET_NORMS = gql`
   query {
@@ -18,6 +20,12 @@ const GET_NORMS = gql`
               status
             variation
     }
+  }
+`;
+
+const SEND_NOTIFICATION = gql`
+  mutation ($data: [Norms]) {
+    sendNotifications (data:$data)
   }
 `;
 
@@ -42,32 +50,62 @@ const GET_NORMS_NA = gql`
 
 const NormCheck = () => {
     const [checked, setChecked] = useState([])
+    const [status, setStatus] = useState()
+    const [selected, setSelected] = useState()
     const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS);
     const { data: dataNa, loading, error } = useQuery(GET_NORMS_NA);
+    const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
+        onCompleted: () => setStatus("Item has been succesfully added!"),
+        onError: (error) => console.error("Error creating a post", error),
+    });
+
+
+    const sendNotifications = () => {
+        if (checked.length > 0) {
+            sendNotificationsMutation({
+                variables: {
+                    data: checked
+                }
+            }
+            )
+        }
+        else { alert("please select some tasks...") }
+    }
 
     const _onChangeHeaderCheckbox = data => {
         data.checked ? setChecked(data.map(row => row.id)) : setChecked([]);
-      };
+    };
 
-      const _onChangeRowCheckbox = data => {
+    const _onChangeRowCheckbox = data => {
         const newRow = data[data.index].id;
         checked.includes(newRow)
-          ? setChecked(old => old.filter(row => row !== newRow))
-          : setChecked(old => [...old, newRow]);
-      };
+            ? setChecked(old => old.filter(row => row !== newRow))
+            : setChecked(old => [...old, newRow]);
+    };
 
-      const createArr = (id, item) => {
+    const createArr = (id, item) => {
         if (checked.find((y) => y.id == id)) {
-            checked.find((y) => checked.splice(y,1))
+            checked.find((y) => checked.splice(y, 1))
         } else {
-            checked.push({id:id, data:item.Date, resource: item.Resource, task:item.Task, taskComments:item.taskComments, bh:item.billableHours, rh:item.realHour, twc: item.timeWrittingComments, var: item.variation})
+            checked.push({ id: id, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments, 
+                bh: item.billableHours, rh: item.realHour, twc: item.timeWrittingComments, var: item.variation,
+                normNok: item.normNOK, normOK:item.normOK
+             })
+            setSelected(checked.length)
         }
-      }
+    }
 
     return (
         <div>
-            Prior to checking the below table please update the files using the following <a target="_blank" href="https://apps.gdceur.eecloud.dynamic.nsn-net.net/tools/">application</a> (soon to be integrated here!!!)
-            List of Norms having variance
+            <div className="tableHeader">
+                Prior to checking the below table please update the files using the following <a target="_blank" href="https://apps.gdceur.eecloud.dynamic.nsn-net.net/tools/">application</a> (soon to be integrated here!!!)
+                <div>
+                    <>
+                        <Button color="danger" onClick={sendNotifications}>Send notifications</Button>
+                    </>
+                </div>
+                List of Norms having variance ({data && data.normCheckQuery.length} tasks, out of which  {selected} selected for notification):
+            </div>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -76,7 +114,7 @@ const NormCheck = () => {
                             Date
                         </th>
                         <th>
-                        Resource Name
+                            Resource Name
                         </th>
                         <th>
                             WBS
@@ -116,10 +154,10 @@ const NormCheck = () => {
                     {data && data.normCheckQuery && data.normCheckQuery.map((item, index) => {
                         return (
                             <tr key={item.index}>
-                                 <td> <input
-  type="checkbox"
-  onChange={(e) => createArr(index, item)}
- /></td>
+                                <td> <input
+                                    type="checkbox"
+                                    onChange={(e) => createArr(index, item)}
+                                /></td>
                                 <td>{item.Date}</td>
                                 <td>{item.Resource}</td>
                                 <td>{item.wbsCustomer}</td>

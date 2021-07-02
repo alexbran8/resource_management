@@ -15,9 +15,28 @@ type normCheck {
 	  status: String
     variation: String
   }
+  input Norms {
+    id: Int
+    date: String
+    resource: String
+    wbsCustomer: String
+    task: String
+    taskComments: String
+    twc: String
+    bh: String
+	  rh: String
+	  normOK: String
+	  normNok:  String
+	  status: String
+    var: String
+   }
 
 extend  type Query  {
     normCheckQuery: [normCheck]
     normCheckQueryNA: [normCheck]
 } 
+
+extend type Mutation {
+  sendNotifications (data: [Norms]):Boolean
+}
 `;
