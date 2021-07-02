@@ -36,6 +36,8 @@ const Calendar = () => {
   var moment = require("moment");
 
   const sendData = async(data, viewModal) => {
+
+    console.log('sendData', data)
     data.status =
       localStorage.getItem("permisiuni") !== undefined
         ? localStorage.getItem("permisiuni")
@@ -83,35 +85,11 @@ const Calendar = () => {
       resourceId: data.slotId,
       bgColor: "purple"
     };
+    console.log(schedulerData)
     schedulerData.addEvent(newEvent);
     setViewModal(schedulerData);
-    setEvent(undefined)
-  
-
-    
-//     let newFreshId = 0;
-//     data2.renderData.forEach((item) => {
-//       newFreshId = item.id + 1000;
-//       console.log(item)
-// });
-    // console.log('2',data2)
-    // this.reset();
-    // this.getType();
-    // console.log('here');
-    
-    // console.log(3,this.state.viewModel);
-    // this.setState(prevState => ({
-    //   data2: [...prevState.viewModel.events, data2]
-    // }));
-    // console.log(4,this.state.viewModel);
-    // state update
-    // this.setState({
-    //   viewModel: data2,
-    // });
-    // console.log(this.state.viewModel);
-    // window.location.reload();
-
-    
+    console.log(schedulerData)
+    setEvent(undefined)    
   }
 
   
@@ -254,28 +232,30 @@ const Calendar = () => {
       dayDiff: moment(end).diff(start, "days") + 1,
       // bgColor: "purple"
     };
-    console.log(types)
+    console.log('data', schedulerData)
     setEvent(newEvent)
-    if (
-      confirm(
-        `Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`
-      )
-    ) {
-      let newFreshId = 0;
-      schedulerData.events.forEach(item => {
-        if (item.id >= newFreshId) newFreshId = item.id + 1;
-      });
+    // if (
+    //   confirm(
+    //     `Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`
+    //   )
+    // ) 
+    {
+      // let newFreshId = 0;
+      // schedulerData.events.forEach(item => {
+      //   if (item.id >= newFreshId) newFreshId = item.id + 1;
+      // });
 
-      let newEvent = {
-        id: newFreshId,
-        title: "New event you just created",
-        start: start,
-        end: end,
-        resourceId: slotId,
-        bgColor: "purple"
-      };
-      schedulerData.addEvent(newEvent);
-      setViewModal(schedulerData);
+      // let newEvent = {
+      //   id: newFreshId,
+      //   title: "New event you just created",
+      //   start: start,
+      //   title: schedulerData.title,
+      //   end: end,
+      //   resourceId: slotId,
+      //   bgColor: "purple"
+      // };
+      // schedulerData.addEvent(newEvent);
+      // setViewModal(schedulerData);
     }
    
   };
