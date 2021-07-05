@@ -54,13 +54,12 @@ module.exports = {
             transporter: transporterConfig,
             from: "poweremail.ni_gsd_timisoara@nokia.com",
             to: email,
-            cc: 'alexandru.bran@nokia.com',
+            cc: 'cecilia.crisan@nokia.com',
             subj: `[capacity notification] Please review the following tasks in capacity [capacity notification]`,
             text: "Please review the following norms in capacity:",
             html: '<div> Please review the following capacity tasks: <table border="1" style="border-collapse:collapse;"><thead style="background-color:powderblue;"><tr><th>RESOURCE</th><th>DATE</th><th>TC</th><th>TWC</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th></tr></thead><tbody></tbody> ' + content + '</tbody></table></div>'
           };
           emailHandler(metadata).catch(console.error);
-         
         }
         const response = {message: 'Notifications have been successfully sent!', success: true}
         return  response  
