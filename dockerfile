@@ -10,28 +10,17 @@ COPY . /opt/app/
 WORKDIR /opt/app/client
 RUN ls -l
 RUN pwd
-# RUN rm package-lock.json
+
 RUN rm -rf node_modules
 RUN npm install -g npm@latest
 RUN npm install --save-dev cross-env
-# RUN npm install
-# RUN npm install webpack webpack-dev-server --save-dev
-# # RUN cd.. & cd /opt/app/src/client &  pwd
-# RUN pwd
 RUN npm run dev
 
 # backend
 WORKDIR /opt/app/server
-# RUN chmod +x build.sh
-# RUN build.sh
 RUN npm install
 RUN npm install --save-dev cross-env
-# RUN cd client
-# RUN npm build
-# RUN cd ..
 RUN npm install pm2 -g
-# RUN rm -rf /etc/localtime
-# RUN ln -s /usr/share/zoneinfo/Etc/GMT-2 /etc/localtime
 
 # start server
 EXPOSE 4000

@@ -7,14 +7,15 @@ import { config } from "../config";
 export default OriginalComponent => {
   class MixedComponent extends Component {
     checkAuth() {
-      // if (!this.props.isAuth && !this.props.jwtToken) {
-      // console.log(`**(Nav) Checking local storage...`)
-        if (!sessionStorage.getItem('userEmail')) {
-          const user = JSON.parse(sessionStorage.getItem('user'))
-          console.log(`**(Nav) User found in local storage...`)
-          this.props.history.push(config.baseLOCATION)
+      var currenntDate = new Date()
+        if (!sessionStorage.getItem('exp') || !sessionStorage.getItem('token') || currenntDate > new Date(sessionStorage.getItem('exp'))) {
+          sessionStorage.removeItem('exp')
+          sessionStorage.removeItem('userEmail')
+          sessionStorage.removeItem('name')
+          sessionStorage.removeItem('token')
+          window.location.href=config.baseLOCATION
         } 
-      // }
+      
       
     }
     componentDidMount() {

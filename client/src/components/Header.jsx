@@ -56,7 +56,9 @@ export default class Header extends Component {
         });
 
            // save to localstorage and redux
+           
            sessionStorage.setItem('userEmail', responseJson.user.email)
+           sessionStorage.setItem('exp', responseJson.user.exp)
            sessionStorage.setItem('token', responseJson.user.id)
            sessionStorage.setItem('name', responseJson.user.first_name)
            sessionStorage.setItem('userEmail', responseJson.user.email)

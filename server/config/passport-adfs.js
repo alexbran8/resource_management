@@ -23,9 +23,10 @@ module.exports = function (
     first_name: userProfile.given_name,
     last_name: userProfile.family_name,
     role: userProfile.role,
-    provider: 'adfs'
+    provider: 'adfs',
+    exp: new Date(1000*userProfile.exp)
   }
-  console.log(user.role)
+  console.log(userProfile.role)
   console.log(`**ADFS user added...`)
   return done(null, user)
 }
