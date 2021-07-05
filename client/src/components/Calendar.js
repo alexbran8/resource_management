@@ -164,7 +164,7 @@ const Calendar = () => {
   };
 
  const deleteItem = (schedulerData, event) => {
-    if (this.props.role === "L3") {
+    // if (this.props.role === "L3") {
       if (
         window.confirm(
           `Are you sure you want to delete: ${event.title}  assigned to ${event.name} with ${event.replacement} as replacement?`
@@ -175,10 +175,32 @@ const Calendar = () => {
         this.setState({
           viewModel: schedulerData,
         });
+    // } else {
+      // return;
+    // }
+  };
+
+  const editItem = (schedulerData, event) => {
+    if (this.props.role === "L3") {
+      let editEvent = {
+        id: event.id,
+        schedulerData: schedulerData,
+        nokiaid: event.resourceId,
+        title: event.title,
+        type: event.type,
+        replacement: event.replacement,
+        start: event.start,
+        end: event.end,
+        createdBy: event.createdBy,
+        status: event.status,
+      };
+      this.setState({ editEvent });
+      console.log(event);
     } else {
       return;
     }
   };
+
 
 
 
@@ -233,34 +255,7 @@ const Calendar = () => {
       // bgColor: "purple"
     };
     console.log('data', schedulerData)
-    setEvent(newEvent)
-    // if (
-    //   confirm(
-    //     `Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`
-    //   )
-    // ) 
-    // {
-    //   let newFreshId = 0;
-    //   schedulerData.events.forEach(item => {
-    //     if (item.id >= newFreshId) newFreshId = item.id + 1;
-    //   });
-      
-      
-
-    //   let newEvent = {
-    //     id: newFreshId,
-    //     title: await count,
-    //     start: start,
-    //     // title: schedulerData.title,
-
-    //     end: end,
-    //     resourceId: slotId,
-    //     bgColor: "purple"
-    //   };
-    //   schedulerData.addEvent(newEvent);
-    //   setViewModal(schedulerData);
-    // }
-   
+    setEvent(newEvent)   
   };
 
   let params = { 'admin': true, 'operational': false }
@@ -284,8 +279,6 @@ const Calendar = () => {
             resetEdit={() => resetEdit()}
             event={event}
             editEvent={editEvent}
-            viewEvent2Text={ "Delete"}
-            viewEvent2Click={deleteItem}
             sendData={(e) => sendData(e, schedulerData)}
             updateData={(e) => updateData(e)}
             types={types}
@@ -308,6 +301,10 @@ const Calendar = () => {
         onSelectDate={onSelectDate}
         newEvent={newEvent}
         slotClickedFunc={slotClickedFunc}
+        viewEventText="Edit"
+        viewEventClick={sessionStorage.getItem('roles') === "L2" ? editItem : null}  
+        viewEvent2Text={sessionStorage.getItem('roles') === "L3" ? "Delete" : null}
+        viewEvent2Click={sessionStorage.getItem('roles') === "L3" ? deleteItem : null}  
       />
       : null}
     </div>
