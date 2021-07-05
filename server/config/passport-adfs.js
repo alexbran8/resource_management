@@ -22,11 +22,12 @@ module.exports = function (
     email: userProfile.unique_name,
     first_name: userProfile.given_name,
     last_name: userProfile.family_name,
-    role: userProfile.role,
+    // check how to add multiple roles
+    roles: userProfile.roles[0],
     provider: 'adfs',
     exp: new Date(1000*userProfile.exp)
   }
-  console.log(userProfile.role)
+  console.log(userProfile.roles[0])
   console.log(`**ADFS user added...`)
   return done(null, user)
 }

@@ -13,6 +13,7 @@ export default OriginalComponent => {
           sessionStorage.removeItem('userEmail')
           sessionStorage.removeItem('name')
           sessionStorage.removeItem('token')
+          sessionStorage.removeItem('roles')
           window.location.href=config.baseLOCATION
         } 
       

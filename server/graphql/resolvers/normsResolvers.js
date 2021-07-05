@@ -37,12 +37,13 @@ module.exports = {
   Mutation: {
     async sendNotifications(root, data, context) {
       try {
+        console.log(data.data)
   
-        var groupedPeople = groupBy(data.data, 'resource');
+        var groupedPeople = groupBy(data.data, 'to_email');
         
-        Object.keys(groupedPeople).forEach(item => sendEmail(groupedPeople[item]))
+        Object.keys(groupedPeople).forEach(item => sendEmail(groupedPeople[item], item))
 
-        function sendEmail(data) {
+        function sendEmail(data, email) {
           data.reduce(function (a, b) {
             content = a + '<tr><td>' +  b.resource + '</td><td>' + b.date 
             +  '</td><td>' +  b.taskComments + '</td><td>' +  b.twc + '</td><td>' +  b.rh + '</td><td>' +  b.normOK + '</td><td>'
@@ -52,18 +53,23 @@ module.exports = {
           const metadata = {
             transporter: transporterConfig,
             from: "poweremail.ni_gsd_timisoara@nokia.com",
-            to: 'alexandru.bran@nokia.com',
+            to: email,
             cc: 'alexandru.bran@nokia.com',
             subj: `[capacity notification] Please review the following tasks in capacity [capacity notification]`,
             text: "Please review the following norms in capacity:",
             html: '<div> Please review the following capacity tasks: <table border="1" style="border-collapse:collapse;"><thead style="background-color:powderblue;"><tr><th>RESOURCE</th><th>DATE</th><th>TC</th><th>TWC</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th></tr></thead><tbody></tbody> ' + content + '</tbody></table></div>'
           };
           emailHandler(metadata).catch(console.error);
+         
         }
+        const response = {message: 'Notifications have been successfully sent!', success: true}
+        return  response  
       }
-
+               
       catch (error) {
         console.log(error)
+        const response = {message: error, success: false}
+        return  response
       }
     }
   }

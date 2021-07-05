@@ -62,6 +62,7 @@ export default class Header extends Component {
            sessionStorage.setItem('token', responseJson.user.id)
            sessionStorage.setItem('name', responseJson.user.first_name)
            sessionStorage.setItem('userEmail', responseJson.user.email)
+           sessionStorage.setItem('roles', responseJson.user.roles)
 
         console.log(responseJson)
         return async dispatch => {

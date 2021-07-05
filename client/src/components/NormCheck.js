@@ -9,6 +9,7 @@ const GET_NORMS = gql`
     normCheckQuery (department: $department) {
             Date 
             Resource 
+            to_email
             wbsCustomer 
             Task
             taskComments
@@ -25,7 +26,10 @@ const GET_NORMS = gql`
 
 const SEND_NOTIFICATION = gql`
   mutation ($data: [Norms]) {
-    sendNotifications (data:$data)
+    sendNotifications (data:$data){
+        success
+        message
+      }
   }
 `;
 
@@ -55,7 +59,11 @@ const NormCheck = () => {
     const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS, {variables: {department: 'radio'}});
     const { data: dataNa, loading, error } = useQuery(GET_NORMS_NA);
     const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
-        onCompleted: () => setStatus("Item has been succesfully added!"),
+        onCompleted: (data) => {
+            setStatus(data.sendNotifications.message);
+            alert(data.sendNotifications.message)
+            console.log(data.sendNotifications.success)
+        },
         onError: (error) => console.error("Error creating a post", error),
     });
 
@@ -89,6 +97,7 @@ const NormCheck = () => {
         } else {
             checked.push({ id: id, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments, 
                 bh: item.billableHours, rh: item.realHour, twc: item.timeWrittingComments, var: item.variation,
+                to_email: item.to_email,
                 normNok: item.normNOK, normOK:item.normOK
              })
             setSelected(checked.length)
@@ -115,6 +124,9 @@ const NormCheck = () => {
                         </th>
                         <th>
                             Resource Name
+                        </th>
+                        <th>
+                            Notification Email
                         </th>
                         <th>
                             WBS
@@ -160,6 +172,7 @@ const NormCheck = () => {
                                 /></td>
                                 <td>{item.Date}</td>
                                 <td>{item.Resource}</td>
+                                <td>{item.to_email}</td>
                                 <td>{item.wbsCustomer}</td>
                                 <td>{item.Task}</td>
                                 <td>{item.taskComments}</td>

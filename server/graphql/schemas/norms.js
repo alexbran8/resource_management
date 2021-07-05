@@ -3,6 +3,7 @@ const { gql } = require("apollo-server");
 module.exports = gql`
 type normCheck {
     Date: String
+    to_email: String
     Resource: String
     wbsCustomer: String
     Task: String
@@ -15,8 +16,14 @@ type normCheck {
 	  status: String
     variation: String
   }
+  type Response {
+    success: String!
+    message: String!
+  }
+
   input Norms {
     id: Int
+    to_email: String
     date: String
     resource: String
     wbsCustomer: String
@@ -37,6 +44,6 @@ extend  type Query  {
 } 
 
 extend type Mutation {
-  sendNotifications (data: [Norms]):Boolean
+  sendNotifications (data: [Norms]):Response!
 }
 `;
