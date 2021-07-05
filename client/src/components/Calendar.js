@@ -8,9 +8,9 @@ import withDragDropContext from './withDnDContext';
 import CustomModal from "./Modal";
 import { config } from "../config";
 
-// import { resources, events } from 'pages/calendar/data';
-
-let schedulerData = new SchedulerData('2021-05-20', ViewTypes.Week);
+let schedulerData = new SchedulerData(new Date(), ViewTypes.Week, false, false,
+ {schedulerMaxHeight: 800}
+);
 schedulerData.localeMoment.locale('en');
 
 
@@ -30,10 +30,22 @@ const Calendar = () => {
   const [slot, setSlot] = useState()
   const [types, setTypes] = useState()
   const [editEvent, setEditEvent] = useState()
-  const forceUpdate = useForceUpdate();
   // eslint-disable-next-line no-unused-vars
-  const [renderCounter, setRenderCounter] = useState(0);
+  const [count, setCount] = useState()
+  const [refresh, setRefresh] = useState(1);
   var moment = require("moment");
+
+  useEffect(() => {
+		if(refresh === 0){
+			setRefresh(1);
+      setCount()
+		}
+	}, [refresh])
+	
+	useEffect(() => {
+		setRefresh(0);
+	}, [count]);
+
 
   const sendData = async(data, viewModal) => {
 
@@ -56,39 +68,27 @@ const Calendar = () => {
     
     // const response = await Axios.post(`${ config.baseURL + baseLOCATION }/schedule/add`, data, {withCredentials: true} );
 
-    // if (!response) {
-    //   alert("failed");
-    // }
-    console.log(data);
+    console.log('data',data);
     if (data.id === undefined) {
       data.id = 0;
       console.log("aici");
     }
-    // console.log(viewModal2)
-    // schedulerData.addEvent(data);
-    // setViewModal(schedulerData);
-    // setEvent(undefined)
-    // setRenderCounter(o => ++o);
-    // console.log(schedulerData)
-    // forceUpdate();
 
     let newFreshId = 0;
-    schedulerData.events.forEach(item => {
-      if (item.id >= newFreshId) newFreshId = item.id + 1;
-    });
 
     let newEvent = {
       id: newFreshId,
-      title: "New event you just created",
+      title: data.title,
       start: data.start,
       end: data.end,
-      resourceId: data.slotId,
-      bgColor: "purple"
-    };
-    console.log(schedulerData)
+      resourceId: data.nokiaid,
+      bgColor: "#E74C3C"
+    };    
+    setCount(data.title)
+    setEvents(schedulerData.events)
     schedulerData.addEvent(newEvent);
     setViewModal(schedulerData);
-    console.log(schedulerData)
+  
     setEvent(undefined)    
   }
 
@@ -219,7 +219,7 @@ const Calendar = () => {
     setSlot(slot.slotId);
     console.log(slot)
   };
-  const newEvent = (schedulerData, slotId, slotName, start, end, type, item) => {
+  const newEvent = async (schedulerData, slotId, slotName, start, end, type, item) => {
     let newEvent = {
       schedulerData: schedulerData,
       id: 0,
@@ -239,24 +239,27 @@ const Calendar = () => {
     //     `Do you want to create a new event? {slotId: ${slotId}, slotName: ${slotName}, start: ${start}, end: ${end}, type: ${type}, item: ${item}}`
     //   )
     // ) 
-    {
-      // let newFreshId = 0;
-      // schedulerData.events.forEach(item => {
-      //   if (item.id >= newFreshId) newFreshId = item.id + 1;
-      // });
+    // {
+    //   let newFreshId = 0;
+    //   schedulerData.events.forEach(item => {
+    //     if (item.id >= newFreshId) newFreshId = item.id + 1;
+    //   });
+      
+      
 
-      // let newEvent = {
-      //   id: newFreshId,
-      //   title: "New event you just created",
-      //   start: start,
-      //   title: schedulerData.title,
-      //   end: end,
-      //   resourceId: slotId,
-      //   bgColor: "purple"
-      // };
-      // schedulerData.addEvent(newEvent);
-      // setViewModal(schedulerData);
-    }
+    //   let newEvent = {
+    //     id: newFreshId,
+    //     title: await count,
+    //     start: start,
+    //     // title: schedulerData.title,
+
+    //     end: end,
+    //     resourceId: slotId,
+    //     bgColor: "purple"
+    //   };
+    //   schedulerData.addEvent(newEvent);
+    //   setViewModal(schedulerData);
+    // }
    
   };
 
@@ -295,6 +298,7 @@ const Calendar = () => {
           id={slot}
         />
       ) : null}
+      {refresh ?
       <Scheduler
         schedulerData={viewModal2}
         prevClick={prevClick}
@@ -303,9 +307,9 @@ const Calendar = () => {
         onViewChange={onViewChange}
         onSelectDate={onSelectDate}
         newEvent={newEvent}
-        renderCounter={renderCounter}
         slotClickedFunc={slotClickedFunc}
       />
+      : null}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-// const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 const { db } = require('../config/configProvider')()
 
 module.exports = function(DataTypes) {
@@ -115,14 +115,14 @@ module.exports = function(DataTypes) {
         required: false
       }
     },
-    // {
-    //   hooks: {
-    //     beforeCreate: user => {
-    //       user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8))
-    //     }
-    //   },
-    //   freezeTableName: true
-    // }
+    {
+      hooks: {
+        beforeCreate: user => {
+          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8))
+        }
+      },
+      freezeTableName: true
+    }
   )
 
   User.prototype.validPassword = async function(password) {
