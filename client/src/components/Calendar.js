@@ -181,26 +181,63 @@ const Calendar = () => {
       return;
     }
   };
+const updateData = (data) => {
+    if (
+      data.bgColor === undefined ||
+      data.bgColor === null ||
+      data.bgColor === ""
+    ) {
+      data.bgColor = "#5DB5F4";
+    }
+    if (data.type === undefined || data.type === null || data.type === "") {
+      data.type = "Null";
+    }
+    // const response = await Axios.post(
+    //   `${baseURL}/schedule/update/${data.id}`,
+    //   data, {withCredentials: true}
+    // );
+    // if (!response) {
+    //   alert("failed");
+    // }
+    console.log(events)
+    console.log(data.id)
+      events.map((item) => {
+          item.id === data.id? item = data: null;
+      })
+      console.log(events)
+      schedulerData.setEvents(events);
+      setViewModal2(schedulerData)
+    
+    
+    console.log(data)
+    // setViewModal2(data.schedulerData);
+    setCount(0)
+    resetEdit();
+    // this.getType();
+    
+  }
+
 
   const editItem = (schedulerData, event) => {
-    if (sessionStorage.getItem('roles') === "L3") {
-      let editEvent = {
-        id: event.id,
-        schedulerData: schedulerData,
-        nokiaid: event.resourceId,
-        title: event.title,
-        type: event.type,
-        replacement: event.replacement,
-        start: event.start,
-        end: event.end,
-        createdBy: event.createdBy,
-        status: event.status,
-      };
-      setEditEvent(editEvent)
-      console.log(event);
-    } else {
-      return;
-    }
+    alert("This feature is currently under development. Please delete and add event as temporary solution... ")
+    // if (sessionStorage.getItem('roles') === "L3") {
+    //   let editEvent = {
+    //     id: event.id,
+    //     // schedulerData: schedulerData,
+    //     nokiaid: event.resourceId,
+    //     title: event.title,
+    //     type: event.type,
+    //     replacement: event.replacement,
+    //     start: event.start,
+    //     end: event.end,
+    //     createdBy: event.createdBy,
+    //     status: event.status,
+    //   };
+    //   setEditEvent(editEvent)
+    //   console.log(event);
+    // } else {
+    //   return;
+    // }
   };
 
 
