@@ -164,20 +164,22 @@ const Calendar = () => {
   };
 
  const deleteItem = (schedulerData, event) => {
-    // if (this.props.role === "L3") {
+    if (sessionStorage.getItem('roles')=== "L3") {
       if (
         window.confirm(
           `Are you sure you want to delete: ${event.title}  assigned to ${event.name} with ${event.replacement} as replacement?`
         )
       )
+        console.log(schedulerData)
         schedulerData.removeEvent(event);
-        Axios.delete(`${ config.baseURL + baseLOCATION }/schedule/delete/${event.id}`, event);
-        this.setState({
-          viewModel: schedulerData,
-        });
-    // } else {
-      // return;
-    // }
+        // Axios.delete(`${ config.baseURL + config.baseLOCATION }/schedule/delete/${event.id}`, event,  {withCredentials: true});
+        
+        setViewModal2(schedulerData);
+        setCount(1)
+        console.log(schedulerData)
+    } else {
+      return;
+    }
   };
 
   const editItem = (schedulerData, event) => {
