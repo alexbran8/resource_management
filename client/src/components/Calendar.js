@@ -105,7 +105,7 @@ const Calendar = () => {
   }
 
   const reset = () =>  {
-    setEvents(undefined)
+    setEvent(undefined)
   }
 
   const resetEdit = () =>  {
@@ -181,7 +181,7 @@ const Calendar = () => {
   };
 
   const editItem = (schedulerData, event) => {
-    if (this.props.role === "L3") {
+    if (sessionStorage.getItem('roles') === "L3") {
       let editEvent = {
         id: event.id,
         schedulerData: schedulerData,
@@ -194,7 +194,7 @@ const Calendar = () => {
         createdBy: event.createdBy,
         status: event.status,
       };
-      this.setState({ editEvent });
+      setEditEvent(editEvent)
       console.log(event);
     } else {
       return;
@@ -301,8 +301,8 @@ const Calendar = () => {
         onSelectDate={onSelectDate}
         newEvent={newEvent}
         slotClickedFunc={slotClickedFunc}
+        viewEventClick={sessionStorage.getItem('roles') === "L3" ? editItem : null}  
         viewEventText="Edit"
-        viewEventClick={sessionStorage.getItem('roles') === "L2" ? editItem : null}  
         viewEvent2Text={sessionStorage.getItem('roles') === "L3" ? "Delete" : null}
         viewEvent2Click={sessionStorage.getItem('roles') === "L3" ? deleteItem : null}  
       />
