@@ -141,11 +141,11 @@ const NormCheck = () => {
                             TWC
                         </th>
                         <th>
-                            Real Hours
+                            Billable Hours
                         </th>
 
                         <th>
-                            Billable Hours
+                            Hours Hours
                         </th>
 
                         <th>

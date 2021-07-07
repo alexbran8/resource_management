@@ -5,6 +5,7 @@ import Request from "./components/Request";
 import Approvals from "./components/Approval";
 import NormCheck from './components/NormCheck'
 import Calendar from './components/Calendar.js'
+import Main from './components/Main.js'
 import Tasks from './components/Tasks.js'
 import { HashRouter,Route } from "react-router-dom";
 import { signUpForm } from './components/SignUp'

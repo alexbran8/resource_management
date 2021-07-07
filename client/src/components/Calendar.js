@@ -6,6 +6,7 @@ import 'react-big-scheduler/lib/css/style.css';
 import withDragDropContext from './withDnDContext';
 
 import CustomModal from "./Modal";
+import Filter from "./Filter";
 import { config } from "../config";
 
 let schedulerData = new SchedulerData(new Date(), ViewTypes.Week, false, false,
@@ -311,6 +312,7 @@ const updateData = (data) => {
 
   return (
     <div>
+      <Filter />
         {event || editEvent ? (
           <CustomModal
             resources={schedulerData.resources}

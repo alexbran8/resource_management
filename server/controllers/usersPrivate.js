@@ -19,7 +19,7 @@ UsersController.get("/get/:id?", async (req, res, next) => {
       res.status(500);
     }
     const team = await User.aggregate("main_team", "DISTINCT", {
-      plain: false,
+      plain: false, order: ["main_team"],
     });
     if (!team) {
       res.status(500);
@@ -32,7 +32,7 @@ UsersController.get("/get/:id?", async (req, res, next) => {
       res.status(500);
     }
     const tpm = await db.query(
-      "SELECT DISTINCT TPM_FIRSTNAME,TPM_LASTNAME FROM employees WHERE NOT TPM_LASTNAME IS NULL"
+      "SELECT DISTINCT TPM_FIRSTNAME,TPM_LASTNAME FROM employees WHERE NOT TPM_LASTNAME IS NULL ORDER BY TPM_FIRSTNAME"
       // S INNER JOIN(SELECT nokiaid FROM employees GROUP BY nokiaid HAVING COUNT(*)=1) T ON S.nokiaid = T.nokiaid"
     );
     if (!tpm) {
