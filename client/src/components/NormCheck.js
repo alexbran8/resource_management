@@ -115,7 +115,7 @@ const NormCheck = () => {
                 </div>
                 List of Norms having variance ({data && data.normCheckQuery.length} tasks, out of which  {selected} selected for notification):
             </div>
-            <Table striped bordered hover>
+            <Table striped bordered hover className="normsTable">
                 <thead>
                     <tr>
                         <th>Select</th>

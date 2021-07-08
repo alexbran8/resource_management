@@ -7,10 +7,10 @@ $button-color: #424242;
 
 //first things first
 body {
+  padding-top: 100px;
   height: 100%;
   width: 100%;
   margin: 0;
-  padding: 0;
 }
 .upload-container .alert  {
   top: 100px;
@@ -20,7 +20,8 @@ body {
 }
 
 .navbar {
-  background: #000000;
+  position: fixed;
+  background: #912020;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right,
       #000000,

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { config } from "../config"
 import { AUTH_SIGN_UP, AUTH_SIGN_IN, AUTH_SIGN_OUT, AUTH_ERROR } from '../actions/types'
+import "./Header.scss"
 import {
   Collapse,
   Navbar,
@@ -97,7 +98,7 @@ export default class Header extends Component {
   render() {
     const { authenticated, user } = this.state;
     return (
-      <Navbar className="navbar" expand="sm">
+      <Navbar className="navbar sticky-nav" expand="sm"  fixed="top">
         <Link className="navbar-brand text-white" to={config.baseLOCATION + "/"}>
           <b>NOKIA</b> {config.appversion}
         </Link>
