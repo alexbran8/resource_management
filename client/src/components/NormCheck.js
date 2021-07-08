@@ -20,6 +20,7 @@ const GET_NORMS = gql`
               normNOK
               status
             variation
+            correction
     }
   }
 `;
@@ -98,7 +99,7 @@ const NormCheck = () => {
             checked.push({ id: id, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments, 
                 bh: item.billableHours, rh: item.realHour, twc: item.timeWrittingComments, var: item.variation,
                 to_email: item.to_email,
-                normNok: item.normNOK, normOK:item.normOK
+                normNok: item.normNOK, normOK:item.normOK, correction: item.correction
              })
             setSelected(checked.length)
         }
@@ -186,7 +187,7 @@ const NormCheck = () => {
                                 <td>{item.normNOK}</td>
                                 <td>{item.status}</td>
                                 <td>{item.variation}</td>
-                                <td>{item.normOk !=0 && item.normNOK !=0 ? (item.variation < 0 ? <div>add {-1*item.variation} to billable hours</div> : <div>substract {item.variation} from billable hours</div>) : null }</td>
+                                <td>{item.correction}</td>
                             </tr>
                         )
                     })}

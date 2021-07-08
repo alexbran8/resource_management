@@ -22,7 +22,18 @@ const userName = sessionStorage.getItem('email'),
   jwtToken = sessionStorage.getItem('id'),
   nokiaid = sessionStorage.getItem('nokiaid')
 
-  const apiclient = new ApolloClient({ uri: config.baseURL + config.baseLOCATION + `/graphql`, });
+  const apiclient = new ApolloClient({ uri: config.baseURL + config.baseLOCATION + `/graphql`,
+  request: (operation) => {
+    const token = sessionStorage.getItem('token')
+    const userName = sessionStorage.getItem('userEmail')
+    operation.setContext({
+      headers: {
+        userName: token ? `${userName}` : '',
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  }
+ });
 
 ReactDOM.render(  <ApolloProvider client={apiclient}><Provider
     store={createStore(

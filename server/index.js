@@ -25,10 +25,29 @@ var { buildSchema } = require("graphql");
 const typeDefs = require("./graphql/schemas");
 const resolvers = require("./graphql/resolvers");
 const context = require("./graphql/context");
+const jwt_decode =require( 'jwt-decode');
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => {
+    // get the user token from the headers
+    // const token = req.headers.authorization || '';
+    const user = req.headers.username || '';
+    // console.log(user)
+   
+    // try to retrieve a user with the token
+    // const user = getUser(token);
+    // var decoded = jwt_decode(token);
+    // console.log(decoded);
+   
+    // optionally block the user
+    // we could also check user roles/permissions here
+    // if (!user) throw new AuthenticationError('you must be logged in');
+   
+    // add the user to the context
+    return { user };
+   },
   // uploads: false,
   // context,
   // introspection: true,

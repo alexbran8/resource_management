@@ -37,7 +37,8 @@ module.exports = {
   Mutation: {
     async sendNotifications(root, data, context) {
       try {
-        console.log(data.data)
+        var counter = 0;
+        console.log(context)
   
         var groupedPeople = groupBy(data.data, 'to_email');
         
@@ -46,8 +47,8 @@ module.exports = {
         function sendEmail(data, email) {
           data.reduce(function (a, b) {
             content = a + '<tr><td>' +  b.resource + '</td><td>' + b.date 
-            +  '</td><td>' +  b.taskComments + '</td><td>' +  b.twc + '</td><td>' +  b.rh + '</td><td>' +  b.normOK + '</td><td>'
-             + b.normNok + '</td><td>' + b.var + '</td></tr>';
+            +  '</td><td>' +  b.taskComments + '</td><td>' +  b.twc + '</td><td>' +  b.rh + '</td><td>' +  b.normOK +  '</td><td>'
+             + b.normNok + '</td><td>' + b.var + '</td><td>' +  b.correction +'</td></tr>';
             return content
           }, '')
           const metadata = {
@@ -57,11 +58,13 @@ module.exports = {
             cc: 'cecilia.crisan@nokia.com',
             subj: `[capacity notification] Please review the following tasks in capacity [capacity notification]`,
             text: "Please review the following norms in capacity:",
-            html: '<div> Please review the following capacity tasks: <table border="1" style="border-collapse:collapse;"><thead style="background-color:powderblue;"><tr><th>RESOURCE</th><th>DATE</th><th>TC</th><th>TWC</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th></tr></thead><tbody></tbody> ' + content + '</tbody></table></div>'
+            html: '<div> Please review the following capacity tasks: <table border="1" style="border-collapse:collapse;text-align:center;"><thead style="background-color:powderblue;"><tr><th>RESOURCE</th><th>DATE</th><th>TC</th><th>TWC</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead><tbody></tbody> ' + content + '</tbody></table> <p> Regards,</p><p>Nokia Planning Tool, on behalf of '+ context.user +'  </p></div>'
           };
+          // console.log(metadata)
           emailHandler(metadata).catch(console.error);
+          counter++;
         }
-        const response = {message: 'Notifications have been successfully sent!', success: true}
+        const response = {message: `${counter} Notifications have been successfully sent!`, success: true}
         return  response  
       }
                
