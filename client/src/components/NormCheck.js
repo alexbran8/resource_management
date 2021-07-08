@@ -276,15 +276,70 @@ const NormCheck = () => {
                 </tbody>
             </Table>
             <div>
-                List of Norms having N/A Status
-                <Table striped bordered hover>
+                LAWSON VS. CAPACITY
+                <Table striped bordered hover className="normsTable">
+
+<thead>
+    <tr>
+        <th>Select</th>
+        <th>
+            Date
+        </th>
+        <th>
+            Engineer
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            WBS
+        </th>
+        <th>
+            Capacity
+        </th>
+        <th>
+            Comments
+        </th>
+        <th>
+            TWC
+        </th>
+        <th>
+            Billable Hours
+        </th>
+
+        <th>
+            Real Hours
+        </th>
+
+        <th>
+            NORM OK
+        </th>
+        <th>
+            NORM NOK
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Variation
+        </th>
+        <th>
+            Possible Correction
+        </th>
+    </tr>
+</thead>
 
                     <tbody>
-                        {dataNa && dataNa.normCheckQueryNA && dataNa.normCheckQueryNA.map((item, index) => {
+                        {capacityItems && capacityItems.map((item, index) => {
                             return (
                                 <tr key={item.index}>
+                                <td> <input
+                                    type="checkbox"
+                                    onChange={(e) => createArr(index, item)}
+                                /></td>
                                     <td>{item.Date}</td>
                                     <td>{item.Resource}</td>
+                                    <td>{item.to_email}</td>
                                     <td>{item.wbsCustomer}</td>
                                     <td>{item.Task}</td>
                                     <td>{item.taskComments}</td>
