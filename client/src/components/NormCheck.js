@@ -192,7 +192,7 @@ const NormCheck = () => {
                     </form>
                 </div>
               
-                <p>List of tasks reported in Capacity having variance ({data && data.normCheckQuery.length} tasks):</p>
+                <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
 
             </div>
 
