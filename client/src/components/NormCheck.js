@@ -145,7 +145,7 @@ const NormCheck = () => {
                         </th>
 
                         <th>
-                            Hours Hours
+                            Real Hours
                         </th>
 
                         <th>
@@ -159,6 +159,9 @@ const NormCheck = () => {
                         </th>
                         <th>
                             Variation
+                        </th>
+                        <th>
+                            Possible Correction
                         </th>
                     </tr>
                 </thead>
@@ -183,6 +186,7 @@ const NormCheck = () => {
                                 <td>{item.normNOK}</td>
                                 <td>{item.status}</td>
                                 <td>{item.variation}</td>
+                                <td>{item.normOk !=0 && item.normNOK !=0 ? (item.variation < 0 ? <div>add {-1*item.variation} to billable hours</div> : <div>substract {item.variation} from billable hours</div>) : null }</td>
                             </tr>
                         )
                     })}
