@@ -16,6 +16,7 @@ type normCheck {
 	  status: String
     variation: String
     correction: String
+    Dep: String
   }
   type Response {
     success: String!
@@ -38,6 +39,7 @@ type normCheck {
 	  status: String
     var: String
     correction: String
+    Dep: String
    }
 
 extend  type Query  {
