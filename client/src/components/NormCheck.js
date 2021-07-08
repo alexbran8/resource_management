@@ -56,7 +56,7 @@ const GET_NORMS_NA = gql`
 const NormCheck = () => {
     const [checked, setChecked] = useState([])
     const [status, setStatus] = useState()
-    const [selected, setSelected] = useState()
+    const [selected, setSelected] = useState(0)
     const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS, {variables: {department: 'radio'}});
     const { data: dataNa, loading, error } = useQuery(GET_NORMS_NA);
     const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
@@ -95,6 +95,7 @@ const NormCheck = () => {
     const createArr = (id, item) => {
         if (checked.find((y) => y.id == id)) {
             checked.find((y) => checked.splice(y, 1))
+            setSelected(checked.length)
         } else {
             checked.push({ id: id, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments, 
                 bh: item.billableHours, rh: item.realHour, twc: item.timeWrittingComments, var: item.variation,
