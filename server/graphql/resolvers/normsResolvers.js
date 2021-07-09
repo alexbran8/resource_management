@@ -29,9 +29,13 @@ module.exports = {
 
     async normCheckQueryNA(root, args, context) {
       let result = await db.query(`SELECT * FROM get_norms_na()`);
-      console.log('y')
+
       return result[0];
 
+    },
+    async capacityLawsonQuery(root, args, context) {
+      let result = await db.query(`SELECT * FROM check_capacity_lawson('${args.department}')`);
+      return result[0];
     }
   },
   Mutation: {

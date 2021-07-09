@@ -54,11 +54,30 @@ const GET_NORMS_NA = gql`
     }
   }
 `;
+const GET_CAPACITY_LAWSON = gql`
+  query ($department: String!) {
+    capacityLawsonQuery  (department: $department) {
+        Dep
+        Date
+        Resource
+        UPI
+        to_email
+        wbsCustomer
+        workFolderCode
+        wbsCheck
+        sumCapacity
+        sumLawson
+        variation
+        status
+    }
+  }
+`;
 
 const NormCheck = () => {
     const [checked, setChecked] = useState([])
     const [status, setStatus] = useState()
     const [capacityItems, setCapacityItems] = useState()
+    const[ capLawsonItems, setCapLawsonItems] =useState()
     const [uResources, setuResources] = useState()
     const [uDeps, setuDeps] = useState()
     const [selected, setSelected] = useState(0)
@@ -79,7 +98,32 @@ const NormCheck = () => {
             setCapacityItems(data.normCheckQuery)
         }
     });
-    const { data: dataNa, loading, error } = useQuery(GET_NORMS_NA);
+    const { data: dataLC, loading, error } = useQuery(GET_CAPACITY_LAWSON, {
+        variables: { department: 'radio' }, onCompleted: () => {
+            var result = []
+            dataLC && dataLC.capacityLawsonQuery.reduce(function(res, value) {
+                if (!res[value.Resource]) {
+                  res[value.Resource] = { Resource: value.Resource, qty: 0 };
+                  result.push(res[value.Resource])
+                }
+                res[value.Resource].qty += 1;
+                return res;
+              }, {});
+              var result2 = [...uResources, ...result]
+              var result3=[]
+              result2.reduce(function(res, value) {
+                if (!res[value.Resource]) {
+                  res[value.Resource] = { Resource: value.Resource, qty: 0 };
+                  result3.push(res[value.Resource])
+                }
+                res[value.Resource].qty += value.qty;
+                return res;
+              }, {});
+              console.log(result3)
+              setuResources(result3)
+              setCapLawsonItems(dataLC.capacityLawsonQuery)
+        }
+    });
     const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
         onCompleted: (data) => {
             setStatus(data.sendNotifications.message);
@@ -101,13 +145,16 @@ const NormCheck = () => {
     }
 
     const _onChangeFitler = (e, form) => {
-        console.log(e.target.value ? e.target.value : isNonNullType, form)
-        console.log(data.normCheckQuery.filter(function(item){
-            return item.Resource == e.target.value;
-         }));
+        // console.log(e.target.value ? e.target.value : isNonNullType, form)
+        // console.log(data.normCheckQuery.filter(function(item){
+        //     return item.Resource == e.target.value;
+        //  }));
          e.target.value ? setCapacityItems(data.normCheckQuery.filter(function(item){
             return item.Resource == e.target.value;
          })) : setCapacityItems(data.normCheckQuery)
+         e.target.value ? setCapLawsonItems(dataLC.capacityLawsonQuery.filter(function(item){
+            return item.Resource == e.target.value;
+         })) : setCapLawsonItems(dataLC.capacityLawsonQuery)
     };
 
     const _onChangeRowCheckbox = data => {
@@ -162,9 +209,9 @@ const NormCheck = () => {
                             }}
                         >
                             <option value="">All resources</option>
-                            {uResources && uResources.map((x) => {
+                            {uResources && uResources.map((x, index) => {
                                 return (
-                                    <option key={x} value={x.Resource}>
+                                    <option key={x + index} value={x.Resource}>
                                         {x.Resource} ({x.qty} tasks)
                                     </option>
                                 );
@@ -192,13 +239,16 @@ const NormCheck = () => {
                     </form>
                 </div>
               
-                <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
-
+                <div className='reportingConatiner'>
+                Reporting Container
             </div>
+                <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
+            </div>
+            
 
 
             <Table striped bordered hover className="normsTable">
-
+            
                 <thead>
                     <tr>
                         <th>Select</th>
@@ -251,7 +301,7 @@ const NormCheck = () => {
                 <tbody>
                     {capacityItems && capacityItems.map((item, index) => {
                         return (
-                            <tr key={item.index}>
+                            <tr key={`${'capacity'}` + index}>
                                 <td> <input
                                     type="checkbox"
                                     onChange={(e) => createArr(index, item)}
@@ -295,30 +345,16 @@ const NormCheck = () => {
             WBS
         </th>
         <th>
-            Capacity
+            WFC
         </th>
         <th>
-            Comments
+            WBS Check
         </th>
         <th>
-            TWC
+            sumCapacity
         </th>
         <th>
-            Billable Hours
-        </th>
-
-        <th>
-            Real Hours
-        </th>
-
-        <th>
-            NORM OK
-        </th>
-        <th>
-            NORM NOK
-        </th>
-        <th>
-            Status
+            sumLawson
         </th>
         <th>
             Variation
@@ -330,9 +366,9 @@ const NormCheck = () => {
 </thead>
 
                     <tbody>
-                        {capacityItems && capacityItems.map((item, index) => {
+                        {capLawsonItems && capLawsonItems.map((item, index) => {
                             return (
-                                <tr key={item.index}>
+                                <tr key={`${'lawson'}` + index}>
                                 <td> <input
                                     type="checkbox"
                                     onChange={(e) => createArr(index, item)}
@@ -341,15 +377,12 @@ const NormCheck = () => {
                                     <td>{item.Resource}</td>
                                     <td>{item.to_email}</td>
                                     <td>{item.wbsCustomer}</td>
-                                    <td>{item.Task}</td>
-                                    <td>{item.taskComments}</td>
-                                    <td>{item.timeWrittingComments}</td>
-                                    <td>{item.billableHours}</td>
-                                    <td>{item.realHour}</td>
-                                    <td>{item.normOK}</td>
-                                    <td>{item.normNOK}</td>
-                                    <td>{item.status}</td>
+                                    <td>{item.workFolderCode}</td>
+                                    <td>{item.wbsCheck}</td>
+                                    <td>{item.sumCapacity}</td>
+                                    <td>{item.sumLawson}</td>
                                     <td>{item.variation}</td>
+                                    <td>{item.status}</td>
                                 </tr>
                             )
                         })}

@@ -35,7 +35,7 @@ table {
   
   th {
     position: sticky;
-    top: 140px;
+    top: 270px; //140
     background: #7b8d9b;
     border: 3px #7b8d9b solid;
   }
@@ -63,4 +63,13 @@ table {
       height: 50px;
       margin-bottom: auto;
     }
+  }
+
+  .reportingConatiner {
+    // position: sticky;
+    top: 140px;
+    background-color: white;
+    border: 2px #7b8d9b solid;
+    height: 130px;
+    z-index: -1;
   }

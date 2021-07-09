@@ -18,6 +18,20 @@ type normCheck {
     correction: String
     Dep: String
   }
+  type capacityLawson {
+    Dep: String  
+	  Date: String 
+	  Resource: String 
+	  UPI:String
+	  to_email: String
+	  wbsCustomer: String
+    workFolderCode: String
+    wbsCheck: String
+	  sumCapacity: String
+	  sumLawson: String
+	  variation: String
+	  status: String
+  }
   type Response {
     success: String!
     message: String!
@@ -44,6 +58,7 @@ type normCheck {
 
 extend  type Query  {
     normCheckQuery(department: String!): [normCheck]
+    capacityLawsonQuery(department: String!): [capacityLawson]
     normCheckQueryNA: [normCheck]
 } 
 
