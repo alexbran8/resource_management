@@ -1,0 +1,15 @@
+.tasksTable th {
+    position: sticky;
+    top: 135px; //140
+    background: #7b8d9b;
+    z-index: 99;
+    border: 3px #7b8d9b solid;
+  }
+
+  .tasks-header {
+      position: sticky;
+      top:80px;
+      width: 100%;
+      z-index: 99;
+      background-color: aliceblue;
+  }

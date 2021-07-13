@@ -11,7 +11,7 @@ import { getTasks } from "../redux/actions/tasks/getTasks"
 import { config } from "../config";
 import { Button, Modal, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
-
+import "./Tasks.scss"
 
 const Tasks = () => {
     const { handleSubmit } = useForm();    
@@ -48,11 +48,13 @@ const Tasks = () => {
     
         return (
                 <Container>
-                     <Form onSubmit={handleSubmit(OnSubmit)}>
+                    <div className="tasks-header">
+                     <Form onSubmit={handleSubmit(OnSubmit)} className="tasks-form">
                         <Button type="submit">Transfer Planning to Scheduler</Button>
                     </Form>
+                    </div>
                     <Row>
-                        <Table striped bordered hover>
+                        <Table striped bordered hover className='tasksTable'>
                             <thead>
                                 <tr>
                                     <th>
