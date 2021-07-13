@@ -184,6 +184,13 @@ const NormCheck = () => {
         }
     }
 
+    const reset = () => {
+        setChecked([{}])
+        setSelected(0)
+        setCheckedLC([{}])
+
+    }
+
     const createArrLC = (uid, item) => {
         if (checkedLC.find((y) => y.uid == uid)) {
             checkedLC.find((y) => checkedLC.splice(y, 1))
@@ -268,7 +275,7 @@ const NormCheck = () => {
                             }
                         </select>
                         <Button color="warning"
-                            onClick={sendNotifications}>RESET </Button>
+                            onClick={reset}>RESET </Button>
                     </form>
                 </div>
 
@@ -337,7 +344,7 @@ const NormCheck = () => {
                             <tr key={item.uid}>
                                 <td> <input
                                     type="checkbox"
-                                    defaultChecked={checked.find((y) => y.uid == item.uid)? true: false}
+                                    checked={checked.find((y) => y.uid == item.uid)? true: false}
                                     onChange={(e) => createArr(item.uid, item)}
                                 /></td>
                                 <td>{item.Date}</td>
