@@ -2,6 +2,7 @@ const { gql } = require("apollo-server");
 
 module.exports = gql`
 type normCheck {
+  uid:String
     Date: String
     to_email: String
     Resource: String
@@ -19,6 +20,7 @@ type normCheck {
     Dep: String
   }
   type capacityLawson {
+    uid: String
     Dep: String  
 	  Date: String 
 	  Resource: String 
@@ -30,7 +32,23 @@ type normCheck {
 	  sumCapacity: String
 	  sumLawson: String
 	  variation: String
-	  status: String
+	  correction: String
+  }
+
+  input capacityLawsonInput {
+    type: String!
+    uid: String!
+    Dep: String  
+	  date: String! 
+	  resource: String!
+	  to_email: String!
+	  wbsCustomer: String!
+    workFolderCode: String
+    wbsCheck: String
+	  sumCapacity: String
+	  sumLawson: String
+	  var: String
+	  correction: String
   }
   type Response {
     success: String!
@@ -38,7 +56,8 @@ type normCheck {
   }
 
   input Norms {
-    id: Int
+    type: String!
+    uid: String
     to_email: String
     date: String
     resource: String
@@ -63,6 +82,6 @@ extend  type Query  {
 } 
 
 extend type Mutation {
-  sendNotifications (data: [Norms]):Response!
+  sendNotifications (data: [Norms], data2:[capacityLawsonInput]):Response!
 }
 `;

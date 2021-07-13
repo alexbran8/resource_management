@@ -1,7 +1,8 @@
 --get recorded entries
+select final.upi, final.engineer, final.type, SUM(days), final.week FROM ( 
 select *, ROW_NUMBER () OVER (
 	    PARTITION BY upi 
-	) rank_number, EXTRACT(week FROM make_date(2021,6,1)) as min_week, EXTRACT(week FROM make_date(2021,6,1)+ interval '1 month' - interval '1 day') as max_week FROM (
+	) rank_number,  EXTRACT(week FROM make_date(2021,6,1)) as min_week, EXTRACT(week FROM make_date(2021,6,1)+ interval '1 month' - interval '1 day') as max_week FROM (
 select 
 employees.upi, lastname || ', '|| firstname AS Engineer, 
 events.type, events.start, events.end,
@@ -12,7 +13,7 @@ EXTRACT(week FROM events.start) +1 as week,  'initial' as "whereFrom"  FROM (
 	FROM public.events 
  where 
  events.type in ('Hotline', 'On Call','Morning Tasks') 
- and 
+ and  
  extract(month from events.start) = 6
  and 
  extract(year from events.start) = 2021
@@ -33,7 +34,7 @@ null as week,
 (SELECT events.start, events."end", events.nokiaid, events.title, events."bgColor", events.type, events.status, events.replacement, events."createdBy", events.id
 	FROM public.events 
  where 
- events.type in ('Hotline', 'On Call','Morning Tasks') 
+ events.type in ('On Call') 
  and 
  extract(month from events.start) = 6
  and 
@@ -43,4 +44,5 @@ null as week,
 LEFT JOIN 
 (SELECT employees.firstname, employees.lastname, employees.upi, employees.activity,  employees.employeer, nokiaid from public.employees) as employees
 ON events.nokiaid = employees.nokiaid) where  employees.activity = 'Check KPI/Coupure - Bytel Project' 
-	)  as final where upi = 'N69165925'
+	)  as test ) as final
+	GROUP BY final.upi, final.engineer, final.type, final.week, final."whereFrom" order by upi, type
