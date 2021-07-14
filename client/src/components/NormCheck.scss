@@ -69,7 +69,7 @@ button {
     // position: sticky;
     top: 140px;
     background-color: white;
-    border: 2px #7b8d9b solid;
+    // border: 2px #7b8d9b solid;
     height: 300px;
     z-index: -1;
     display: flex;
@@ -77,11 +77,13 @@ button {
 
   .left-container {
     flex: 1 1 80%;
+    border: 2px #7b8d9b solid;
   }
   
   .right-container {
     flex: 1 1 20%;
     display: flex;
+    border: 2px #7b8d9b solid;
     // font-size: x-small;
     flex-direction: column;
     overflow-y:auto

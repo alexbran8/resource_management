@@ -127,7 +127,6 @@ const NormCheck = () => {
                 res[value.Resource].qty += value.qty;
                 return res;
             }, {});
-            console.log(result3)
             setuResources(result3)
             setCapLawsonItems(dataLC.capacityLawsonQuery)
         }
@@ -308,8 +307,11 @@ const NormCheck = () => {
 
                 <div className='reportingConatiner'  style={{height:style.logoHeight, fontSize:style.fontSize}}>
                 <div className="left-container">RIGHT container</div>
-                <div className="right-container">RIGHT container
-                {checked && checked.map(item => <ul key={item.uid}>{item.uid}{item.to_email}, {item.date}, {item.taskComments}</ul>)}
+                <div className="right-container"><h5 style={{fontSize:style.fontSize}}>Selected items:</h5>
+                <ul>
+                {checked && checked.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.taskComments}</li>)}
+                {checkedLC && checkedLC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.variation}</li>)}
+                </ul>
                 </div>
                 
                 </div>
