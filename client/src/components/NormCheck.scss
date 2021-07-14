@@ -35,7 +35,7 @@ button {
   
   .normsTable th {
     position: sticky;
-    top: 270px; //140
+    top: 240px; //140
     background: #7b8d9b;
     border: 3px #7b8d9b solid;
   }
@@ -70,6 +70,19 @@ button {
     top: 140px;
     background-color: white;
     border: 2px #7b8d9b solid;
-    height: 130px;
+    height: 300px;
     z-index: -1;
+    display: flex;
+  }
+
+  .left-container {
+    flex: 1 1 80%;
+  }
+  
+  .right-container {
+    flex: 1 1 20%;
+    display: flex;
+    // font-size: x-small;
+    flex-direction: column;
+    overflow-y:auto
   }

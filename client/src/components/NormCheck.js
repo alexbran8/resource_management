@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { Table, Container, Row, Col, Checkbox, CardGroup } from 'react-bootstrap'
 import { Button } from 'reactstrap'
@@ -76,11 +76,16 @@ const GET_CAPACITY_LAWSON = gql`
 `;
 
 const NormCheck = () => {
+    const [scrolling, setScrolling] = useState(false);
+    const [scrollTop, setScrollTop] = useState(0);
     const [checked, setChecked] = useState([])
     const [checkedLC, setCheckedLC] = useState([])
     const [status, setStatus] = useState()
     const [capacityItems, setCapacityItems] = useState()
     const [capLawsonItems, setCapLawsonItems] = useState()
+    const [style, setStyle] = useState({style: {
+        logoHeight: 200
+    }})
     const [uResources, setuResources] = useState()
     const [uDeps, setuDeps] = useState()
     const [selected, setSelected] = useState(0)
@@ -169,10 +174,14 @@ const NormCheck = () => {
     };
 
     const createArr = (uid, item) => {
-        if (checked.find((y) => y.uid == uid)) {
-            checked.find((y) => checked.splice(y, 1))
+        if (checked.find((y) => y.uid == item.uid)) {
+            // checked.find((y) => checked.splice(y, 1))
+            checked.splice(checked.findIndex(function(i){
+                return i.uid === uid;
+            }), 1);
             setSelected(checkedLC.length + checked.length)
         } else {
+            
             checked.push({
                 type: 'norms',
                 uid: uid, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments,
@@ -191,9 +200,27 @@ const NormCheck = () => {
 
     }
 
+    const handler = () => {
+        var fontSize = '100%';
+		let scrollTop = window.scrollY,
+				minHeight = 100,
+				logoHeight = Math.max(minHeight, 300 - scrollTop);
+        logoHeight == 100 ? fontSize = '75%' : fontSize = '100%';
+		setStyle({
+				logoHeight: logoHeight,
+                fontSize:fontSize
+			});
+		
+	}
+
+    useEventListener("scroll", handler);
+
+
     const createArrLC = (uid, item) => {
         if (checkedLC.find((y) => y.uid == uid)) {
-            checkedLC.find((y) => checkedLC.splice(y, 1))
+            checkedLC.splice(checkedLC.findIndex(function(i){
+                return i.uid === uid;
+            }), 1);
             setSelected(checkedLC.length + checked.length)
         } else {
             checkedLC.push({
@@ -279,16 +306,16 @@ const NormCheck = () => {
                     </form>
                 </div>
 
-                <div className='reportingConatiner'>
-                    Reporting Container
+                <div className='reportingConatiner'  style={{height:style.logoHeight, fontSize:style.fontSize}}>
+                <div className="left-container">RIGHT container</div>
+                <div className="right-container">RIGHT container
+                {checked && checked.map(item => <ul key={item.uid}>{item.uid}{item.to_email}, {item.date}, {item.taskComments}</ul>)}
                 </div>
-                <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
+                
+                </div>
             </div>
 
-            <div className="main-container">
-
-                <div className="left-container">
-                    <div>
+            <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
                     <Table striped bordered hover className="normsTable">
 
                         <thead>
@@ -368,8 +395,8 @@ const NormCheck = () => {
                             })}
                         </tbody>
                     </Table>
-                    </div>
-                    <div>
+                    
+                    
                         LAWSON VS. CAPACITY
                         <Table striped bordered hover className="normsTable">
 
@@ -413,6 +440,7 @@ const NormCheck = () => {
                                 {capLawsonItems && capLawsonItems.map((item, index) => {
                                     return (
                                         <tr key={item.uid}>
+                                            <td>{item.uid}</td>
                                             <td> <input
                                                 type="checkbox"
                                                 checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
@@ -433,12 +461,38 @@ const NormCheck = () => {
                                 })}
                             </tbody>
                         </Table>
-                        <div className="right-container">RIGHT container</div>
                     </div>
-                </div>
-            </div>
-        </div>
     )
 }
 
 export default NormCheck
+
+// Hook
+function useEventListener(eventName, handler, element = window) {
+    // Create a ref that stores handler
+    const savedHandler = useRef();
+    // Update ref.current value if handler changes.
+    // This allows our effect below to always get latest handler ...
+    // ... without us needing to pass it in effect deps array ...
+    // ... and potentially cause effect to re-run every render.
+    useEffect(() => {
+      savedHandler.current = handler;
+    }, [handler]);
+    useEffect(
+      () => {
+        // Make sure element supports addEventListener
+        // On
+        const isSupported = element && element.addEventListener;
+        if (!isSupported) return;
+        // Create event listener that calls handler function stored in ref
+        const eventListener = (event) => savedHandler.current(event);
+        // Add event listener
+        element.addEventListener(eventName, eventListener);
+        // Remove event listener on cleanup
+        return () => {
+          element.removeEventListener(eventName, eventListener);
+        };
+      },
+      [eventName, element] // Re-run if eventName or element changes
+    );
+  }
