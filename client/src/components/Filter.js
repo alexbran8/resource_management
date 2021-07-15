@@ -3,7 +3,7 @@ import Axios from "axios";
 import { config } from '../config';
 var moment = require("moment");
 
-const Filter = () => {
+const Filter = (props) => {
     const [events, setEvents] = useState()
     const [teams, setTeams] = useState()
     const [LM, setLM] = useState()
@@ -112,6 +112,7 @@ const Filter = () => {
                 className="form-control p-2 m-3 col"
                 defaultValue=""
                 onChange={(e) => {
+                  props.filter(e.target.value, 'team')
                 //   const teamObj = { ...this.state.filter };
                 //   teamObj.team = e.target.value;
                 //   this.setState({ filter: teamObj });
@@ -132,7 +133,8 @@ const Filter = () => {
                 className="form-control p-2 m-3 col"
                 defaultValue=""
                 onChange={(e) => {
-                //   const coordObj = { ...this.state.filter };
+                  props.filter(e.target.value, 'coordinator')
+                
                 //   coordObj.coordinator = e.target.value;
                 //   this.setState({ filter: coordObj });
                 }}
@@ -154,6 +156,7 @@ const Filter = () => {
                 className="form-control p-2 m-3 col"
                 defaultValue=""
                 onChange={(e) => {
+                  props.filter(e.target.value, 'employeers')
                 //   const empObj = { ...this.state.filter };
                 //   empObj.employeers = e.target.value;
                 //   this.setState({ filter: empObj });
@@ -176,6 +179,7 @@ const Filter = () => {
                 className="form-control p-2 m-3 col"
                 defaultValue=""
                 onChange={(e) => {
+                  props.filter(e.target.value, 'resources')
                 //   const resObj = { ...this.state.filter };
                 //   resObj.resources = e.target.value;
                 //   this.setState({ filter: resObj });
@@ -200,7 +204,7 @@ const Filter = () => {
                       className="checkbox"
                       type="checkbox"
                       checked={state.admin}
-                      onChange={(e) => onChangeCheckBox("admin", e)}
+                      onChange={(e) => props.filter(e.target.value, 'admin')}
                     />
                 administrative
               </label>
@@ -209,7 +213,7 @@ const Filter = () => {
                       className="checkbox"
                       type="checkbox"
                       checked={state.operational}
-                      onChange={(e) => onChangeCheckBox("operational", e)}
+                      onChange={(e) =>   props.filter(e.target.value, 'operational')}
                     />
                 operational
               </label>

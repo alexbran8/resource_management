@@ -55,7 +55,9 @@ UsersController.get("/get/:id?", async (req, res, next) => {
 });
 
 UsersController.post("/get/filter", async (req, res, next) => {
-  const { line_manager, team, coordinator, employeers, resources } = req.body;
+  const { line_manager, team, coordinator, employeers, resources, admin, operational } = req.body;
+
+console.log('admin',admin);
 
   const resField = "FISTNAME, LASTNAME";
 
@@ -118,6 +120,7 @@ UsersController.post("/edit", async (req, res, next) => {
     city,
     employeer,
     email,
+    upi,
     level,
     main_team,
     second_team,
@@ -147,6 +150,7 @@ UsersController.post("/edit", async (req, res, next) => {
       city,
       employeer,
       email,
+      upi,
       level,
       main_team,
       second_team,

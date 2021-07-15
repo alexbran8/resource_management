@@ -442,7 +442,6 @@ const NormCheck = () => {
                                 {capLawsonItems && capLawsonItems.map((item, index) => {
                                     return (
                                         <tr key={item.uid}>
-                                            <td>{item.uid}</td>
                                             <td> <input
                                                 type="checkbox"
                                                 checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}

@@ -108,13 +108,13 @@ return content2
 if (content != '') {
   table1=' <p> Tasks in capacity tool</p>' +
   '<table border="1" style="border-collapse:collapse;text-align:center;padding-left: 20px;padding-right: 20px;"><thead style="background-color:powderblue;">'+
-  '<tr><th>RESOURCE</th><th>DATE</th><th>TC</th><th>TWC</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead>'+
+  '<tr><th>RESOURCE</th><th>DATE</th><th>Comments</th><th>Time Writting Comments</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead>'+
   '<tbody></tbody> ' + content + '</tbody></table> '
 } 
 if (content2 != '') {
    table2= '<p>lawson vs capacity check</p>'+
   '<table border="1" style="border-collapse:collapse;text-align:center;padding-left: 20px;padding-right: 20px;"><thead style="background-color:powderblue;">'+
-  '<tr><th>RESOURCE</th><th>DATE</th><th>TC</th><th>TWC</th><th>WBS CHECK</th><th>LAWSON</th><th>CAPACITY</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead>'+
+  '<tr><th>RESOURCE</th><th>DATE</th><th>WBS CAPACITY</th><th>WBS LAWSON</th><th>WBS CHECK</th><th>LAWSON</th><th>CAPACITY</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead>'+
   '<tbody></tbody> ' + content2 + '</tbody></table> '
 } else { table2= '<div></div>'}
 
@@ -130,5 +130,7 @@ if (content2 != '') {
      '<p> Regards,</p><p>Nokia Planning Tool, on behalf of ' + context.user + '  </p></div>'
   };
   
+  // emailHandler(metadata).catch(console.error)
+
   process.env.NODE_ENV === `development` ? console.log(metadata.html) : emailHandler(metadata).catch(console.error);
 }

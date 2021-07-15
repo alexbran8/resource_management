@@ -33,6 +33,13 @@ const Calendar = () => {
   const [slot, setSlot] = useState()
   const [types, setTypes] = useState()
   const [editEvent, setEditEvent] = useState()
+  const [filter, setFilter]=useState({line_manager: "",
+  team: "",
+  coordinator: "",
+  employeers: "",
+  resources: "",
+  admin: true,
+  operational: false})
   // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState()
   const [refresh, setRefresh] = useState(1);
@@ -119,6 +126,7 @@ const Calendar = () => {
 
   useEffect(() => {
     getType();
+    
     Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, params, {withCredentials: true})
       .then(res => {
         const fmtEvents = res.data.schedule.reduce((prev, entry) => {
@@ -148,6 +156,8 @@ const Calendar = () => {
           });
           return prev;
         }, []);
+        // setResources(fmtUsers)
+        console.log(fmtUsers)
         schedulerData.setResources(fmtUsers);
 
       }
@@ -312,11 +322,59 @@ const updateData = (data) => {
     resources: "",
     admin: true,
     operational: false,
+
+   
   }
+  const _filter = (value, field) => {
+    
+    filter[field] = value
+       Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, filter, {withCredentials: true})
+    .then(res => {
+      console.log('here')
+      const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
+        prev.push({
+          id: entry.nokiaid,
+          name: `${entry.lastname}, ${entry.firstname}`,
+        });
+        return prev;
+      }, []);
+      // setResources(fmtUsers)
+      console.log(fmtUsers)
+      schedulerData.setResources(fmtUsers);
+      setCount(0)
+
+    }
+
+    )
+  }
+
+  // const filter = async (propsData) => {
+  //   var data2 = []
+    
+  //   filter2()
+
+  //   // Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, data, {withCredentials: true})
+  //   // .then(res => {
+  //   //   const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
+  //   //     prev.push({
+  //   //       id: entry.nokiaid,
+  //   //       name: `${entry.lastname}, ${entry.firstname}`,
+  //   //     });
+  //   //     return prev;
+  //   //   }, []);
+  //   //   // setResources(fmtUsers)
+  //   //   // console.log(fmtUsers)
+  //   //   // schedulerData.setResources(fmtUsers);
+
+  //   // }
+
+  //   // )
+  // }
 
   return (
     <div>
-      <Filter />
+      <Filter 
+      filter={(value, field) => _filter(value, field)}/>
         {event || editEvent ? (
           <CustomModal
             resources={schedulerData.resources}
