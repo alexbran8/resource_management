@@ -5,6 +5,8 @@ import Axios from "axios";
 import 'react-big-scheduler/lib/css/style.css';
 import withDragDropContext from './withDnDContext';
 
+import DetailModal from "./DetailModal";
+
 import CustomModal from "./Modal";
 import Filter from "./Filter";
 import { config } from "../config";
@@ -240,7 +242,9 @@ const updateData = (data) => {
     //   return;
     // }
   };
-
+  const resetSlot= () => {
+    setSlot(undefined);
+  }
 
 
 
@@ -279,7 +283,7 @@ const updateData = (data) => {
   const slotClickedFunc = (schedulerData, slot) => {
     console.log(slot)
     setSlot(slot.slotId);
-    console.log(slot)
+    
   };
   const newEvent = async (schedulerData, slotId, slotName, start, end, type, item) => {
     let newEvent = {
@@ -327,8 +331,8 @@ const updateData = (data) => {
         ) : null}
       {slot ? (
         <DetailModal
-          level={this.props.role}
-          resetSlot={() => this.resetSlot()}
+          level={sessionStorage.getItem('roles')}
+          resetSlot={() => resetSlot()}
           id={slot}
         />
       ) : null}

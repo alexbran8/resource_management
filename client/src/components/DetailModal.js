@@ -9,7 +9,7 @@ class DetailModal extends Component {
     this.state = { info: undefined, edit: false, checkPassword: '' }
   }
   async componentDidMount() {
-    const info = await Axios.get(`${ config.baseURL + config.baseLOCATION }/usersPrivate/get/${this.props.id}`)
+    const info = await Axios.get(`${ config.baseURL + config.baseLOCATION }/usersPrivate/get/${this.props.id}`, {withCredentials: true})
     if (!info) {
       alert('failed')
     }
@@ -59,7 +59,7 @@ class DetailModal extends Component {
 
   async sendChanges(data) {
     data.checkPassword = this.state.checkPassword
-    const sendData = Axios.post(`${ config.baseURL + config.baseLOCATION }/usersPrivate/edit`, data)
+    const sendData = Axios.post(`${ config.baseURL + config.baseLOCATION }/usersPrivate/edit`, data, {withCredentials: true})
     if (!sendData) {
       alert('failed')
     }
@@ -67,12 +67,15 @@ class DetailModal extends Component {
   }
 
   async deleteAccount(data) {
-    const deleteData = Axios.delete(`${ config.baseURL + config.baseLOCATION }/usersPrivate/delete/${data}`)
+    const deleteData = Axios.delete(`${ config.baseURL + config.baseLOCATION }/usersPrivate/delete/${data}`,{withCredentials:true})
     if (!deleteData) {
       alert('failed')
     }
     window.location.reload()
   }
+
+
+
 
   render() {
     const info = this.state.info
@@ -109,7 +112,6 @@ class DetailModal extends Component {
                   this.renderEditRows('City', 'city'),
                   this.renderEditRows('Employeer', 'employeer'),
                   this.renderEditRows('Email', 'email'),
-                  this.renderEditRows('Level', 'level'),
                   this.renderEditRows('Main Team', 'main_team'),
                   this.renderEditRows('Second Team', 'second_team'),
                   this.renderEditRows('Third Team', 'third_team'),
@@ -125,9 +127,6 @@ class DetailModal extends Component {
                   this.renderEditRows('TPM Last Name', 'tpm_lastname'),
                   this.renderEditRows('LM First Name.', 'line_manager_firstname'),
                   this.renderEditRows('LM Last Name', 'line_manager_lastname'),
-                  this.props.level
-                    ? this.renderEditRows('New password', 'password')
-                    : null
                 ]}
               </>
             )}
