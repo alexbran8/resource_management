@@ -38,8 +38,8 @@ const Calendar = () => {
   coordinator: "",
   employeers: "",
   resources: "",
-  admin: true,
-  operational: false})
+  admin: "",
+  operational: ""})
   // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState()
   const [refresh, setRefresh] = useState(1);
@@ -330,7 +330,7 @@ const updateData = (data) => {
     filter[field] = value
        Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, filter, {withCredentials: true})
     .then(res => {
-      console.log('here')
+      console.log(value,'here', field)
       const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
         prev.push({
           id: entry.nokiaid,

@@ -204,7 +204,7 @@ const Filter = (props) => {
                       className="checkbox"
                       type="checkbox"
                       checked={state.admin}
-                      onChange={(e) => props.filter(e.target.value, 'admin')}
+                      onChange={(e) => {props.filter(!state.admin, 'admin');state.admin = !state.admin}}
                     />
                 administrative
               </label>
@@ -213,7 +213,9 @@ const Filter = (props) => {
                       className="checkbox"
                       type="checkbox"
                       checked={state.operational}
-                      onChange={(e) =>   props.filter(e.target.value, 'operational')}
+                      onChange={(e) => {props.filter(!state.operational, 'operational'); state.operational = !state.operational
+
+                    }}
                     />
                 operational
               </label>
@@ -221,15 +223,6 @@ const Filter = (props) => {
               </div>
 
 
-              <button
-                className="btn btn-success m-3"
-                onClick={(e) => {
-                  e.preventDefault();
-                //   this.filter(this.state.filter);
-                }}
-              >
-                Filter
-              </button>
               <button
                 className="btn btn-warning m-3"
                 onClick={(e) => {
