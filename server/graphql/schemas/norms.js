@@ -55,6 +55,12 @@ type normCheck {
     message: String!
   }
 
+  type Tasks {
+    Capacity: String
+    Norm_OK: String
+    Norm_NOK_RA: String
+  }
+
   input Norms {
     type: String!
     uid: String
@@ -79,6 +85,7 @@ extend  type Query  {
     normCheckQuery(department: String!): [normCheck]
     capacityLawsonQuery(department: String!): [capacityLawson]
     normCheckQueryNA: [normCheck]
+    getTasksQuery(department: String!): [Tasks]
 } 
 
 extend type Mutation {

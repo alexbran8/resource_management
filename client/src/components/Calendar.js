@@ -6,13 +6,14 @@ import 'react-big-scheduler/lib/css/style.css';
 import withDragDropContext from './withDnDContext';
 
 import DetailModal from "./DetailModal";
+import OperationalModal from "./Operational_Modal";
 
 import CustomModal from "./Modal";
 import Filter from "./Filter";
 import { config } from "../config";
 
 let schedulerData = new SchedulerData(new Date(), ViewTypes.Week, false, false,
- {schedulerMaxHeight: 800}
+//  {schedulerMaxHeight: 1800}
 );
 schedulerData.localeMoment.locale('en');
 
@@ -32,7 +33,7 @@ const Calendar = () => {
   const [event, setEvent] = useState()
   const [slot, setSlot] = useState()
   const [types, setTypes] = useState()
-  const [params, setParams] = useState({ 'admin': true, 'operational': false })
+  const [params, setParams] = useState({ 'admin': false, 'operational': true })
   const [editEvent, setEditEvent] = useState()
   const [filter, setFilter]=useState({line_manager: "",
   team: "",
@@ -162,6 +163,7 @@ const Calendar = () => {
       }
 
       )
+      // setCount(1)
   }, []);
 
   const onViewChange = (schedulerData, view) => {
@@ -346,9 +348,9 @@ const updateData = (data) => {
     )
   }
   const _eventsFilter = (state, field) => {
-    // console.log(value, field)
-    // params[field] = value[field]
-    // console.log(params)
+
+    setParams(state)
+
     Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, state, {withCredentials: true})
       .then(res => {
         const fmtEvents = res.data.schedule.reduce((prev, entry) => {
@@ -401,8 +403,20 @@ const updateData = (data) => {
       filter={(value, field) => _filter(value, field)}
       eventsFilter={(value, field) => _eventsFilter(value, field)}
       />
-        {event || editEvent ? (
+        {(event || editEvent) && params.admin === true   ? (
           <CustomModal
+            resources={schedulerData.resources}
+            reset={() => reset()}
+            resetEdit={() => resetEdit()}
+            event={event}
+            editEvent={editEvent}
+            sendData={(e) => sendData(e, schedulerData)}
+            updateData={(e) => updateData(e)}
+            types={types}
+          />
+        ) : null}
+        {(event || editEvent) && params.operational === true   ? (
+          <OperationalModal
             resources={schedulerData.resources}
             reset={() => reset()}
             resetEdit={() => resetEdit()}

@@ -20,6 +20,13 @@ const emailHandler = async (metadata) => {
 
 module.exports = {
   Query: {
+    async getTasksQuery(root, args, context) {
+      console.log(args)
+      let result = await db.query(`SELECT "Capacity",  "Norm_OK", "Norm_NOK_RA" FROM  public.npt_norms_capacity where "Department" = ('${args.department}')`);
+      await console.log(result)
+      return result[0];
+
+    },
     async normCheckQuery(root, args, context) {
       console.log(args)
       let result = await db.query(`SELECT * FROM get_norms_check('${args.department}')`);

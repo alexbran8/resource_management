@@ -11,7 +11,7 @@ const Filter = (props) => {
     const [employeers, setEmployeers] = useState()
     const [resources, setResources] = useState()
     let params = { 'admin': true, 'operational': false }
-    const [state, setState] = useState({ admin: true, operational: false });
+    const [state, setState] = useState({ admin: false, operational: true });
     let initData = {
         line_manager: "",
         team: "",
