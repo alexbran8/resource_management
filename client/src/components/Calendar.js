@@ -32,14 +32,13 @@ const Calendar = () => {
   const [event, setEvent] = useState()
   const [slot, setSlot] = useState()
   const [types, setTypes] = useState()
+  const [params, setParams] = useState({ 'admin': true, 'operational': false })
   const [editEvent, setEditEvent] = useState()
   const [filter, setFilter]=useState({line_manager: "",
   team: "",
   coordinator: "",
   employeers: "",
-  resources: "",
-  admin: "",
-  operational: ""})
+  resources: ""})
   // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState()
   const [refresh, setRefresh] = useState(1);
@@ -312,7 +311,7 @@ const updateData = (data) => {
     setEvent(newEvent)   
   };
 
-  let params = { 'admin': true, 'operational': false }
+  
 
   let data = {
     line_manager: "",
@@ -326,7 +325,6 @@ const updateData = (data) => {
    
   }
   const _filter = (value, field) => {
-    
     filter[field] = value
        Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, filter, {withCredentials: true})
     .then(res => {
@@ -346,6 +344,32 @@ const updateData = (data) => {
     }
 
     )
+  }
+  const _eventsFilter = (state, field) => {
+    // console.log(value, field)
+    // params[field] = value[field]
+    // console.log(params)
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, state, {withCredentials: true})
+      .then(res => {
+        const fmtEvents = res.data.schedule.reduce((prev, entry) => {
+          prev.push({
+            id: entry.id,
+            start: moment(entry.start).format("YYYY-MM-DD h:mm:ss"),
+            end: moment(entry.end).format("YYYY-MM-DD h:mm:ss"),
+            resourceId: entry.nokiaid,
+            title: entry.title,
+            bgColor: entry.bgColor,
+            type: entry.type,
+            replacement: entry.replacement,
+          });
+          return prev;
+        }, []);
+        viewModal2.setEvents(fmtEvents);
+        setEvents(fmtEvents)
+        setCount(0)
+
+      }
+      )
   }
 
   // const filter = async (propsData) => {
@@ -374,7 +398,9 @@ const updateData = (data) => {
   return (
     <div>
       <Filter 
-      filter={(value, field) => _filter(value, field)}/>
+      filter={(value, field) => _filter(value, field)}
+      eventsFilter={(value, field) => _eventsFilter(value, field)}
+      />
         {event || editEvent ? (
           <CustomModal
             resources={schedulerData.resources}

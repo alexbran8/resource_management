@@ -204,7 +204,7 @@ const Filter = (props) => {
                       className="checkbox"
                       type="checkbox"
                       checked={state.admin}
-                      onChange={(e) => {props.filter(!state.admin, 'admin');state.admin = !state.admin}}
+                      onChange={(e) => {state.admin = !state.admin;state.operational = !state.operational;props.eventsFilter(state, 'admin');}}
                     />
                 administrative
               </label>
@@ -213,7 +213,7 @@ const Filter = (props) => {
                       className="checkbox"
                       type="checkbox"
                       checked={state.operational}
-                      onChange={(e) => {props.filter(!state.operational, 'operational'); state.operational = !state.operational
+                      onChange={(e) => {state.operational = !state.operational; state.admin = !state.admin;props.eventsFilter(state, 'operational')
 
                     }}
                     />
