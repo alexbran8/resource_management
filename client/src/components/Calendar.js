@@ -76,7 +76,7 @@ const Calendar = () => {
       data.type = "Null";
     }
     
-    // const response = await Axios.post(`${ config.baseURL + baseLOCATION }/schedule/add`, data, {withCredentials: true} );
+    const response = await Axios.post(`${ config.baseURL + baseLOCATION }/schedule/add`, data, {withCredentials: true} );
 
     console.log('data',data);
     if (data.id === undefined) {
@@ -186,7 +186,7 @@ const Calendar = () => {
       )
         console.log(schedulerData)
         schedulerData.removeEvent(event);
-        // Axios.delete(`${ config.baseURL + config.baseLOCATION }/schedule/delete/${event.id}`, event,  {withCredentials: true});
+        Axios.delete(`${ config.baseURL + config.baseLOCATION }/schedule/delete/${event.id}`, event,  {withCredentials: true});
         
         setViewModal2(schedulerData);
         setCount(1)
@@ -206,13 +206,13 @@ const updateData = (data) => {
     if (data.type === undefined || data.type === null || data.type === "") {
       data.type = "Null";
     }
-    // const response = await Axios.post(
-    //   `${baseURL}/schedule/update/${data.id}`,
-    //   data, {withCredentials: true}
-    // );
-    // if (!response) {
-    //   alert("failed");
-    // }
+    const response = await Axios.post(
+      `${baseURL}/schedule/update/${data.id}`,
+      data, {withCredentials: true}
+    );
+    if (!response) {
+      alert("failed");
+    }
     console.log(events)
     console.log(data.id)
       events.map((item) => {
