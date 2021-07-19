@@ -58,7 +58,7 @@ const Calendar = () => {
 
 
   const sendData = async(data, viewModal) => {
-
+    data.schedulerData = ""
     console.log('sendData', data)
     data.status =
       localStorage.getItem("permisiuni") !== undefined
@@ -75,8 +75,18 @@ const Calendar = () => {
     if (data.type === undefined || data.type === null || data.type === "") {
       data.type = "Null";
     }
-    
-    const response = await Axios.post(`${ config.baseURL + baseLOCATION }/schedule/add`, data, {withCredentials: true} );
+    // console.log(data.findIndex(x => x == 'headers'))
+    // data.headers = ""
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/add`,  data, {withCredentials: true})
+    // const response = await Axios.post(`${ config.baseURL + config.baseLOCATION }/schedule/add`, data, {method: "POST",credentials: "include",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Credentials": true,
+    //     "Access-Control-Allow-Origin": '*'
+    //   }},
+    // {withCredentials: true} 
+    // );
 
     console.log('data',data);
     if (data.id === undefined) {
@@ -186,7 +196,7 @@ const Calendar = () => {
       )
         console.log(schedulerData)
         schedulerData.removeEvent(event);
-        Axios.delete(`${ config.baseURL + config.baseLOCATION }/schedule/delete/${event.id}`, event,  {withCredentials: true});
+        Axios.delete(`${ config.baseURL + config.baseLOCATION }/schedule/delete/${event.id}`,  {withCredentials: true});
         
         setViewModal2(schedulerData);
         setCount(1)
@@ -195,7 +205,7 @@ const Calendar = () => {
       return;
     }
   };
-const updateData = (data) => {
+const updateData = async(data) => {
     if (
       data.bgColor === undefined ||
       data.bgColor === null ||
