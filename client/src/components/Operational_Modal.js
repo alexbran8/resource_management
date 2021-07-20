@@ -62,7 +62,7 @@ const OperationalModal = (props) => {
   });
 
   const _addTask = () => {
-    // if (checked.length > 0 || checkedLC.length > 0) {
+    if (selected) {
     console.log('task status', status)
     console.log('comments', commentsField)
     props.event.schedulerData = ''
@@ -80,8 +80,8 @@ const OperationalModal = (props) => {
     }
     )
     props.updateState(data)
-    // }
-    // else { alert("please select some tasks...") }
+    }
+    else { alert("please select some task...") }
   }
 
 
@@ -146,6 +146,16 @@ const OperationalModal = (props) => {
           <br />
           <div className="checkboxContainer">
             <div className="checkbox">
+            <label>
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  checked={status}
+                  onChange={(e) => { e.target.checked === true ? setStatus(true) : setStatus(false); console.log(e.target.checked, status) }}
+                />
+                N/A
+              </label>
+
               <label>
                 <input
                   className="checkbox"

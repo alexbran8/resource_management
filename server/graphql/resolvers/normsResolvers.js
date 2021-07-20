@@ -74,7 +74,7 @@ module.exports = {
         newTask.task_admin = false;
         newTask.type = 'task';
         await newTask.save();
-        await saveNotifications(data.notifications, uuid)
+        data.notifications ? await saveNotifications(data.notifications, uuid): null
 
         
 

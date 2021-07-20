@@ -27,6 +27,7 @@ const resolvers = require("./graphql/resolvers");
 const context = require("./graphql/context");
 const jwt_decode =require( 'jwt-decode');
 const cron = require('node-cron');
+const sendScheduledNotifications = require('./middleware/scheduledNotifications')
 
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -116,7 +117,8 @@ const authCheck = (req, res, next) => {
   }
 };
 
-const authCheckMiddleware = require('./middleware/auth-check')
+const authCheckMiddleware = require('./middleware/auth-check');
+const { request } = require("http");
 app.use("/users", authCheck,  require("./controllers/users"));
 app.use("/usersPrivate", authCheck, require("./controllers/usersPrivate"));
 app.use("/schedule",  authCheck, require("./controllers/schedule"));
@@ -126,6 +128,7 @@ app.use("/types", find(Types));
 // Schedule tasks to be run on the server.
 cron.schedule('* * * * *', function() {
   console.log('running a task every minute');
+  sendScheduledNotifications()
 });
 
 
