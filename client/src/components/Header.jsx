@@ -116,14 +116,6 @@ export default class Header extends Component {
               <li className="nav-item">
                 <Link
                   className="nav-link text-white"
-                  to={config.baseLOCATION + "/approvals"}
-                >
-                  Approvals
-                      </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link text-white"
                   to={config.baseLOCATION + "/request"}
                 >
                   Add
@@ -142,6 +134,16 @@ export default class Header extends Component {
         </Collapse>
         <div className="navbar-text">
           <Nav navbar>
+          {sessionStorage.getItem('roles') === 'L3' ?
+          <>
+              <li className="nav-item">
+                <Link
+                  className="nav-link text-white"
+                  to={config.baseLOCATION + "/approvals"}
+                >
+                  Approvals
+                      </Link>
+              </li>
           <li className="nav-item">
             <Link
               className="nav-link text-white"
@@ -158,6 +160,8 @@ export default class Header extends Component {
               NormCheck
             </Link>
           </li>
+          </>
+          : null }
             <ul className="menu">
               {authenticated ? (
                 <Button color="danger" onClick={this._handleLogoutClick}>Logout {user.email}</Button>

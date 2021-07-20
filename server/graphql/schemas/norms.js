@@ -50,6 +50,13 @@ type normCheck {
 	  var: String
 	  correction: String
   }
+
+  input notificationInput {
+    value: String!
+    label: String!
+  }
+
+
   type Response {
     success: String!
     message: String!
@@ -59,7 +66,18 @@ type normCheck {
     Capacity: String
     Norm_OK: String
     Norm_NOK_RA: String
+    id: Int
   }
+
+  input addTask {
+    task: String!
+    status: String
+    comments: String
+    start: String
+    end: String
+    nokiaid:Int
+    id: Int
+   }
 
   input Norms {
     type: String!
@@ -89,6 +107,7 @@ extend  type Query  {
 } 
 
 extend type Mutation {
+  addTask(data:[addTask], notifications:[notificationInput]):Response!
   sendNotifications (data: [Norms], data2:[capacityLawsonInput]):Response!
 }
 `;

@@ -171,10 +171,10 @@ const Calendar = () => {
         schedulerData.setResources(fmtUsers);
 
       }
-
       )
-      // setCount(1)
-  }, []);
+      // setCount(0)
+  },
+[]);
 
   const onViewChange = (schedulerData, view) => {
     setEvents(schedulerData.events)

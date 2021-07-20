@@ -22,7 +22,7 @@ module.exports = {
   Query: {
     async getTasksQuery(root, args, context) {
       console.log(args)
-      let result = await db.query(`SELECT "Capacity",  "Norm_OK", "Norm_NOK_RA" FROM  public.npt_norms_capacity where "Department" = ('${args.department}')`);
+      let result = await db.query(`SELECT "Capacity",  "Norm_OK", "Norm_NOK_RA" , "id" FROM  public.npt_norms_capacity where "Department" = ('${args.department}')`);
       await console.log(result)
       return result[0];
 
@@ -46,6 +46,20 @@ module.exports = {
     }
   },
   Mutation: {
+    async addTask(root, data, context) {
+      try {
+      console.log(data.data[0])
+      console.log(data.notifications)
+      const response = { message: 'Added', success: true }
+      return response
+    }
+    catch (error) {
+      console.log(error)
+      const response = { message: error, success: false }
+      return response
+    }
+
+    },
     async sendNotifications(root, data, context) {
       try {
         var counter = 0;
