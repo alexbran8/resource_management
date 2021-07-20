@@ -4,7 +4,8 @@ const { db, transporterConfig } = require("../../config/configProvider")();
 const sequelize = require("sequelize");
 const { DataTypes, Op } = sequelize;
 const Schedule = require("../../models/schedule")(sequelize, DataTypes);
-const Notifications = require("../../models/dailyTasks.model")(sequelize, DataTypes);
+const Notifications = require("../../models/notifications.model")(sequelize, DataTypes);
+const { uid } = require( 'uid');
 
 const errorHandler = (err, req, res, next) => {
   const { code, desc = err.message } = err;
@@ -52,6 +53,7 @@ module.exports = {
   Mutation: {
     async addTask(root, data, context) {
       try {
+        uuid = uid(3)
         newTask = new Schedule(
           ({
             comments,
@@ -64,6 +66,7 @@ module.exports = {
           } = data.data[0])
         );
         newTask.status = 'L3';
+        newTask.uid = uuid
         newTask.bgColor = '#cc33ff';
         newTask.creationDate = new Date();
         newTask.title = data.data[0].task
@@ -71,7 +74,7 @@ module.exports = {
         newTask.task_admin = false;
         newTask.type = 'task';
         await newTask.save();
-        await saveNotifications(data.notifications)
+        await saveNotifications(data.notifications, uuid)
 
         
 
@@ -115,7 +118,29 @@ module.exports = {
       }
     }
   }
+  
 }
+
+function saveNotifications(data, uuid) {
+  console.log(data)
+  var notification = []
+  for (var i = 0; i < data.length; i++) {
+    const row = {
+      // status: data[i].task_status,
+      creationDate: Date.now(),
+      createdBy: data[i].nokiaid,
+      value: data[i].value,
+      task: data[i].task,
+      uid: uuid
+      // to_email: data[i].task_status,
+      // comments: data[i].task_status,
+    }
+    notification.push(row)
+  }
+  
+  Notifications.bulkCreate(notification)
+}
+
 
 function groupBy(objectArray, property) {
   return objectArray.reduce(function (acc, obj) {
@@ -179,22 +204,8 @@ function sendEmail(email, data, data2, context) {
 
   // emailHandler(metadata).catch(console.error)
 
-  function saveNotifications(data) {
-    var notification = {}
-    for (var i = 0; i < data.length; i++) {
-      const row = {
-        status: data[i].task_status,
-        creationDate: Date.now(),
-        value: data[i].task_status,
-        task: data[i].task_status,
-        to_email: data[i].task_status,
-        comments: data[i].task_status,
-      }
-        notification.push(row)
-      
-    }
-
-    Notifications.bulkCreate(notification)
+  
+    // Notifications.bulkCreate(notification)
       // .then(data => {
       //   res.status(200).send({
       //     message: "Import successfull!",
@@ -208,7 +219,7 @@ function sendEmail(email, data, data2, context) {
       //       err.message || "Some error occurred while creating the Project."
       //   });
       // });
-  }
+  
 
   process.env.NODE_ENV === `development` ? console.log(metadata.html) : emailHandler(metadata).catch(console.error);
 }

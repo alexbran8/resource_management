@@ -30,7 +30,8 @@
     "passport-azure-ad-oauth2": "^0.0.4",
     "passport-twitter": "^1.0.4",
     "pg": "^8.6.0",
-    "sequelize": "^6.6.4"
+    "sequelize": "^6.6.4",
+    "uid": "^2.0.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"

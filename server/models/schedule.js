@@ -47,7 +47,9 @@ module.exports = function (DataTypes) {
       task_status: {
         type: DataTypes.STRING,
       },
-
+      uid: {
+        type: DataTypes.STRING,
+      },
       replacement: { type: DataTypes.STRING },
       createdBy: { type: DataTypes.STRING },
     },
