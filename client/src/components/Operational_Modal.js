@@ -39,65 +39,68 @@ const OperationalModal = (props) => {
   const [notifications, setNotifications] = useState()
   const [commentsField, setComments] = useState()
   const [status, setStatus] = useState(true)
-  const [selected, setSelected]= useState()
+  const [selected, setSelected] = useState()
   const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_TASKS, {
     variables: { department: 'RADIO' }, onCompleted: () => {
-        console.log(data.getTasksQuery)     
-        setTasks(data.getTasksQuery)   
+      console.log(data.getTasksQuery)
+      setTasks(data.getTasksQuery)
     }
-});
-const [addTask] = useMutation(ADD_TASK, {
-  onCompleted: (data) => {
+  });
+  const [addTask] = useMutation(ADD_TASK, {
+    onCompleted: (data) => {
       setStatus(data.addTask.message);
       alert(data.addTask.message)
-  },
-  onError: (error) => { console.error("Error creating a post", error); alert("Error creating a post request " + error.message) },
-});
-const [editTask] = useMutation(EDIT_TASK, {
-  onCompleted: (data) => {
+    },
+    onError: (error) => { console.error("Error creating a post", error); alert("Error creating a post request " + error.message) },
+  });
+  const [editTask] = useMutation(EDIT_TASK, {
+    onCompleted: (data) => {
       setStatus(data.sendNotifications.message);
       alert(data.sendNotifications.message)
-  },
-  onError: (error) => { console.error("Error creating a post", error); alert("Error creating a post request " + error.message) },
-});
+    },
+    onError: (error) => { console.error("Error creating a post", error); alert("Error creating a post request " + error.message) },
+  });
 
-const _addTask = () => {
-  // if (checked.length > 0 || checkedLC.length > 0) {
+  const _addTask = () => {
+    // if (checked.length > 0 || checkedLC.length > 0) {
     console.log('task status', status)
     console.log('comments', commentsField)
-    props.event.schedulerData  = ''
-    let data = {task: selected.Capacity, comments: commentsField, start:props.event.start, end: props.event.end, nokiaid: props.event.nokiaid, status:status === true ? "OK" : "NOK",}
+    props.event.schedulerData = ''
+    let data = {
+      task: selected.Capacity, norm: status === true ? parseFloat(selected && selected.Norm_OK) : parseFloat(selected && selected.Norm_NOK_RA),
+      comments: commentsField, start: props.event.start, end: props.event.end, nokiaid: props.event.nokiaid, status: status === true ? "OK" : "NOK",
+    }
     console.log('event', props.event)
     console.log('notifications', notifications)
-      addTask({
-          variables: {
-              data:data,
-              notifications:notifications,
-              // data: checked,
-              // data2: checkedLC
-          }
+    addTask({
+      variables: {
+        data: data,
+        notifications: notifications,
+        // data: checked,
+        // data2: checkedLC
       }
-      )
-  // }
-  // else { alert("please select some tasks...") }
-}
-
-
-const _editTask = () => {
-  console.log('task edit')
-  if (checked.length > 0 || checkedLC.length > 0) {
-      editTask({
-          variables: {
-              data: checked,
-              data2: checkedLC
-          }
-      }
-      )
+    }
+    )
+    // }
+    // else { alert("please select some tasks...") }
   }
-  else { alert("please select some tasks...") }
-}
 
-return (
+
+  const _editTask = () => {
+    console.log('task edit')
+    if (checked.length > 0 || checkedLC.length > 0) {
+      editTask({
+        variables: {
+          data: checked,
+          data2: checkedLC
+        }
+      }
+      )
+    }
+    else { alert("please select some tasks...") }
+  }
+
+  return (
     <>
       <Modal
         show={true}
@@ -113,7 +116,7 @@ return (
         <Modal.Header closeButton>
           {props.event ? (
             <Modal.Title>
-              <div>ADD OPERATIONAL TASK: {" "} 
+              <div>ADD OPERATIONAL TASK: {" "}
                 {props.event.fullname}{" "}
               </div>
             </Modal.Title>
@@ -137,7 +140,7 @@ return (
             onChange={(e) => { console.log(e); setSelected(tasks.filter(item => item.id == e.value)[0]) }}
             isSearchable={true}
             name="color"
-            options={tasks && tasks.map(item => {return ({value:item.id, label:item.Capacity + ' (NOK:' + item.Norm_NOK_RA + ', OK:' + item.Norm_OK + ')'})})}
+            options={tasks && tasks.map(item => { return ({ value: item.id, label: item.Capacity + ' (NOK:' + item.Norm_NOK_RA + ', OK:' + item.Norm_OK + ')' }) })}
           />
           <br />
           <label htmlFor="type">Status</label>
@@ -149,7 +152,7 @@ return (
                   className="checkbox"
                   type="checkbox"
                   checked={status}
-                  onChange={(e) => { e.target.checked === true ? setStatus(true) : setStatus(false); console.log(e.target.checked,status) }}
+                  onChange={(e) => { e.target.checked === true ? setStatus(true) : setStatus(false); console.log(e.target.checked, status) }}
                 />
                 OK
               </label>
@@ -158,13 +161,13 @@ return (
                   className="checkbox"
                   type="checkbox"
                   checked={!status}
-                  onChange={(e) => { e.target.checked === false ? setStatus(true) : setStatus(false); console.log(e.target.checked,status) }}
+                  onChange={(e) => { e.target.checked === false ? setStatus(true) : setStatus(false); console.log(e.target.checked, status) }}
                 />
                 NOK
               </label>
               <>{selected ? <b>  Norm for selected tasks is: {status === true ? selected && selected.Norm_OK : selected && selected.Norm_NOK_RA} hours</b> : null}</>
             </div>
-            
+
           </div>
           <br />
           <label htmlFor="type">Comments</label>
@@ -175,7 +178,7 @@ return (
               props.editEvent ? props.editEvent.title : ""
             }
             className="form-control"
-            onChange={(e) => {setComments(e.target.value) }}
+            onChange={(e) => { setComments(e.target.value) }}
           />
           <br />
           <label htmlFor="type">START</label>
@@ -216,7 +219,7 @@ return (
           <Select
             defaultValue={[]}
             isMulti
-            onChange={e => {setNotifications(e)}}
+            onChange={e => { setNotifications(e) }}
             name="colors"
             options={[{ value: '1', label: '1 hour' }, { value: '12', label: '12 hours' },
             { value: '24', label: '24 hours' },
@@ -286,8 +289,8 @@ return (
           {console.log(props)}
           <button
             className="btn btn-primary"
-            onClick={ props.event ? _addTask : _editTask
-                // : () => _editTask
+            onClick={props.event ? _addTask : _editTask
+              // : () => _editTask
             }
           >
             {props.event ? <>Save Changes</> : <>Update Changes</>}

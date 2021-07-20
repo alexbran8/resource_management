@@ -74,6 +74,7 @@ type normCheck {
     status: String
     comments: String
     start: String
+    norm: Float
     end: String
     nokiaid:Int
     id: Int
