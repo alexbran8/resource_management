@@ -68,7 +68,7 @@ const OperationalModal = (props) => {
     props.event.schedulerData = ''
     let data = {
       task: selected.Capacity, norm: status === true ? parseFloat(selected && selected.Norm_OK) : parseFloat(selected && selected.Norm_NOK_RA),
-      comments: commentsField, start: props.event.start, end: props.event.end, nokiaid: props.event.nokiaid, status: status === true ? "OK" : "NOK",
+      comments: commentsField, start: props.event.start, end: props.event.end, nokiaid: props.event.nokiaid, task_status: status === true ? "OK" : "NOK",
     }
     console.log('event', props.event)
     console.log('notifications', notifications)
@@ -76,11 +76,10 @@ const OperationalModal = (props) => {
       variables: {
         data: data,
         notifications: notifications,
-        // data: checked,
-        // data2: checkedLC
       }
     }
     )
+    props.updateState(data)
     // }
     // else { alert("please select some tasks...") }
   }

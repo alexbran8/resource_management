@@ -40,6 +40,14 @@ module.exports = function (DataTypes) {
       status: {
         type: DataTypes.STRING,
       },
+      norm: {
+        type: DataTypes.NUMERIC,
+      },
+      creationDate:{type: DataTypes.DATE()},
+      task_status: {
+        type: DataTypes.STRING,
+      },
+
       replacement: { type: DataTypes.STRING },
       createdBy: { type: DataTypes.STRING },
     },

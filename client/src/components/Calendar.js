@@ -357,6 +357,30 @@ const updateData = async(data) => {
 
     )
   }
+
+  const updateState = (data) => {
+     let newEvent = {
+      // schedulerData: schedulerData,
+      id: 0,
+      start: data.start,
+      end: data.end,
+      nokiaid: data.nokiaid,
+      // createdBy: this.props.name,
+      status: 'L3',
+      // fullname: slotName,
+      // dayDiff: moment(end).diff(start, "days") + 1,
+      bgColor: "#cc33ff",
+      title: data.task,
+      start: data.start,
+      end: data.end,
+      resourceId: data.nokiaid,
+    };
+    schedulerData.addEvent(newEvent);
+    setViewModal(schedulerData);
+    setCount(0)
+  
+    setEvent(undefined)    
+  }
   const _eventsFilter = (state, field) => {
 
     setParams(state)
@@ -432,8 +456,7 @@ const updateData = async(data) => {
             resetEdit={() => resetEdit()}
             event={event}
             editEvent={editEvent}
-            sendData={(e) => sendData(e, schedulerData)}
-            updateData={(e) => updateData(e)}
+            updateState={(e) => updateState(e, data)}
             types={types}
           />
         ) : null}

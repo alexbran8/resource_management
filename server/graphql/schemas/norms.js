@@ -71,7 +71,7 @@ type normCheck {
 
   input addTask {
     task: String!
-    status: String
+    task_status: String
     comments: String
     start: String
     norm: Float
