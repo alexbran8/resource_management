@@ -205,6 +205,7 @@ const Calendar = () => {
       return;
     }
   };
+  
 const updateData = async(data) => {
     if (
       data.bgColor === undefined ||
