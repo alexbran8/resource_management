@@ -130,10 +130,7 @@ function saveNotifications(data, uuid) {
       creationDate: Date.now(),
       createdBy: data[i].nokiaid,
       value: data[i].value,
-      task: data[i].task,
       uid: uuid
-      // to_email: data[i].task_status,
-      // comments: data[i].task_status,
     }
     notification.push(row)
   }

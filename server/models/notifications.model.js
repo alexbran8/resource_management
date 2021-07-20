@@ -4,12 +4,6 @@ module.exports = function (DataTypes) {
   const notification = db.define(
     "scheduled_notifications",
     {
-      to_email: {
-        type: DataTypes.STRING,
-      },
-      task: {
-        type: DataTypes.STRING,
-      },
       uid: {
         type: DataTypes.STRING,
       },
