@@ -39,6 +39,7 @@ const OperationalModal = (props) => {
   const [notifications, setNotifications] = useState()
   const [commentsField, setComments] = useState()
   const [status, setStatus] = useState(true)
+  const [phase, setPhase] = useState(false)
   const [selected, setSelected] = useState()
   const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_TASKS, {
     variables: { department: 'RADIO' }, onCompleted: () => {
@@ -63,23 +64,23 @@ const OperationalModal = (props) => {
 
   const _addTask = () => {
     if (selected) {
-    console.log('task status', status)
-    console.log('comments', commentsField)
-    props.event.schedulerData = ''
-    let data = {
-      task: selected.Capacity, norm: status === true ? parseFloat(selected && selected.Norm_OK) : parseFloat(selected && selected.Norm_NOK_RA),
-      comments: commentsField, start: props.event.start, end: props.event.end, nokiaid: props.event.nokiaid, task_status: status === true ? "OK" : "NOK",
-    }
-    console.log('event', props.event)
-    console.log('notifications', notifications)
-    addTask({
-      variables: {
-        data: data,
-        notifications: notifications,
+      console.log('task status', status)
+      console.log('comments', commentsField)
+      props.event.schedulerData = ''
+      let data = {
+        task: selected.Capacity, norm: status === true ? parseFloat(selected && selected.Norm_OK) : parseFloat(selected && selected.Norm_NOK_RA),
+        comments: commentsField, start: props.event.start, end: props.event.end, nokiaid: props.event.nokiaid, task_status: status === true ? "OK" : "NOK",
       }
-    }
-    )
-    props.updateState(data)
+      console.log('event', props.event)
+      console.log('notifications', notifications)
+      addTask({
+        variables: {
+          data: data,
+          notifications: notifications,
+        }
+      }
+      )
+      props.updateState(data)
     }
     else { alert("please select some task...") }
   }
@@ -142,24 +143,29 @@ const OperationalModal = (props) => {
             options={tasks && tasks.map(item => { return ({ value: item.id, label: item.Capacity + ' (NOK:' + item.Norm_NOK_RA + ', OK:' + item.Norm_OK + ')' }) })}
           />
           <br />
-          <label htmlFor="type">Status</label>
-          <br />
+          <label htmlFor="type">PHASE</label>
           <div className="checkboxContainer">
             <div className="checkbox">
-            <label>
-                <input
-                  className="checkbox"
-                  type="checkbox"
-                  checked={status}
-                  onChange={(e) => { e.target.checked === true ? setStatus(true) : setStatus(false); console.log(e.target.checked, status) }}
-                />
-                N/A
-              </label>
-
               <label>
                 <input
                   className="checkbox"
                   type="checkbox"
+                  checked={phase}
+                  onChange={(e) => { e.target.checked === true ? setPhase(true) :setPhase(false) }}
+                />
+                Planned Operation
+              </label>
+            </div>
+          </div>
+          <br />
+          <label htmlFor="type">STATUS</label>
+          <div className="checkboxContainer">
+            <div className="checkbox">
+              <label>
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  disabled={phase}
                   checked={status}
                   onChange={(e) => { e.target.checked === true ? setStatus(true) : setStatus(false); console.log(e.target.checked, status) }}
                 />
@@ -169,6 +175,7 @@ const OperationalModal = (props) => {
                 <input
                   className="checkbox"
                   type="checkbox"
+                  disabled={phase}
                   checked={!status}
                   onChange={(e) => { e.target.checked === false ? setStatus(true) : setStatus(false); console.log(e.target.checked, status) }}
                 />
@@ -228,6 +235,7 @@ const OperationalModal = (props) => {
           <Select
             defaultValue={[]}
             isMulti
+            isDisabled={!phase}
             onChange={e => { setNotifications(e) }}
             name="colors"
             options={[{ value: '1', label: '1 hour' }, { value: '12', label: '12 hours' },

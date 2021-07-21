@@ -18,7 +18,10 @@ body {
   margin: auto;
   width: 400px;
 }
-
+body {
+  // overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
 .navbar {
   position: fixed;
   background: #912020;
@@ -32,7 +35,12 @@ body {
       #414141);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.filterForm  {
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
 
+}
 .button {
   background: $button-color;
   color: #fff;

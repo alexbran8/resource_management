@@ -78,7 +78,7 @@ const Filter = (props) => {
       }
     
 
-    return (<div>
+    return (<div className="filterForm">
          <>
             <form
               className="filter text-center row"
@@ -223,7 +223,7 @@ const Filter = (props) => {
               </div>
 
 
-              <button
+              {/* <button
                 className="btn btn-warning m-3"
                 onClick={(e) => {
                   e.preventDefault();
@@ -237,7 +237,7 @@ const Filter = (props) => {
                 }}
               >
                 Clear filter
-              </button>
+              </button> */}
             </form>
             {/* {this.state.resources.length > 0 ? (
               this.getSchedule()
