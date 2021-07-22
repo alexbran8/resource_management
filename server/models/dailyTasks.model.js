@@ -1,7 +1,10 @@
-const { db } = require("../config/configProvider")();
+// const { db } = require("../models")();
+// const db = require("../models");const db = require("./models");
 
-module.exports = function (DataTypes) {
-    const dailyTasks = db.define("dailyTasks", {
+// const { sequelize } = require(".");
+
+module.exports = function (DataTypes, seequelize) {
+    const dailyTasks = seequelize.define("dailyTasks", {
     //         id: {
     //     type: DataTypes.INTEGER,
     //     required: true,

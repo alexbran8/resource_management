@@ -1,57 +1,61 @@
-const { db } = require("../config/configProvider")();
 
-module.exports = function (DataTypes) {
-  const Event = db.define(
+
+
+module.exports = (sequelize, type) => {
+  const Event = sequelize.define(
     "events",
     {
       // id: {
-      //   type: DataTypes.INTEGER,
+      //   type: type.INTEGER,
       //   required: true,
       //   unique: true,
       //   primaryKey: true,
       // },
       start: {
-        type: DataTypes.DATE(),
+        type: type.DATE(),
         required: true,
       },
       end: {
-        type: DataTypes.DATE(),
+        type: type.DATE(),
         required: true,
       },
       nokiaid: {
-        type: DataTypes.INTEGER,
+        type: type.INTEGER,
         required: true,
       },
       title: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
       bgColor: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
       type: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
       task_admin: {
-        type:DataTypes.BOOLEAN
+        type:type.BOOLEAN
       },
       task_operational: {
-        type:DataTypes.BOOLEAN
+        type:type.BOOLEAN
+      },
+      notifications: {
+        type:type.BOOLEAN
       },
       status: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
       norm: {
-        type: DataTypes.NUMERIC,
+        type: type.NUMERIC,
       },
-      creationDate:{type: DataTypes.DATE()},
+      creationDate:{type: type.DATE()},
       task_status: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
       uid: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
-      replacement: { type: DataTypes.STRING },
-      createdBy: { type: DataTypes.STRING },
+      replacement: { type: type.STRING },
+      createdBy: { type: type.STRING },
     },
     { timestamps: false }
   );

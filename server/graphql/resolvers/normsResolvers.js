@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 const { db, transporterConfig } = require("../../config/configProvider")();
 const sequelize = require("sequelize");
 const { DataTypes, Op } = sequelize;
-const Schedule = require("../../models/schedule")(sequelize, DataTypes);
+// const Schedule = require("../../models/schedule")(sequelize, DataTypes);
 const Notifications = require("../../models/notifications.model")(sequelize, DataTypes);
 const { uid } = require( 'uid');
 
@@ -73,6 +73,7 @@ module.exports = {
         newTask.task_operational = true;
         newTask.task_admin = false;
         newTask.type = 'task';
+        newTask.notifications = data.notifications ? true: false;
         await newTask.save();
         data.notifications ? await saveNotifications(data.notifications, uuid): null
 

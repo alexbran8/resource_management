@@ -16,7 +16,8 @@ const keys = require("./config/keys");
 const cors = require("cors");
 const cookieParser = require("cookie-parser"); // parse cookie header
 const path = require("path");
-const config = require("./config/configProvider")();
+// const config = require("./config/configProvider")();
+const db = require("./models");
 
 const { ApolloServer } = require("apollo-server-express");
 var { graphqlHTTP } = require("express-graphql");
@@ -27,7 +28,7 @@ const resolvers = require("./graphql/resolvers");
 const context = require("./graphql/context");
 const jwt_decode =require( 'jwt-decode');
 const cron = require('node-cron');
-const sendScheduledNotifications = require('./middleware/scheduledNotifications')
+// const sendScheduledNotifications = require('./middleware/scheduledNotifications')
 
 const apolloServer = new ApolloServer({
   typeDefs,
@@ -64,7 +65,7 @@ const apolloServer = new ApolloServer({
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-config.db
+db.sequelize
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
@@ -101,9 +102,9 @@ app.use(
 
 // set up routes
 app.use("/auth", authRoutes);
-require("./routes/dailyTasks.routes")(app);
-require("./routes/competence.routes")(app);
-require("./routes/resource.routes")(app);
+// require("./routes/dailyTasks.routes")(app);
+// require("./routes/competence.routes")(app);
+// require("./routes/resource.routes")(app);
 
 
 const authCheck = (req, res, next) => {
@@ -128,7 +129,7 @@ app.use("/types", find(Types));
 // Schedule tasks to be run on the server.
 cron.schedule('* * * * *', function() {
   console.log('running a task every minute');
-  sendScheduledNotifications()
+  // sendScheduledNotifications()
 });
 
 
