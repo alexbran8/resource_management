@@ -1,117 +1,117 @@
 const bcrypt = require('bcryptjs')
 const { db } = require('../config/configProvider')()
 
-module.exports = function(DataTypes) {
+module.exports = (sequelize, type) => {
   const User = db.define(
     'employees',
     {
       nokiaid: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true,
         unique: true,
         primaryKey: true
       },
       firstname: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       lastname: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       upi: {
-        type: DataTypes.STRING
+        type: type.STRING
       },
       city: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       employeer: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       shortid: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       main_team: {
-        type: DataTypes.STRING
+        type: type.STRING
       },
       second_team: {
-        type: DataTypes.STRING
+        type: type.STRING
       },
       third_team: {
-        type: DataTypes.STRING
+        type: type.STRING
       },
       activity: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       vacation_days: {
-        type: DataTypes.NUMBER,
+        type: type.NUMBER,
         required: false
       },
       upalu: {
-        type: DataTypes.STRING
+        type: type.STRING
       },
       new_onnet: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       new_tel_fr: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       bandeau: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: false
       },
       start_date: {
-        type: DataTypes.DATE,
+        type: type.DATE,
         required: false
       },
       level: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       email: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true,
         unique: true
       },
       fourth_team: {
-        type: DataTypes.STRING
+        type: type.STRING
       },
       marca: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: false
       },
       line_manager_firstname: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       line_manager_lastname: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       tpm_firstname: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       tpm_lastname: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: true
       },
       location_area: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: false
       },
       location_number: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: false
       },
       password: {
-        type: DataTypes.STRING,
+        type: type.STRING,
         required: false
       }
     },

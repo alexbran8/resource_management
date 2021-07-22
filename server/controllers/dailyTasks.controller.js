@@ -1,7 +1,7 @@
-const { db } = require("../config/configProvider")();
-const sequelize = require("sequelize");
-const { DataTypes, Op } = sequelize;
-const Project = require("../models/dailyTasks.model")(sequelize, DataTypes);
+const  db  = require("../models/index");
+// const sequelize = require("sequelize");
+// const { DataTypes, Op } = sequelize;
+// const Project = require("../models/dailyTasks.model")(sequelize, DataTypes);
 // const Schedule = require("../models/schedule")(sequelize, DataTypes);
 // Create and Save a new Project
 exports.create = async (req, res) => {
@@ -54,7 +54,7 @@ exports.create = async (req, res) => {
       }
     }
 
-    Project.bulkCreate(project)
+    db.Project.bulkCreate(project)
       .then(data => {
         res.status(200).send({
           message: "Import successfull!",
@@ -79,7 +79,7 @@ exports.findAll = (req, res) => {
   const projectName = req.query.projectName;
   var condition = projectName ? { projectName: { [Op.like]: `%${projectName}%` } } : null;
 
-  Project.findAll({ where: condition })
+  db.Project.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })

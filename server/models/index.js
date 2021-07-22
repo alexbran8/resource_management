@@ -21,6 +21,8 @@ db.sequelize = sequelize;
 
 // db.dailyTasks.model = require("./dailyTasks.model.js")(sequelize, Sequelize);
 db.Schedule = require("./schedule.js")(sequelize, Sequelize);
+db.Project = require("./dailyTasks.model.js")(sequelize, Sequelize);
+db.User= require("./user.js")(sequelize, Sequelize);
 
 // db.gallery = require("./gallery.js")(sequelize, Sequelize);
 // db.cartItem = require("./cartItem.js")(sequelize, Sequelize);

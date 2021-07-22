@@ -1,77 +1,72 @@
-// const { db } = require("../models")();
-// const db = require("../models");const db = require("./models");
-
-// const { sequelize } = require(".");
-
-module.exports = function (DataTypes, seequelize) {
-    const dailyTasks = seequelize.define("dailyTasks", {
+module.exports = (sequelize, type) => {
+    const dailyTasks = sequelize.define("dailyTasks", {
     //         id: {
-    //     type: DataTypes.INTEGER,
+    //     type: type.INTEGER,
     //     required: true,
     //     unique: true,
     //     primaryKey: true,
     //   },
         projectName: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         resourceName:{
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         task: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         tt: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         status: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         phase: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         site: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         criticite: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         auteur: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         itv: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: true
         },
         description: {
-            type: DataTypes.STRING
+            type: type.STRING
         },
         start: {
-            type: DataTypes.DATE,
+            type: type.DATE,
             allowNull: true
         },
         end: {
-            type: DataTypes.DATE,
+            type: type.DATE,
             allowNull: true
         },
         crDate: {
-            type: DataTypes.DATE,
+            type: type.DATE,
             allowNull: true
         },
         levelOfCompetence: {
-            type: DataTypes.SMALLINT,
+            type: type.SMALLINT,
             defaultValue: 0
         },
         reviewed: {
-            type: DataTypes.BOOLEAN,
+            type: type.BOOLEAN,
             defaultValue: false
         }
     });

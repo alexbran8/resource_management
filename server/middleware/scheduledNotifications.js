@@ -1,12 +1,9 @@
-const sequelize = require("sequelize");
-const { DataTypes, Op } = sequelize;
-// const Schedule = require("../models/schedule")(sequelize, DataTypes);
-const Notifications = require("../models/notifications.model")(sequelize, DataTypes);
-
+const db = require("../models");
+const Op = db.Sequelize.Op;
 
 const scheduledNotifications = async () => {
     const currentDate = new Date();
-    const notifications = Schedule.findAll({
+    const notifications = db.Schedule.findAll({
         where: {
             [Op.and]: [{
                 start: {

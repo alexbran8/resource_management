@@ -1,7 +1,5 @@
-const { db } = require("../config/configProvider")();
-const sequelize = require("sequelize");
-const { DataTypes, Op } = sequelize;
-const User = require("../models/user")(sequelize, DataTypes);
+const  db  = require("../models");
+
 
 
 // Retrieve all Resources from the database.
@@ -9,7 +7,7 @@ exports.findAll = (req,res) => {
     const shortId = req.query.shortID;
     var condition = shortId ? { shortId: { [Op.like]: `%${shortId}%` } } : null;
 
-    User.findAll({ where : condition })
+    db.User.findAll({ where : condition })
     .then(data => {
       console.log(data)
         var names = [];

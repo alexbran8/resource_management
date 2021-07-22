@@ -1,21 +1,19 @@
-const { db } = require('../config/configProvider')()
-
-module.exports = function(DataTypes) {
-    const Resource = db.define("resource", {
+module.exports = (sequelize, type) => {
+    const Resource = sequelize.define("resource", {
         nokiaID: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: false
         },
         firstName: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: false
         },
         lastName: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: false
         },
         shortID: {
-            type: DataTypes.STRING,
+            type: type.STRING,
             allowNull: false
         }
     });
