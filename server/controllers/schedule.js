@@ -1,7 +1,11 @@
-const sequelize = require("sequelize");
-const { DataTypes, Op } = sequelize;
-const Schedule = require("../models/schedule")(sequelize, DataTypes);
-const { db } = require("../config/configProvider")();
+
+const db = require("../models");
+const { Op } = require("sequelize");
+
+// const sequelize = require("sequelize");
+// const { DataTypes, Op } = sequelize;
+// const Schedule = require("../models/schedule")(sequelize, DataTypes);
+// const { db } = require("../config/configProvider")();
 const { isNull } = require("../utils/main");
 const { emailFormater } = require("../middlewares/generics");
 
@@ -47,7 +51,7 @@ ScheduleController.post("/add", async (req, res) => {
       } = req.body)
     );
     console.log(req.body);
-    const [typeQuery] = await db.query(
+    const [typeQuery] = await db.seequlize.query(
       `SELECT "InitialLevel" FROM types WHERE type='${type}'`
     );
 
@@ -89,7 +93,7 @@ ScheduleController.post("/get", async (req, res) => {
   const Response = { error: null, data: null };
   if (req.params.title === null || req.params.title === undefined) {
     try {
-      const schedule = await Schedule.findAll({
+      const schedule = await db.Schedule.findAll({
         where: {
           [Op.and]: [
             { status: "L3" },
@@ -109,6 +113,7 @@ ScheduleController.post("/get", async (req, res) => {
     }
   } else {
     Response.error = { message: "Bad Request" };
+    console.log(error)
     res.status(400).json(Response);
   }
 });
@@ -117,7 +122,7 @@ ScheduleController.get("/get/status", async (req, res) => {
   const Response = { error: null, data: null };
   if (req.params.title === null || req.params.title === undefined) {
     try {
-      const schedule = await Schedule.findAll({
+      const schedule = await db.Schedule.findAll({
         where: { [Op.or]: [{ status: "L2" }, { status: "L1" }] },
       });
       if (!schedule) {
@@ -156,7 +161,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
   console.log(req.body);
   if (!isNull(start) && !isNull(end) && !isNull(title)) {
     //update DragAndDrop
-    const updateScheduleDnD = await Schedule.update(
+    const updateScheduleDnD = await db.Schedule.update(
       { title, start, end, nokiaid: newResource, type, replacement },
       { where: { nokiaid, id } }
     );
@@ -204,7 +209,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
   ) {
     //update Approval
     const { nokiaid, status, ids, events } = req.body;
-    const updateScheduleApproval = await Schedule.update(
+    const updateScheduleApproval = await db.Schedule.update(
       { nokiaid, status, events },
       { where: { id: ids } }
     );
@@ -234,7 +239,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
     //update Start
     if (req.body.start !== undefined && req.body.start !== "") {
       const { start, id } = req.body;
-      const updateScheduleStart = await Schedule.update(
+      const updateScheduleStart = await db.Schedule.update(
         { start },
         { where: { id } }
       );
@@ -247,7 +252,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
     if (req.body.end !== undefined && req.body.end !== "") {
       const { end, id, event } = req.body;
       console.log(event);
-      const updateScheduleEnd = await Schedule.update(
+      const updateScheduleEnd = await db.Schedule.update(
         { end },
         { where: { id } }
       );
@@ -269,7 +274,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
     //update Title
     if (req.body.title !== undefined && req.body.title !== "") {
       const { title, id } = req.body;
-      const updateScheduleTitle = await Schedule.update(
+      const updateScheduleTitle = await db.Schedule.update(
         { title },
         { where: { id } }
       );
@@ -281,7 +286,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
     //update Color
     if (req.body.bgColor !== undefined && req.body.bgColor !== "") {
       const { bgColor, id } = req.body;
-      const updateScheduleColor = await Schedule.update(
+      const updateScheduleColor = await db.Schedule.update(
         { bgColor },
         { where: { id } }
       );
@@ -293,7 +298,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
     //update Type
     if (req.body.type !== undefined && req.body.type !== "") {
       const { type, id } = req.body;
-      const updateScheduleType = await Schedule.update(
+      const updateScheduleType = await db.Schedule.update(
         { type },
         { where: { id } }
       );
@@ -305,7 +310,7 @@ ScheduleController.post("/update/:id?", async (req, res) => {
     //update Replacement
     if (req.body.replacement !== undefined && req.body.replacement !== "") {
       const { replacement, id } = req.body;
-      const updateScheduleReplacement = await Schedule.update(
+      const updateScheduleReplacement = await db.Schedule.update(
         { replacement },
         { where: { id } }
       );
