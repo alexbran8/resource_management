@@ -55,7 +55,7 @@ type normCheck {
 	  to_email: String
 	  wbsCustomer: String
     task: String
-    taskComments: String
+    comments: String
     twc: String
     result: String
   }

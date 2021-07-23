@@ -304,7 +304,7 @@ const NormCheck = () => {
                 uid: uid,
                 date: item.Date,
                 resource: item.Resource,
-                comments: item.comments,
+                comments: item.taskComments,
                 twc: item.timeWrittingComments,
                 // bh: item.billableHours,
                 // rh: item.realHour,
