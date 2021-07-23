@@ -303,6 +303,7 @@ const NormCheck = () => {
             checkedCC.push({
                 uid: uid,
                 date: item.Date,
+                to_email: item.to_email,
                 resource: item.Resource,
                 comments: item.taskComments,
                 twc: item.timeWrittingComments,
