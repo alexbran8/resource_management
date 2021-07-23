@@ -101,6 +101,7 @@ module.exports = {
       try {
         var counter = 0;
         let merged = [];
+        console.log(data.data3)
 
         var firstList = data.data.map(x => x.to_email)
         let secondList = data.data2.map(x => x.to_email)
@@ -158,7 +159,7 @@ function groupBy(objectArray, property) {
   }, {});
 }
 
-function sendEmail(email, data, data2, context) {
+function sendEmail(email, data, data2, data3, context) {
   var content = ''
   var content2 = ''
   var table1 = ''

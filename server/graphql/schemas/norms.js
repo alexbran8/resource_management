@@ -45,7 +45,19 @@ type normCheck {
     taskComments: String
     timeWrittingComments: String
     result: String
+  }
 
+  input commentsCheckInput {
+    uid: String
+    dep: String  
+	  date: String 
+	  resource: String 
+	  to_email: String
+	  wbsCustomer: String
+    task: String
+    taskComments: String
+    twc: String
+    result: String
   }
 
   input capacityLawsonInput {
@@ -123,6 +135,6 @@ extend  type Query  {
 
 extend type Mutation {
   addTask(data:[addTask], notifications:[notificationInput]):Response!
-  sendNotifications (data: [Norms], data2:[capacityLawsonInput]):Response!
+  sendNotifications (data: [Norms], data2:[capacityLawsonInput], data3:[commentsCheckInput]):Response!
 }
 `;

@@ -29,8 +29,8 @@ const GET_NORMS = gql`
 `;
 
 const SEND_NOTIFICATION = gql`
-  mutation ($data: [Norms], $data2: [capacityLawsonInput]) {
-    sendNotifications (data:$data, data2:$data2){
+  mutation ($data: [Norms], $data2: [capacityLawsonInput] $data3: [commentsCheckInput]) {
+    sendNotifications (data:$data, data2:$data2 data3:$data3){
         success
         message
       }
@@ -97,13 +97,16 @@ const NormCheck = () => {
     const [scrollTop, setScrollTop] = useState(0);
     const [checked, setChecked] = useState([])
     const [checkedLC, setCheckedLC] = useState([])
+    const [checkedCC, setCheckedCC] = useState([])
     const [status, setStatus] = useState()
     const [capacityItems, setCapacityItems] = useState()
     const [capLawsonItems, setCapLawsonItems] = useState()
     const [commentsCheck, setCommentsCheck] = useState()
-    const [style, setStyle] = useState({style: {
-        logoHeight: 200
-    }})
+    const [style, setStyle] = useState({
+        style: {
+            logoHeight: 200
+        }
+    })
     const [uResources, setuResources] = useState()
     const [uDeps, setuDeps] = useState()
     const [selected, setSelected] = useState(0)
@@ -184,11 +187,12 @@ const NormCheck = () => {
     });
 
     const sendNotifications = () => {
-        if (checked.length > 0 || checkedLC.length > 0) {
+        if (checked.length > 0 || checkedLC.length > 0 || checkedCC.length > 0) {
             sendNotificationsMutation({
                 variables: {
                     data: checked,
-                    data2: checkedLC
+                    data2: checkedLC,
+                    data3: checkedCC
                 }
             }
             )
@@ -222,12 +226,12 @@ const NormCheck = () => {
     const createArr = (uid, item) => {
         if (checked.find((y) => y.uid == item.uid)) {
             // checked.find((y) => checked.splice(y, 1))
-            checked.splice(checked.findIndex(function(i){
+            checked.splice(checked.findIndex(function (i) {
                 return i.uid === uid;
             }), 1);
             setSelected(checkedLC.length + checked.length)
         } else {
-            
+
             checked.push({
                 type: 'norms',
                 uid: uid, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments,
@@ -248,23 +252,23 @@ const NormCheck = () => {
 
     const handler = () => {
         var fontSize = '100%';
-		let scrollTop = window.scrollY,
-				minHeight = 100,
-				logoHeight = Math.max(minHeight, 300 - scrollTop);
+        let scrollTop = window.scrollY,
+            minHeight = 100,
+            logoHeight = Math.max(minHeight, 300 - scrollTop);
         logoHeight == 100 ? fontSize = '75%' : fontSize = '100%';
-		setStyle({
-				logoHeight: logoHeight,
-                fontSize:fontSize
-			});
-		
-	}
+        setStyle({
+            logoHeight: logoHeight,
+            fontSize: fontSize
+        });
+
+    }
 
     useEventListener("scroll", handler);
 
 
     const createArrLC = (uid, item) => {
         if (checkedLC.find((y) => y.uid == uid)) {
-            checkedLC.splice(checkedLC.findIndex(function(i){
+            checkedLC.splice(checkedLC.findIndex(function (i) {
                 return i.uid === uid;
             }), 1);
             setSelected(checkedLC.length + checked.length)
@@ -287,6 +291,34 @@ const NormCheck = () => {
                 // status: item.status
             })
             setSelected(checkedLC.length + checked.length)
+        }
+    }
+    const createArrCC = (uid, item) => {
+        if (checkedCC.find((y) => y.uid == uid)) {
+            checkedCC.splice(checkedCC.findIndex(function (i) {
+                return i.uid === uid;
+            }), 1);
+            setSelected(checkedCC.length + checked.length)
+        } else {
+            checkedCC.push({
+                uid: uid,
+                date: item.Date,
+                resource: item.Resource,
+                comments: item.comments,
+                twc: item.timeWrittingComments,
+                // bh: item.billableHours,
+                // rh: item.realHour,
+                // wbsCustomer: item.wbsCustomer,
+                // workFolderCode: item.workFolderCode,
+                // sumCapacity: item.sumCapacity,
+                // sumLawson: item.sumLawson,
+                // wbsCheck: item.wbsCheck,
+                // var: item.variation,
+                // to_email: item.to_email,
+                result: item.result,
+                // status: item.status
+            })
+            setSelected(checkedLC.length + checked.length + + checkedCC.length)
         }
     }
 
@@ -352,215 +384,216 @@ const NormCheck = () => {
                     </form>
                 </div>
 
-                <div className='reportingConatiner'  style={{height:style.logoHeight, fontSize:style.fontSize}}>
-                <div className="left-container">RIGHT container</div>
-                <div className="right-container"><h5 style={{fontSize:style.fontSize}}>Selected items:</h5>
-                <ul>
-                {checked && checked.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.taskComments}</li>)}
-                {checkedLC && checkedLC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.variation}</li>)}
-                </ul>
-                </div>
-                
+                <div className='reportingConatiner' style={{ height: style.logoHeight, fontSize: style.fontSize }}>
+                    <div className="left-container">RIGHT container</div>
+                    <div className="right-container"><h5 style={{ fontSize: style.fontSize }}>Selected items:</h5>
+                        <ul>
+                            {checked && checked.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.taskComments}</li>)}
+                            {checkedLC && checkedLC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.variation}</li>)}
+                            {checkedCC && checkedCC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.result}</li>)}
+                        </ul>
+                    </div>
+
                 </div>
             </div>
 
             <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
-                    <Table striped bordered hover className="normsTable">
+            <Table striped bordered hover className="normsTable">
 
-                        <thead>
-                            <tr>
-                                <th>Select</th>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Engineer
-                                </th>
-                                <th>
-                                    Email
-                                </th>
-                                <th>
-                                    WBS
-                                </th>
-                                <th>
-                                    Capacity
-                                </th>
-                                <th>
-                                    Comments
-                                </th>
-                                <th>
-                                    TWC
-                                </th>
-                                <th>
-                                    Billable Hours
-                                </th>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Engineer
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            WBS
+                        </th>
+                        <th>
+                            Capacity
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th>
+                            TWC
+                        </th>
+                        <th>
+                            Billable Hours
+                        </th>
 
-                                <th>
-                                    Real Hours
-                                </th>
+                        <th>
+                            Real Hours
+                        </th>
 
-                                <th>
-                                    NORM OK
-                                </th>
-                                <th>
-                                    NORM NOK
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Variation
-                                </th>
-                                <th>
-                                    Possible Correction
-                                </th>
+                        <th>
+                            NORM OK
+                        </th>
+                        <th>
+                            NORM NOK
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Variation
+                        </th>
+                        <th>
+                            Possible Correction
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {capacityItems && capacityItems.map((item, index) => {
+                        return (
+                            <tr key={item.uid}>
+                                <td> <input
+                                    type="checkbox"
+                                    checked={checked.find((y) => y.uid == item.uid) ? true : false}
+                                    onChange={(e) => createArr(item.uid, item)}
+                                /></td>
+                                <td>{item.Date}</td>
+                                <td>{item.Resource}</td>
+                                <td>{item.to_email}</td>
+                                <td>{item.wbsCustomer}</td>
+                                <td>{item.Task}</td>
+                                <td>{item.taskComments}</td>
+                                <td>{item.timeWrittingComments}</td>
+                                <td>{item.billableHours}</td>
+                                <td>{item.realHour}</td>
+                                <td>{item.normOK}</td>
+                                <td>{item.normNOK}</td>
+                                <td>{item.status}</td>
+                                <td>{item.variation}</td>
+                                <td>{item.correction}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {capacityItems && capacityItems.map((item, index) => {
-                                return (
-                                    <tr key={item.uid}>
-                                        <td> <input
-                                            type="checkbox"
-                                            checked={checked.find((y) => y.uid == item.uid) ? true : false}
-                                            onChange={(e) => createArr(item.uid, item)}
-                                        /></td>
-                                        <td>{item.Date}</td>
-                                        <td>{item.Resource}</td>
-                                        <td>{item.to_email}</td>
-                                        <td>{item.wbsCustomer}</td>
-                                        <td>{item.Task}</td>
-                                        <td>{item.taskComments}</td>
-                                        <td>{item.timeWrittingComments}</td>
-                                          <td>{item.billableHours}</td>
-                                        <td>{item.realHour}</td>
-                                        <td>{item.normOK}</td>
-                                        <td>{item.normNOK}</td>
-                                        <td>{item.status}</td>
-                                        <td>{item.variation}</td>
-                                        <td>{item.correction}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </Table>
-                    
-                    
-                        LAWSON VS. CAPACITY
-                        <Table striped bordered hover className="normsTable">
+                        )
+                    })}
+                </tbody>
+            </Table>
 
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>
-                                        Date
-                                    </th>
-                                    <th>
-                                        Engineer
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        WBS Capacity
-                                    </th>
-                                    <th>
-                                        WFC Lawson
-                                    </th>
-                                    <th>
-                                        WBS Check
-                                    </th>
-                                    <th>
-                                        sumCapacity
-                                    </th>
-                                    <th>
-                                        sumLawson
-                                    </th>
-                                    <th>
-                                        Variation
-                                    </th>
-                                    <th>
-                                        Possible Correction
-                                    </th>
-                                </tr>
-                            </thead>
 
-                            <tbody>
-                                {capLawsonItems && capLawsonItems.map((item, index) => {
-                                    return (
-                                        <tr key={item.uid}>
-                                            <td> <input
-                                                type="checkbox"
-                                                checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
-                                                onChange={(e) => createArrLC(item.uid, item)}
-                                            /></td>
-                                            <td>{item.Date}</td>
-                                            <td>{item.Resource}</td>
-                                            <td>{item.to_email}</td>
-                                            <td>{item.wbsCustomer}</td>
-                                            <td>{item.workFolderCode}</td>
-                                            <td>{item.wbsCheck}</td>
-                                            <td>{item.sumCapacity}</td>
-                                            <td>{item.sumLawson}</td>
-                                            <td>{item.variation}</td>
-                                            <td>{item.correction}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                        CAPACITY COMMENTS CHECK
-                        <Table striped bordered hover className="normsTable">
+            LAWSON VS. CAPACITY
+            <Table striped bordered hover className="normsTable">
 
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>
-                                        Date
-                                    </th>
-                                    <th>
-                                        Engineer
-                                    </th>
-                                    <th>
-                                        Email
-                                    </th>
-                                    <th>
-                                        Task
-                                    </th>
-                                    <th>
-                                        Comments
-                                    </th>
-                                    <th>
-                                        Time Writting Comments
-                                    </th>
-                                    <th>
-                                        Result
-                                    </th>
-                                </tr>
-                            </thead>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Engineer
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            WBS Capacity
+                        </th>
+                        <th>
+                            WFC Lawson
+                        </th>
+                        <th>
+                            WBS Check
+                        </th>
+                        <th>
+                            sumCapacity
+                        </th>
+                        <th>
+                            sumLawson
+                        </th>
+                        <th>
+                            Variation
+                        </th>
+                        <th>
+                            Possible Correction
+                        </th>
+                    </tr>
+                </thead>
 
-                            <tbody>
-                            {commentsCheck && commentsCheck.map((item, index) => {
-                                    return (
-                                        <tr key={item.uid}>
-                                            <td> <input
-                                                type="checkbox"
-                                                checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
-                                                onChange={(e) => createArrLC(item.uid, item)}
-                                            /></td>
-                                            <td>{item.Date}</td>
-                                            <td>{item.Resource}</td>
-                                            <td>{item.to_email}</td>
-                                            <td>{item.Task}</td>
-                                        <td>{item.taskComments}</td>
-                                        <td>{item.timeWrittingComments}</td>
-                                            <td>{item.result}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                    </div>
+                <tbody>
+                    {capLawsonItems && capLawsonItems.map((item, index) => {
+                        return (
+                            <tr key={item.uid}>
+                                <td> <input
+                                    type="checkbox"
+                                    checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
+                                    onChange={(e) => createArrLC(item.uid, item)}
+                                /></td>
+                                <td>{item.Date}</td>
+                                <td>{item.Resource}</td>
+                                <td>{item.to_email}</td>
+                                <td>{item.wbsCustomer}</td>
+                                <td>{item.workFolderCode}</td>
+                                <td>{item.wbsCheck}</td>
+                                <td>{item.sumCapacity}</td>
+                                <td>{item.sumLawson}</td>
+                                <td>{item.variation}</td>
+                                <td>{item.correction}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </Table>
+            CAPACITY COMMENTS CHECK
+            <Table striped bordered hover className="normsTable">
+
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Engineer
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Task
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th>
+                            Time Writting Comments
+                        </th>
+                        <th>
+                            Result
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {commentsCheck && commentsCheck.map((item, index) => {
+                        return (
+                            <tr key={item.uid}>
+                                <td> <input
+                                    type="checkbox"
+                                    checked={checkedCC.find((y) => y.uid == item.uid) ? true : false}
+                                    onChange={(e) => createArrCC(item.uid, item)}
+                                /></td>
+                                <td>{item.Date}</td>
+                                <td>{item.Resource}</td>
+                                <td>{item.to_email}</td>
+                                <td>{item.Task}</td>
+                                <td>{item.taskComments}</td>
+                                <td>{item.timeWrittingComments}</td>
+                                <td>{item.result}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </Table>
+        </div>
     )
 }
 
@@ -575,23 +608,23 @@ function useEventListener(eventName, handler, element = window) {
     // ... without us needing to pass it in effect deps array ...
     // ... and potentially cause effect to re-run every render.
     useEffect(() => {
-      savedHandler.current = handler;
+        savedHandler.current = handler;
     }, [handler]);
     useEffect(
-      () => {
-        // Make sure element supports addEventListener
-        // On
-        const isSupported = element && element.addEventListener;
-        if (!isSupported) return;
-        // Create event listener that calls handler function stored in ref
-        const eventListener = (event) => savedHandler.current(event);
-        // Add event listener
-        element.addEventListener(eventName, eventListener);
-        // Remove event listener on cleanup
-        return () => {
-          element.removeEventListener(eventName, eventListener);
-        };
-      },
-      [eventName, element] // Re-run if eventName or element changes
+        () => {
+            // Make sure element supports addEventListener
+            // On
+            const isSupported = element && element.addEventListener;
+            if (!isSupported) return;
+            // Create event listener that calls handler function stored in ref
+            const eventListener = (event) => savedHandler.current(event);
+            // Add event listener
+            element.addEventListener(eventName, eventListener);
+            // Remove event listener on cleanup
+            return () => {
+                element.removeEventListener(eventName, eventListener);
+            };
+        },
+        [eventName, element] // Re-run if eventName or element changes
     );
-  }
+}
