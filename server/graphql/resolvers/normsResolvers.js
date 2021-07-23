@@ -105,16 +105,18 @@ module.exports = {
 
         var firstList = data.data.map(x => x.to_email)
         let secondList = data.data2.map(x => x.to_email)
-        mergedList = [...firstList, ...secondList]
+        let third = data.data3.map(x => x.to_email)
+        mergedList = [...firstList, ...secondList, ...third]
         const uniqueList = [...new Set(mergedList)];
 
 
         var groupedArray1 = groupBy(data.data, 'to_email');
         var groupedArray2 = groupBy(data.data2, 'to_email');
+        var groupedArray3 = groupBy(data.data3, 'to_email');
 
 
         // Object.keys(groupedPeople).forEach(item => { sendEmail(groupedPeople[item], item, context); console.log(groupedPeople[item]); counter++ })
-        uniqueList.forEach(item => { sendEmail(item, groupedArray1, groupedArray2, context); counter++; })
+        uniqueList.forEach(item => { sendEmail(item, groupedArray1, groupedArray2, groupedArray3, context); counter++; })
 
         const response = { message: `${counter} Notifications have been successfully sent!`, success: true }
         return response
@@ -162,8 +164,10 @@ function groupBy(objectArray, property) {
 function sendEmail(email, data, data2, data3, context) {
   var content = ''
   var content2 = ''
+  var content3 = ''
   var table1 = ''
   var table2 = ''
+  var table3 = ''
   var resource = email
 
   data[email] && data[email].length > 0 ? data[email].reduce(function (a, b) {
@@ -182,6 +186,13 @@ function sendEmail(email, data, data2, data3, context) {
     return content2
   }, '') : null
 
+  data3[email] && data3[email].length > 0 ? data3[email].reduce(function (a, b) {
+    content3 = a + '<tr><td>' + b.resource + '</td><td>' + b.date
+      + '</td><td>' + b.task + '</td><td>' + b.comments + '</td><td>' + b.twc + '</td><td>'  + b.result + '</td><td>' + b.correction + '</td></tr>';
+    resource = b.resource
+    return content3
+  }, '') : null
+
 
   if (content != '') {
     table1 = ' <p> Tasks in capacity tool</p>' +
@@ -196,19 +207,27 @@ function sendEmail(email, data, data2, data3, context) {
       '<tbody></tbody> ' + content2 + '</tbody></table> '
   } else { table2 = '<div></div>' }
 
+  if (content3 != '') {
+    table3 = '<p>capacity comments check</p>' +
+      '<table border="1" style="border-collapse:collapse;text-align:center;padding-left: 20px;padding-right: 20px;"><thead style="background-color:powderblue;">' +
+      '<tr><th>RESOURCE</th><th>DATE</th><th>TASK</th><th>COMMENTS</th><th>TIME WRITTING COMMENTS</th><th>RESULT</th><th>CORRECTION</th></tr></thead>' +
+      '<tbody></tbody> ' + content3 + '</tbody></table> '
+  } else { table3 = '<div></div>' }
+
   const metadata = {
     transporter: transporterConfig,
     from: "poweremail.ni_gsd_timisoara@nokia.com",
-    to: email,
-    cc: 'cecilia.crisan@nokia.com',
+    // to: email,
+    to:'alexandru.bran@nokia.com',
+    // cc: 'cecilia.crisan@nokia.com',
     subj: `[NPT notification] This email requires your attention! [NPT notification]`,
     text: "Please review the following:",
     html: '<div> Dear ' + resource + ', <p> </p><p>Please review the following:</p> ' +
-      table1 + table2 +
+      table1 + table2 + table3 + 
       '<p> Regards,</p><p>Nokia Planning Tool, on behalf of ' + context.user + '  </p></div>'
   };
 
-  // emailHandler(metadata).catch(console.error)
+  emailHandler(metadata).catch(console.error)
 
   
     // Notifications.bulkCreate(notification)

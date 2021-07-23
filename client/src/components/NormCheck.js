@@ -306,6 +306,7 @@ const NormCheck = () => {
                 resource: item.Resource,
                 comments: item.taskComments,
                 twc: item.timeWrittingComments,
+                task: item.Task,
                 // bh: item.billableHours,
                 // rh: item.realHour,
                 // wbsCustomer: item.wbsCustomer,
