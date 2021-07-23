@@ -55,6 +55,23 @@ const GET_NORMS_NA = gql`
     }
   }
 `;
+
+const GET_COMMENTS_CHECK = gql`
+query($department: String!) {
+    commentsCheckQuery (department: $department)  {
+        uid
+        Dep
+        Date
+        Resource
+        to_email
+        Task
+        taskComments
+        timeWrittingComments
+        result
+        
+}}
+`;
+
 const GET_CAPACITY_LAWSON = gql`
   query ($department: String!) {
     capacityLawsonQuery  (department: $department) {
@@ -83,6 +100,7 @@ const NormCheck = () => {
     const [status, setStatus] = useState()
     const [capacityItems, setCapacityItems] = useState()
     const [capLawsonItems, setCapLawsonItems] = useState()
+    const [commentsCheck, setCommentsCheck] = useState()
     const [style, setStyle] = useState({style: {
         logoHeight: 200
     }})
@@ -131,6 +149,32 @@ const NormCheck = () => {
             setCapLawsonItems(dataLC.capacityLawsonQuery)
         }
     });
+    const { data: dataCC, loadingCC, errorCC } = useQuery(GET_COMMENTS_CHECK, {
+        variables: { department: 'radio' }, onCompleted: () => {
+            var result = []
+            console.log(dataCC)
+            dataCC && dataCC.commentsCheckQuery.reduce(function (res, value) {
+                if (!res[value.Resource]) {
+                    res[value.Resource] = { Resource: value.Resource, qty: 0 };
+                    result.push(res[value.Resource])
+                }
+                res[value.Resource].qty += 1;
+                return res;
+            }, {});
+            var result2 = [...uResources, ...result]
+            var result3 = []
+            result2.reduce(function (res, value) {
+                if (!res[value.Resource]) {
+                    res[value.Resource] = { Resource: value.Resource, qty: 0 };
+                    result3.push(res[value.Resource])
+                }
+                res[value.Resource].qty += value.qty;
+                return res;
+            }, {});
+            setuResources(result3)
+            setCapLawsonItems(dataCC.commentsCheckQuery)
+        }
+    });
     const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
         onCompleted: (data) => {
             setStatus(data.sendNotifications.message);
@@ -163,6 +207,9 @@ const NormCheck = () => {
         e.target.value ? setCapLawsonItems(dataLC.capacityLawsonQuery.filter(function (item) {
             return item.Resource == e.target.value;
         })) : setCapLawsonItems(dataLC.capacityLawsonQuery)
+        e.target.value ? setCommentsCheck(dataCC.commentsCheckQuery.filter(function (item) {
+            return item.Resource == e.target.value;
+        })) : setCommentsCheck(dataCC.commentsCheckQuery)
     };
 
     const _onChangeRowCheckbox = data => {
@@ -385,7 +432,7 @@ const NormCheck = () => {
                                         <td>{item.Task}</td>
                                         <td>{item.taskComments}</td>
                                         <td>{item.timeWrittingComments}</td>
-                                        <td>{item.billableHours}</td>
+                                          <td>{item.billableHours}</td>
                                         <td>{item.realHour}</td>
                                         <td>{item.normOK}</td>
                                         <td>{item.normNOK}</td>
@@ -457,6 +504,57 @@ const NormCheck = () => {
                                             <td>{item.sumLawson}</td>
                                             <td>{item.variation}</td>
                                             <td>{item.correction}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
+                        CAPACITY COMMENTS CHECK
+                        <Table striped bordered hover className="normsTable">
+
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Engineer
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Task
+                                    </th>
+                                    <th>
+                                        Comments
+                                    </th>
+                                    <th>
+                                        Time Writting Comments
+                                    </th>
+                                    <th>
+                                        Result
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {commentsCheck && commentsCheck.map((item, index) => {
+                                    return (
+                                        <tr key={item.uid}>
+                                            <td> <input
+                                                type="checkbox"
+                                                checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
+                                                onChange={(e) => createArrLC(item.uid, item)}
+                                            /></td>
+                                            <td>{item.Date}</td>
+                                            <td>{item.Resource}</td>
+                                            <td>{item.to_email}</td>
+                                            <td>{item.Task}</td>
+                                        <td>{item.taskComments}</td>
+                                        <td>{item.timeWrittingComments}</td>
+                                            <td>{item.result}</td>
                                         </tr>
                                     )
                                 })}

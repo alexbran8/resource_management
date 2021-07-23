@@ -34,6 +34,19 @@ type normCheck {
 	  variation: String
 	  correction: String
   }
+  type commentsCheck {
+    uid: String
+    Dep: String  
+	  Date: String 
+	  Resource: String 
+	  to_email: String
+	  wbsCustomer: String
+    Task: String
+    taskComments: String
+    timeWrittingComments: String
+    result: String
+
+  }
 
   input capacityLawsonInput {
     type: String!
@@ -105,6 +118,7 @@ extend  type Query  {
     capacityLawsonQuery(department: String!): [capacityLawson]
     normCheckQueryNA: [normCheck]
     getTasksQuery(department: String!): [Tasks]
+    commentsCheckQuery(department: String!): [commentsCheck]
 } 
 
 extend type Mutation {
