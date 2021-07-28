@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMutation, useQuery, gql } from "@apollo/client";
-import { Table, Container, Row, Col, Checkbox, CardGroup } from 'react-bootstrap'
+import { Table, Container, Row, Col, Checkbox, CardGroup, FormGroup } from 'react-bootstrap'
 import { Button } from 'reactstrap'
 import "./NormCheck.scss"
 import { isNonNullType } from 'graphql';
@@ -95,6 +95,10 @@ const GET_CAPACITY_LAWSON = gql`
 const NormCheck = () => {
     const [scrolling, setScrolling] = useState(false);
     const [scrollTop, setScrollTop] = useState(0);
+    const [showC1, setShowC1] = useState(true);
+    const [showC2, setShowC2] = useState(false);
+    const [showC3, setShowC3] = useState(false);
+    const [showC4, setShowC4] = useState(false);
     const [checked, setChecked] = useState([])
     const [checkedLC, setCheckedLC] = useState([])
     const [checkedCC, setCheckedCC] = useState([])
@@ -336,54 +340,57 @@ const NormCheck = () => {
                             // this.filter(this.state.filter);
                         }}
                     >
-                        <>
-                            <Button color="primary"
-                                disabled={true}
-                                onClick={sendNotifications}>Upload files </Button>
-                            <Button color="danger"
-                                disabled={selected < 1}
-                                onClick={sendNotifications}>Send {selected} notification(s) </Button>
-                        </>
-                        <select
-                            className="form-control p-2 m-3 col"
-                            defaultValue=""
-                            onChange={(e) => {
-                                _onChangeFitler(e, "resource")
-                                //   const lineObj = { ...this.state.filter };
-                                //   lineObj.line_manager = e.target.value;
-                                //   this.setState({ filter: lineObj });
-                            }}
-                        >
-                            <option value="">All resources</option>
-                            {uResources && uResources.map((x, index) => {
-                                return (
-                                    <option key={x + index} value={x.Resource}>
-                                        {x.Resource} ({x.qty} tasks)
-                                    </option>
-                                );
-                            })
-                            }
-                        </select>
-                        <select
-                            className="form-control p-2 m-3 col"
-                            defaultValue=""
-                            onChange={(e) => {
-                                _onChangeFitler(e, "dep")
-                            }}
-                        >
-                            <option value="">Department</option>
-                            {uDeps && uDeps.map((x) => {
-                                return (
-                                    <option key={x} value={x}>
-                                        {x}
-                                    </option>
-                                );
-                            })
-                            }
-                        </select>
-                        <Button color="warning"
-                            onClick={reset}>RESET </Button>
-                    </form>
+                                               <>
+                                <Button color="primary"
+                                    disabled={true}
+                                    onClick={sendNotifications}>Upload files </Button>
+                                <Button color="danger"
+                                    disabled={selected < 1}
+                                    onClick={sendNotifications}>Send {selected} notification(s) </Button>
+                            </>
+                            <select
+                                className="form-control p-2 m-3 col"
+                                defaultValue=""
+                                onChange={(e) => {
+                                    _onChangeFitler(e, "resource")
+                                    //   const lineObj = { ...this.state.filter };
+                                    //   lineObj.line_manager = e.target.value;
+                                    //   this.setState({ filter: lineObj });
+                                }}
+                            >
+                                <option value="">All resources</option>
+                                {uResources && uResources.map((x, index) => {
+                                    return (
+                                        <option key={x + index} value={x.Resource}>
+                                            {x.Resource} ({x.qty} tasks)
+                                        </option>
+                                    );
+                                })
+                                }
+                            </select>
+                            <select
+                                className="form-control p-2 m-3 col"
+                                defaultValue=""
+                                onChange={(e) => {
+                                    _onChangeFitler(e, "dep")
+                                }}
+                            >
+                                <option value="">Department</option>
+                                {uDeps && uDeps.map((x) => {
+                                    return (
+                                        <option key={x} value={x}>
+                                            {x}
+                                        </option>
+                                    );
+                                })
+                                }
+                            </select>          
+                         
+                                <Button color="secondary" onClick={() => { setShowC1(!showC1); setShowC2(false); setShowC3(false); setShowC4(false) }}>Capacity vs Norms </Button>
+                                <Button color="secondary" onClick={() => { setShowC2(!showC2); setShowC1(false); setShowC3(false); setShowC4(false) }}>Capacity vs Lawson </Button>
+                                <Button color="secondary" onClick={() => { setShowC3(!showC3); setShowC1(false); setShowC2(false); setShowC4(false) }}>Capacity Comments Check </Button>
+                                <Button  disabled = {true} color="secondary" onClick={() => { setShowC4(!showC4); setShowC1(false);; setShowC2(false);; setShowC3(false) }}>Capacity vs NPT </Button>
+                        </form>
                 </div>
 
                 <div className='reportingConatiner' style={{ height: style.logoHeight, fontSize: style.fontSize }}>
@@ -399,202 +406,212 @@ const NormCheck = () => {
                 </div>
             </div>
 
-            <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
-            <Table striped bordered hover responsive="xl" className="normsTable">
 
-                <thead >
-                    <tr>
-                        <th>Select</th>
-                        <th>
-                            Date
-                        </th>
-                        <th>
-                            Engineer
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            WBS
-                        </th>
-                        <th>
-                            Capacity
-                        </th>
-                        <th >
-                            Comments
-                        </th>
-                        <th >
-                            TWC
-                        </th>
-                        <th>
-                            Billable Hours
-                        </th>
+            <div className='selectable-containers'>
+                {showC1 ? <div className="c1">
+                    <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
+                    <Table striped bordered hover responsive="xl" className="normsTable">
 
-                        <th>
-                            Real Hours
-                        </th>
+                        <thead >
+                            <tr>
+                                <th>Select</th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Engineer
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    WBS
+                                </th>
+                                <th>
+                                    Capacity
+                                </th>
+                                <th >
+                                    Comments
+                                </th>
+                                <th >
+                                    TWC
+                                </th>
+                                <th>
+                                    Billable Hours
+                                </th>
 
-                        <th>
-                            NORM OK
-                        </th>
-                        <th>
-                            NORM NOK
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                        <th>
-                            Variation
-                        </th>
-                        <th>
-                            Possible Correction
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {capacityItems && capacityItems.map((item, index) => {
-                        return (
-                            <tr key={item.uid}>
-                                <td> <input
-                                    type="checkbox"
-                                    checked={checked.find((y) => y.uid == item.uid) ? true : false}
-                                    onChange={(e) => createArr(item.uid, item)}
-                                /></td>
-                                <td>{item.Date}</td>
-                                <td>{item.Resource}</td>
-                                <td>{item.to_email}</td>
-                                <td>{item.wbsCustomer}</td>
-                                <td>{item.Task}</td>
-                                <td>{item.taskComments.substring(0, 50)}</td>
-                                <td>{item.timeWrittingComments.substring(0, 50)}</td>
-                                <td>{item.billableHours}</td>
-                                <td>{item.realHour}</td>
-                                <td>{item.normOK}</td>
-                                <td>{item.normNOK}</td>
-                                <td>{item.status}</td>
-                                <td>{item.variation}</td>
-                                <td>{item.correction}</td>
+                                <th>
+                                    Real Hours
+                                </th>
+
+                                <th>
+                                    NORM OK
+                                </th>
+                                <th>
+                                    NORM NOK
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                                <th>
+                                    Variation
+                                </th>
+                                <th>
+                                    Possible Correction
+                                </th>
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </Table>
+                        </thead>
+                        <tbody>
+                            {capacityItems && capacityItems.map((item, index) => {
+                                return (
+                                    <tr key={item.uid}>
+                                        <td> <input
+                                            type="checkbox"
+                                            checked={checked.find((y) => y.uid == item.uid) ? true : false}
+                                            onChange={(e) => createArr(item.uid, item)}
+                                        /></td>
+                                        <td>{item.Date}</td>
+                                        <td>{item.Resource}</td>
+                                        <td>{item.to_email}</td>
+                                        <td>{item.wbsCustomer}</td>
+                                        <td>{item.Task}</td>
+                                        <td>{item.taskComments.substring(0, 50)}</td>
+                                        <td>{item.timeWrittingComments.substring(0, 50)}</td>
+                                        <td>{item.billableHours}</td>
+                                        <td>{item.realHour}</td>
+                                        <td>{item.normOK}</td>
+                                        <td>{item.normNOK}</td>
+                                        <td>{item.status}</td>
+                                        <td>{item.variation}</td>
+                                        <td>{item.correction}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
 
+                </div> : null}
+                {showC2 ? <div className="c2"> LAWSON VS. CAPACITY
+                    <Table striped bordered hover className="normsTable">
 
-            LAWSON VS. CAPACITY
-            <Table striped bordered hover className="normsTable">
-
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>
-                            Date
-                        </th>
-                        <th>
-                            Engineer
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            WBS Capacity
-                        </th>
-                        <th>
-                            WFC Lawson
-                        </th>
-                        <th>
-                            WBS Check
-                        </th>
-                        <th>
-                            sumCapacity
-                        </th>
-                        <th>
-                            sumLawson
-                        </th>
-                        <th>
-                            Variation
-                        </th>
-                        <th>
-                            Possible Correction
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {capLawsonItems && capLawsonItems.map((item, index) => {
-                        return (
-                            <tr key={item.uid}>
-                                <td> <input
-                                    type="checkbox"
-                                    checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
-                                    onChange={(e) => createArrLC(item.uid, item)}
-                                /></td>
-                                <td>{item.Date}</td>
-                                <td>{item.Resource}</td>
-                                <td>{item.to_email}</td>
-                                <td>{item.wbsCustomer}</td>
-                                <td>{item.workFolderCode}</td>
-                                <td>{item.wbsCheck}</td>
-                                <td>{item.sumCapacity}</td>
-                                <td>{item.sumLawson}</td>
-                                <td>{item.variation}</td>
-                                <td>{item.correction}</td>
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Engineer
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    WBS Capacity
+                                </th>
+                                <th>
+                                    WFC Lawson
+                                </th>
+                                <th>
+                                    WBS Check
+                                </th>
+                                <th>
+                                    sumCapacity
+                                </th>
+                                <th>
+                                    sumLawson
+                                </th>
+                                <th>
+                                    Variation
+                                </th>
+                                <th>
+                                    Possible Correction
+                                </th>
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </Table>
-            CAPACITY COMMENTS CHECK
-            <Table striped bordered hover className="normsTable">
+                        </thead>
 
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>
-                            Date
-                        </th>
-                        <th>
-                            Engineer
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Task
-                        </th>
-                        <th>
-                            Comments
-                        </th>
-                        <th>
-                            Time Writting Comments
-                        </th>
-                        <th>
-                            Result
-                        </th>
-                    </tr>
-                </thead>
+                        <tbody>
+                            {capLawsonItems && capLawsonItems.map((item, index) => {
+                                return (
+                                    <tr key={item.uid}>
+                                        <td> <input
+                                            type="checkbox"
+                                            checked={checkedLC.find((y) => y.uid == item.uid) ? true : false}
+                                            onChange={(e) => createArrLC(item.uid, item)}
+                                        /></td>
+                                        <td>{item.Date}</td>
+                                        <td>{item.Resource}</td>
+                                        <td>{item.to_email}</td>
+                                        <td>{item.wbsCustomer}</td>
+                                        <td>{item.workFolderCode}</td>
+                                        <td>{item.wbsCheck}</td>
+                                        <td>{item.sumCapacity}</td>
+                                        <td>{item.sumLawson}</td>
+                                        <td>{item.variation}</td>
+                                        <td>{item.correction}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table></div> : null}
+                {showC3 ? <div className="c3">  CAPACITY COMMENTS CHECK
+                    <Table striped bordered hover className="normsTable">
 
-                <tbody>
-                    {commentsCheck && commentsCheck.map((item, index) => {
-                        return (
-                            <tr key={item.uid}>
-                                <td> <input
-                                    type="checkbox"
-                                    checked={checkedCC.find((y) => y.uid == item.uid) ? true : false}
-                                    onChange={(e) => createArrCC(item.uid, item)}
-                                /></td>
-                                <td>{item.Date}</td>
-                                <td>{item.Resource}</td>
-                                <td>{item.to_email}</td>
-                                <td>{item.Task}</td>
-                                <td>{item.taskComments}</td>
-                                <td>{item.timeWrittingComments}</td>
-                                <td>{item.result}</td>
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Engineer
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Task
+                                </th>
+                                <th>
+                                    Comments
+                                </th>
+                                <th>
+                                    Time Writting Comments
+                                </th>
+                                <th>
+                                    Result
+                                </th>
                             </tr>
-                        )
-                    })}
-                </tbody>
-            </Table>
+                        </thead>
+
+                        <tbody>
+                            {commentsCheck && commentsCheck.map((item, index) => {
+                                return (
+                                    <tr key={item.uid}>
+                                        <td> <input
+                                            type="checkbox"
+                                            checked={checkedCC.find((y) => y.uid == item.uid) ? true : false}
+                                            onChange={(e) => createArrCC(item.uid, item)}
+                                        /></td>
+                                        <td>{item.Date}</td>
+                                        <td>{item.Resource}</td>
+                                        <td>{item.to_email}</td>
+                                        <td>{item.Task}</td>
+                                        <td>{item.taskComments}</td>
+                                        <td>{item.timeWrittingComments}</td>
+                                        <td>{item.result}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table></div> : null}
+                {showC4 ? <div className="c4">C4</div> : null}
+            </div>
+
+
+
+
+
         </div>
     )
 }

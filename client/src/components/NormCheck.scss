@@ -43,7 +43,10 @@ button {
     border: 3px #7b8d9b solid;
     max-width: 40px; 
   }
-  .normsTable th td {
+  .selectable-containers {
+    border: 2px #7b8d9b solid;
+  }
+  .normsTable th t {
    max-width: 40px; 
   }
   h5 {
@@ -56,7 +59,7 @@ button {
     // margin-top: 150px;
     border: 2px #7b8d9b solid;
     display: flex;
-    overflow-y: hidden;
+    // overflow-y: hidden;
     opacity: 100%;
 
     align-items: center;
@@ -71,6 +74,11 @@ button {
       margin-bottom: auto;
     }
   }
+
+  .filterContainer .box {
+    -webkit-flex: 1;
+
+}
 
   .reportingConatiner {
     // position: sticky;
