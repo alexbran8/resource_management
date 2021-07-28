@@ -386,9 +386,9 @@ const NormCheck = () => {
                                 }
                             </select>          
                          
-                                <Button color="secondary" onClick={() => { setShowC1(!showC1); setShowC2(false); setShowC3(false); setShowC4(false) }}>Capacity vs Norms </Button>
-                                <Button color="secondary" onClick={() => { setShowC2(!showC2); setShowC1(false); setShowC3(false); setShowC4(false) }}>Capacity vs Lawson </Button>
-                                <Button color="secondary" onClick={() => { setShowC3(!showC3); setShowC1(false); setShowC2(false); setShowC4(false) }}>Capacity Comments Check </Button>
+                                <Button color={!showC1 ? "secondary" : "primary"} onClick={() => { setShowC1(!showC1); setShowC2(false); setShowC3(false); setShowC4(false) }}>Capacity vs Norms ({capacityItems && capacityItems.length}) </Button>
+                                <Button color={!showC2 ? "secondary" : "primary"} onClick={() => { setShowC2(!showC2); setShowC1(false); setShowC3(false); setShowC4(false) }}>Capacity vs Lawson ({capLawsonItems && capLawsonItems.length}) </Button>
+                                <Button color={!showC3 ? "secondary" : "primary"} onClick={() => { setShowC3(!showC3); setShowC1(false); setShowC2(false); setShowC4(false) }}>Capacity Comments Check ({commentsCheck && commentsCheck.length}) </Button>
                                 <Button  disabled = {true} color="secondary" onClick={() => { setShowC4(!showC4); setShowC1(false);; setShowC2(false);; setShowC3(false) }}>Capacity vs NPT </Button>
                         </form>
                 </div>
@@ -409,7 +409,6 @@ const NormCheck = () => {
 
             <div className='selectable-containers'>
                 {showC1 ? <div className="c1">
-                    <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
                     <Table striped bordered hover responsive="xl" className="normsTable">
 
                         <thead >
