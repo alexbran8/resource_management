@@ -217,9 +217,9 @@ function sendEmail(email, data, data2, data3, context) {
   const metadata = {
     transporter: transporterConfig,
     from: "poweremail.ni_gsd_timisoara@nokia.com",
-    // to: email,
-    to:'alexandru.bran@nokia.com',
-    // cc: 'cecilia.crisan@nokia.com',
+    to: email,
+    // to:'alexandru.bran@nokia.com',
+    cc: 'cecilia.crisan@nokia.com',
     subj: `[NPT notification] This email requires your attention! [NPT notification]`,
     text: "Please review the following:",
     html: '<div> Dear ' + resource + ', <p> </p><p>Please review the following:</p> ' +
@@ -227,7 +227,7 @@ function sendEmail(email, data, data2, data3, context) {
       '<p> Regards,</p><p>Nokia Planning Tool, on behalf of ' + context.user + '  </p></div>'
   };
 
-  emailHandler(metadata).catch(console.error)
+  // emailHandler(metadata).catch(console.error)
 
   
     // Notifications.bulkCreate(notification)
