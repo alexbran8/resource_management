@@ -179,7 +179,7 @@ const NormCheck = () => {
                 return res;
             }, {});
             setuResources(result3)
-            setCapLawsonItems(dataCC.commentsCheckQuery)
+            setCommentsCheck(dataCC.commentsCheckQuery)
         }
     });
     const [sendNotificationsMutation] = useMutation(SEND_NOTIFICATION, {
