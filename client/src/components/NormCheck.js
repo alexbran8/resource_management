@@ -400,9 +400,9 @@ const NormCheck = () => {
             </div>
 
             <p>List of tasks reported in Capacity having variance ({capacityItems && capacityItems.length} tasks):</p>
-            <Table striped bordered hover className="normsTable">
+            <Table striped bordered hover responsive="xl" className="normsTable">
 
-                <thead>
+                <thead >
                     <tr>
                         <th>Select</th>
                         <th>
@@ -420,10 +420,10 @@ const NormCheck = () => {
                         <th>
                             Capacity
                         </th>
-                        <th>
+                        <th >
                             Comments
                         </th>
-                        <th>
+                        <th >
                             TWC
                         </th>
                         <th>
@@ -465,8 +465,8 @@ const NormCheck = () => {
                                 <td>{item.to_email}</td>
                                 <td>{item.wbsCustomer}</td>
                                 <td>{item.Task}</td>
-                                <td>{item.taskComments}</td>
-                                <td>{item.timeWrittingComments}</td>
+                                <td>{item.taskComments.substring(0, 50)}</td>
+                                <td>{item.timeWrittingComments.substring(0, 50)}</td>
                                 <td>{item.billableHours}</td>
                                 <td>{item.realHour}</td>
                                 <td>{item.normOK}</td>

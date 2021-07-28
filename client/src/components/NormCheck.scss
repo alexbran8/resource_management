@@ -17,6 +17,9 @@ button {
   margin-bottom: auto;
 }
 }
+::-webkit-scrollbar {
+  display: none;
+}
 
 // .mainParent {
 //   // height: 90%;
@@ -38,6 +41,10 @@ button {
     top: 240px; //140
     background: #7b8d9b;
     border: 3px #7b8d9b solid;
+    max-width: 40px; 
+  }
+  .normsTable th td {
+   max-width: 40px; 
   }
   h5 {
     text-align: center;
