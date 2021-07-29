@@ -114,6 +114,14 @@ export default class Header extends Component {
                       </Link>
               </li>
               <li className="nav-item">
+            <Link
+              className="nav-link text-white"
+              to={config.baseLOCATION + "/norms"}
+            >
+              Norms
+            </Link>
+          </li>
+              <li className="nav-item">
                 <Link
                   className="nav-link text-white"
                   to={config.baseLOCATION + "/request"}
@@ -150,6 +158,14 @@ export default class Header extends Component {
               to={config.baseLOCATION + "/signup"}
             >
               Add Users
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              className="nav-link text-white"
+              to={config.baseLOCATION + "/exports"}
+            >
+              Exports
             </Link>
           </li>
           <li className="nav-item">

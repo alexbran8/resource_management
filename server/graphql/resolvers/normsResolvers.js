@@ -173,7 +173,7 @@ function sendEmail(email, data, data2, data3, context) {
   data[email] && data[email].length > 0 ? data[email].reduce(function (a, b) {
     console.log(data[email])
     content = a + '<tr><td>' + b.resource + '</td><td>' + b.date
-      + '</td><td>' + b.taskComments + '</td><td>' + b.twc + '</td><td>' + b.rh + '</td><td>' + b.normOK + '</td><td>'
+      + '</td><td>' + b.taskComments + '</td><td>' + b.twc + '</td><td>' + b.bh + '</td><td>' + b.normOK + '</td><td>'
       + b.normNok + '</td><td>' + b.var + '</td><td>' + b.correction + '</td></tr>'
     return content
   }, '') : null
@@ -197,7 +197,7 @@ function sendEmail(email, data, data2, data3, context) {
   if (content != '') {
     table1 = ' <p> Tasks in capacity tool</p>' +
       '<table border="1" style="border-collapse:collapse;text-align:center;padding-left: 20px;padding-right: 20px;"><thead style="background-color:powderblue;">' +
-      '<tr><th>RESOURCE</th><th>DATE</th><th>Comments</th><th>Time Writting Comments</th><th>REAL HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead>' +
+      '<tr><th>RESOURCE</th><th>DATE</th><th>Comments</th><th>Time Writting Comments</th><th>BILLABLE HOURS</th><th>NORM_OK</th><th>NORM_NOK</th><th>VARIATION</th><th>POSSIBLE CORRECTION</th></tr></thead>' +
       '<tbody></tbody> ' + content + '</tbody></table> '
   }
   if (content2 != '') {
