@@ -102,17 +102,17 @@ const NormCheck = () => {
     const [checked, setChecked] = useState([])
     const [checkedLC, setCheckedLC] = useState([])
     const [checkedCC, setCheckedCC] = useState([])
-    const [status, setStatus] = useState()
-    const [capacityItems, setCapacityItems] = useState()
-    const [capLawsonItems, setCapLawsonItems] = useState()
-    const [commentsCheck, setCommentsCheck] = useState()
+    const [status, setStatus] = useState('')
+    const [capacityItems, setCapacityItems] = useState([])
+    const [capLawsonItems, setCapLawsonItems] = useState([])
+    const [commentsCheck, setCommentsCheck] = useState([])
     const [style, setStyle] = useState({
         style: {
             logoHeight: 200
         }
     })
-    const [uResources, setuResources] = useState()
-    const [uDeps, setuDeps] = useState()
+    const [uResources, setuResources] = useState([])
+    const [uDeps, setuDeps] = useState([])
     const [selected, setSelected] = useState(0)
     const { data, loading: get_norms_loading, error: get_norms_error } = useQuery(GET_NORMS, {
         variables: { department: 'radio' }, onCompleted: () => {
