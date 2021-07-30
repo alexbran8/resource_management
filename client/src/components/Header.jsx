@@ -43,6 +43,11 @@ export const Header = () => {
               authenticated: true,
               user: responseJson.user
             });
+            sessionStorage.setItem('exp',responseJson.user.exp)
+            sessionStorage.setItem('userEmail',responseJson.user.userEmail)
+            sessionStorage.setItem('name',responseJson.user.name)
+            sessionStorage.setItem('token',responseJson.user.token)
+            sessionStorage.setItem('roles',responseJson.user.roles)
             dispatch({
                       type: UPDATE_PROFILE,
                       payload: {
