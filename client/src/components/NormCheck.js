@@ -328,6 +328,11 @@ const NormCheck = () => {
         }
     }
 
+
+    const updateCapacityNormsComments = (uid, comment) => {
+        checked.find((y) => y.uid == uid).correction = comment        
+    }
+
     return (
         <div className="main">
             <h5>Prior to checking the below table please update the files using the following <a target="_blank" href="https://apps.gdceur.eecloud.dynamic.nsn-net.net/tools/">application</a> (soon to be integrated here!!!)</h5>
@@ -340,57 +345,57 @@ const NormCheck = () => {
                             // this.filter(this.state.filter);
                         }}
                     >
-                                               <>
-                                <Button color="primary"
-                                    disabled={true}
-                                    onClick={sendNotifications}>Upload files </Button>
-                                <Button color="danger"
-                                    disabled={selected < 1}
-                                    onClick={sendNotifications}>Send {selected} notification(s) </Button>
-                            </>
-                            <select
-                                className="form-control p-2 m-3 col"
-                                defaultValue=""
-                                onChange={(e) => {
-                                    _onChangeFitler(e, "resource")
-                                    //   const lineObj = { ...this.state.filter };
-                                    //   lineObj.line_manager = e.target.value;
-                                    //   this.setState({ filter: lineObj });
-                                }}
-                            >
-                                <option value="">All resources</option>
-                                {uResources && uResources.map((x, index) => {
-                                    return (
-                                        <option key={x + index} value={x.Resource}>
-                                            {x.Resource} ({x.qty} tasks)
-                                        </option>
-                                    );
-                                })
-                                }
-                            </select>
-                            <select
-                                className="form-control p-2 m-3 col"
-                                defaultValue=""
-                                onChange={(e) => {
-                                    _onChangeFitler(e, "dep")
-                                }}
-                            >
-                                <option value="">Department</option>
-                                {uDeps && uDeps.map((x) => {
-                                    return (
-                                        <option key={x} value={x}>
-                                            {x}
-                                        </option>
-                                    );
-                                })
-                                }
-                            </select>          
-                         
-                                <Button color={!showC1 ? "secondary" : "primary"} onClick={() => { setShowC1(!showC1); setShowC2(false); setShowC3(false); setShowC4(false) }}>Capacity vs Norms ({capacityItems && capacityItems.length}) </Button>
-                                <Button color={!showC2 ? "secondary" : "primary"} onClick={() => { setShowC2(!showC2); setShowC1(false); setShowC3(false); setShowC4(false) }}>Capacity vs Lawson ({capLawsonItems && capLawsonItems.length}) </Button>
-                                <Button color={!showC3 ? "secondary" : "primary"} onClick={() => { setShowC3(!showC3); setShowC1(false); setShowC2(false); setShowC4(false) }}>Capacity Comments Check ({commentsCheck && commentsCheck.length}) </Button>
-                                <Button  disabled = {true} color="secondary" onClick={() => { setShowC4(!showC4); setShowC1(false);; setShowC2(false);; setShowC3(false) }}>Capacity vs NPT </Button>
-                        </form>
+                        <>
+                            <Button color="primary"
+                                disabled={true}
+                                onClick={sendNotifications}>Upload files </Button>
+                            <Button color="danger"
+                                disabled={selected < 1}
+                                onClick={sendNotifications}>Send {selected} notification(s) </Button>
+                        </>
+                        <select
+                            className="form-control p-2 m-3 col"
+                            defaultValue=""
+                            onChange={(e) => {
+                                _onChangeFitler(e, "resource")
+                                //   const lineObj = { ...this.state.filter };
+                                //   lineObj.line_manager = e.target.value;
+                                //   this.setState({ filter: lineObj });
+                            }}
+                        >
+                            <option value="">All resources</option>
+                            {uResources && uResources.map((x, index) => {
+                                return (
+                                    <option key={x + index} value={x.Resource}>
+                                        {x.Resource} ({x.qty} tasks)
+                                    </option>
+                                );
+                            })
+                            }
+                        </select>
+                        <select
+                            className="form-control p-2 m-3 col"
+                            defaultValue=""
+                            onChange={(e) => {
+                                _onChangeFitler(e, "dep")
+                            }}
+                        >
+                            <option value="">Department</option>
+                            {uDeps && uDeps.map((x) => {
+                                return (
+                                    <option key={x} value={x}>
+                                        {x}
+                                    </option>
+                                );
+                            })
+                            }
+                        </select>
+
+                        <Button color={!showC1 ? "secondary" : "primary"} onClick={() => { setShowC1(!showC1); setShowC2(false); setShowC3(false); setShowC4(false) }}>Capacity vs Norms ({capacityItems && capacityItems.length}) </Button>
+                        <Button color={!showC2 ? "secondary" : "primary"} onClick={() => { setShowC2(!showC2); setShowC1(false); setShowC3(false); setShowC4(false) }}>Capacity vs Lawson ({capLawsonItems && capLawsonItems.length}) </Button>
+                        <Button color={!showC3 ? "secondary" : "primary"} onClick={() => { setShowC3(!showC3); setShowC1(false); setShowC2(false); setShowC4(false) }}>Capacity Comments Check ({commentsCheck && commentsCheck.length}) </Button>
+                        <Button disabled={true} color="secondary" onClick={() => { setShowC4(!showC4); setShowC1(false);; setShowC2(false);; setShowC3(false) }}>Capacity vs NPT </Button>
+                    </form>
                 </div>
 
                 <div className='reportingConatiner' style={{ height: style.logoHeight, fontSize: style.fontSize }}>
@@ -410,7 +415,6 @@ const NormCheck = () => {
             <div className='selectable-containers'>
                 {showC1 ? <div className="c1">
                     <Table striped bordered hover responsive="xl" className="normsTable">
-
                         <thead >
                             <tr>
                                 <th>Select</th>
@@ -436,11 +440,11 @@ const NormCheck = () => {
                                     TWC
                                 </th>
                                 <th>
-                                    Billable Hours
+                                    BH
                                 </th>
 
                                 <th>
-                                    Real Hours
+                                    RH
                                 </th>
 
                                 <th>
@@ -471,18 +475,26 @@ const NormCheck = () => {
                                         /></td>
                                         <td>{item.Date}</td>
                                         <td>{item.Resource}</td>
-                                        <td>{item.to_email}</td>
+                                        <td>{item.to_email ? "yes" : false}</td>
                                         <td>{item.wbsCustomer}</td>
                                         <td>{item.Task}</td>
-                                        <td>{item.taskComments.substring(0, 50)}</td>
-                                        <td>{item.timeWrittingComments.substring(0, 50)}</td>
+                                        <td><span title={item.taskComments}>{item.taskComments.substring(0,10)}</span> </td>
+                                        <td><span title={item.timeWrittingComments}>{item.timeWrittingComments.substring(0, 10)}</span>  </td>
                                         <td>{item.billableHours}</td>
                                         <td>{item.realHour}</td>
                                         <td>{item.normOK}</td>
                                         <td>{item.normNOK}</td>
                                         <td>{item.status}</td>
                                         <td>{item.variation}</td>
-                                        <td>{item.correction}</td>
+                                        <td className="cellTextArea">
+                                        <textarea
+                                            type="textarea"
+                                            rows={2}
+                                            defaultValue={item.correction || 'please check'}
+                                            disabled={checked.find((y) => y.uid == item.uid) ? false : true}
+                                            onChange={(e) => updateCapacityNormsComments(item.uid, e.target.value)}
+                                        />
+                                        </td>
                                     </tr>
                                 )
                             })}
@@ -547,7 +559,12 @@ const NormCheck = () => {
                                         <td>{item.sumCapacity}</td>
                                         <td>{item.sumLawson}</td>
                                         <td>{item.variation}</td>
-                                        <td>{item.correction}</td>
+                                        <input
+                                            type="text"
+                                            value={item.correction}
+                                            // checked={checked.find((y) => y.uid == item.uid) ? true : false}
+                                            onChange={(e) => createArr(item.uid, item)}
+                                        />
                                     </tr>
                                 )
                             })}
@@ -598,7 +615,12 @@ const NormCheck = () => {
                                         <td>{item.Task}</td>
                                         <td>{item.taskComments}</td>
                                         <td>{item.timeWrittingComments}</td>
-                                        <td>{item.result}</td>
+                                        <input
+                                            type="text"
+                                            value={item.result}
+                                            // checked={checked.find((y) => y.uid == item.uid) ? true : false}
+                                            onChange={(e) => createArr(item.uid, item)}
+                                        />
                                     </tr>
                                 )
                             })}

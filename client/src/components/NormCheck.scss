@@ -46,9 +46,13 @@ button {
   .selectable-containers {
     border: 2px #7b8d9b solid;
   }
-  .normsTable th t {
-   max-width: 40px; 
+
+  tr td {
+    max-width: 3cm;
+    white-space: pre-line;
+
   }
+  
   h5 {
     text-align: center;
   }
@@ -59,7 +63,7 @@ button {
     // margin-top: 150px;
     border: 2px #7b8d9b solid;
     display: flex;
-    // overflow-y: hidden;
+    overflow-y: hidden;
     opacity: 100%;
 
     align-items: center;
