@@ -1,8 +1,11 @@
 --get recorded entries
-select final.upi, final.engineer, final.type, SUM(days), final.week FROM ( 
+select final.upi, final.engineer, final.type, SUM(days) days, final.week
+--,EXTRACT(week FROM make_date(2021,6,1)) as min_week,  
+--EXTRACT(week FROM make_date(2021,6,1)+ interval '1 month' - interval '1 day') as max_week 
+FROM ( 
 select *, ROW_NUMBER () OVER (
 	    PARTITION BY upi 
-	) rank_number,  EXTRACT(week FROM make_date(2021,6,1)) as min_week, EXTRACT(week FROM make_date(2021,6,1)+ interval '1 month' - interval '1 day') as max_week FROM (
+	) rank_number FROM (
 select 
 employees.upi, lastname || ', '|| firstname AS Engineer, 
 events.type, events.start, events.end,
@@ -14,7 +17,7 @@ EXTRACT(week FROM events.start) +1 as week,  'initial' as "whereFrom"  FROM (
  where 
  events.type in ('Hotline', 'On Call','Morning Tasks') 
  and  
- extract(month from events.start) = 6
+ extract(month from events.start) = 7
  and 
  extract(year from events.start) = 2021
 --and not events.id in (select id from public.schfited_schedule_processed )
@@ -36,7 +39,7 @@ null as week,
  where 
  events.type in ('On Call') 
  and 
- extract(month from events.start) = 6
+ extract(month from events.start) = 7
  and 
  extract(year from events.start) = 2021
 --and not events.id in (select id from public.schfited_schedule_processed )
