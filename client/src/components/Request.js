@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Axios from 'axios'
-import * as actions from '../actions'
+// import * as actions from '../actions'
 import { config } from '../config'
 
 import DatePicker from 'react-datepicker'
@@ -246,6 +246,6 @@ function MapStateToProps(state) {
 }
 
 export default connect(
-  MapStateToProps,
-  actions
+  MapStateToProps
+  // actions
 )(Request)

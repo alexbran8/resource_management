@@ -6,7 +6,7 @@ import tasksReducer from './tasks';
 
 export default combineReducers({
   auth: authReducer,
-  form: formReducer,
-  projectsReducer,
-  tasksReducer,
+  // form: formReducer,
+  // projectsReducer,
+  // tasksReducer,
 });

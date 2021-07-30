@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Axios from "axios";
 import { config } from "../config";;
 
-import * as actions from "../actions";
+// import * as actions from "../actions";
 
 var moment = require("moment");
 
@@ -146,4 +146,4 @@ function MapStateToProps(state) {
   };
 }
 
-export default connect(MapStateToProps, actions)(Approval);
+export default connect(MapStateToProps)(Approval);

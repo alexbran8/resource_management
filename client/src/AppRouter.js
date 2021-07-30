@@ -1,6 +1,6 @@
 import React from "react";
 import Homepage from "./components/Homepage.jsx";
-import Header from "./components/Header.jsx";
+import {Header} from "./components/Header.jsx";
 import Request from "./components/Request";
 import Approvals from "./components/Approval";
 import NormCheck from './components/NormCheck'

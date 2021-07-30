@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { useForm, Controller } from 'react-hook-form'
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { SignUp } from "../actions/index"
+// import { SignUp } from "../actions/index"
 import { Form, Select, Col, Row } from "react-bootstrap"
 
 import "./SignUp.scss"
