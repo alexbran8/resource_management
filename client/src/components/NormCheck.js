@@ -228,22 +228,27 @@ const NormCheck = () => {
     };
 
     const createArr = (uid, item) => {
-        if (checked.find((y) => y.uid == item.uid)) {
-            // checked.find((y) => checked.splice(y, 1))
-            checked.splice(checked.findIndex(function (i) {
-                return i.uid === uid;
-            }), 1);
-            setSelected(checkedLC.length + checked.length)
-        } else {
+        if (item.to_email) {
+            if (checked.find((y) => y.uid == item.uid)) {
+                // checked.find((y) => checked.splice(y, 1))
+                checked.splice(checked.findIndex(function (i) {
+                    return i.uid === uid;
+                }), 1);
+                setSelected(checkedLC.length + checked.length)
+            } else {
 
-            checked.push({
-                type: 'norms',
-                uid: uid, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments,
-                bh: item.billableHours, rh: item.realHour, twc: item.timeWrittingComments, var: item.variation,
-                to_email: item.to_email,
-                normNok: item.normNOK, normOK: item.normOK, correction: item.correction
-            })
-            setSelected(checkedLC.length + checked.length)
+                checked.push({
+                    type: 'norms',
+                    uid: uid, date: item.Date, resource: item.Resource, task: item.Task, taskComments: item.taskComments,
+                    bh: item.billableHours, rh: item.realHour, twc: item.timeWrittingComments, var: item.variation,
+                    to_email: item.to_email,
+                    normNok: item.normNOK, normOK: item.normOK, correction: item.correction
+                })
+                setSelected(checkedLC.length + checked.length)
+            }
+        }
+        else {
+            alert("please check database. entry has no email")
         }
     }
 
@@ -271,66 +276,88 @@ const NormCheck = () => {
 
 
     const createArrLC = (uid, item) => {
-        if (checkedLC.find((y) => y.uid == uid)) {
-            checkedLC.splice(checkedLC.findIndex(function (i) {
-                return i.uid === uid;
-            }), 1);
-            setSelected(checkedLC.length + checked.length)
-        } else {
-            checkedLC.push({
-                type: 'lawson-capacity',
-                uid: uid,
-                date: item.Date,
-                resource: item.Resource,
-                bh: item.billableHours,
-                rh: item.realHour,
-                wbsCustomer: item.wbsCustomer,
-                workFolderCode: item.workFolderCode,
-                sumCapacity: item.sumCapacity,
-                sumLawson: item.sumLawson,
-                wbsCheck: item.wbsCheck,
-                var: item.variation,
-                to_email: item.to_email,
-                correction: item.correction,
-                // status: item.status
-            })
-            setSelected(checkedLC.length + checked.length)
+        if (item.to_email) {
+            if (checkedLC.find((y) => y.uid == uid)) {
+                checkedLC.splice(checkedLC.findIndex(function (i) {
+                    return i.uid === uid;
+                }), 1);
+                setSelected(checkedLC.length + checked.length)
+            } else {
+                checkedLC.push({
+                    type: 'lawson-capacity',
+                    uid: uid,
+                    date: item.Date,
+                    resource: item.Resource,
+                    bh: item.billableHours,
+                    rh: item.realHour,
+                    wbsCustomer: item.wbsCustomer,
+                    workFolderCode: item.workFolderCode,
+                    sumCapacity: item.sumCapacity,
+                    sumLawson: item.sumLawson,
+                    wbsCheck: item.wbsCheck,
+                    var: item.variation,
+                    to_email: item.to_email,
+                    correction: item.correction,
+                    // status: item.status
+                })
+                setSelected(checkedLC.length + checked.length)
+            }
+        }
+        else {
+            alert("please check database. entry has no email")
         }
     }
     const createArrCC = (uid, item) => {
-        if (checkedCC.find((y) => y.uid == uid)) {
-            checkedCC.splice(checkedCC.findIndex(function (i) {
-                return i.uid === uid;
-            }), 1);
-            setSelected(checkedCC.length + checked.length)
-        } else {
-            checkedCC.push({
-                uid: uid,
-                date: item.Date,
-                to_email: item.to_email,
-                resource: item.Resource,
-                comments: item.taskComments,
-                twc: item.timeWrittingComments,
-                task: item.Task,
-                // bh: item.billableHours,
-                // rh: item.realHour,
-                // wbsCustomer: item.wbsCustomer,
-                // workFolderCode: item.workFolderCode,
-                // sumCapacity: item.sumCapacity,
-                // sumLawson: item.sumLawson,
-                // wbsCheck: item.wbsCheck,
-                // var: item.variation,
-                // to_email: item.to_email,
-                result: item.result,
-                // status: item.status
-            })
-            setSelected(checkedLC.length + checked.length + + checkedCC.length)
+        if (item.to_email) {
+            if (checkedCC.find((y) => y.uid == uid)) {
+                checkedCC.splice(checkedCC.findIndex(function (i) {
+                    return i.uid === uid;
+                }), 1);
+                setSelected(checkedCC.length + checked.length)
+            } else {
+                checkedCC.push({
+                    uid: uid,
+                    date: item.Date,
+                    to_email: item.to_email,
+                    resource: item.Resource,
+                    comments: item.taskComments,
+                    twc: item.timeWrittingComments,
+                    task: item.Task,
+                    // bh: item.billableHours,
+                    // rh: item.realHour,
+                    // wbsCustomer: item.wbsCustomer,
+                    // workFolderCode: item.workFolderCode,
+                    // sumCapacity: item.sumCapacity,
+                    // sumLawson: item.sumLawson,
+                    // wbsCheck: item.wbsCheck,
+                    // var: item.variation,
+                    // to_email: item.to_email,
+                    result: item.result,
+                    // status: item.status
+                })
+                setSelected(checkedLC.length + checked.length + + checkedCC.length)
+            }
+        }
+        else {
+            alert("please check database. entry has no email")
         }
     }
 
 
     const updateCapacityNormsComments = (uid, comment) => {
-        checked.find((y) => y.uid == uid).correction = comment        
+        const newChecked = [... checked]
+        newChecked.find((y) => y.uid == uid).correction = comment
+        setChecked(newChecked)
+    }
+    const updateCapacitLawsonComments = (uid, comment) => {
+        const newChecked = [... checkedLC]
+        checkedLC.find((y) => y.uid == uid).correction = comment
+        setChecked(newChecked)
+    }
+    const updateCapacitCommentsCheck = (uid, comment) => {
+        const newChecked = [... checkedCC]
+        newChecked.find((y) => y.uid == uid).result = comment
+        setCheckedCC(newChecked)
     }
 
     return (
@@ -402,8 +429,8 @@ const NormCheck = () => {
                     <div className="left-container">RIGHT container</div>
                     <div className="right-container"><h5 style={{ fontSize: style.fontSize }}>Selected items:</h5>
                         <ul>
-                            {checked && checked.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.taskComments}</li>)}
-                            {checkedLC && checkedLC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.variation}</li>)}
+                            {checked && checked.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.correction}</li>)}
+                            {checkedLC && checkedLC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.correction}</li>)}
                             {checkedCC && checkedCC.map(item => <li key={item.uid}>{item.to_email}, {item.date}, {item.result}</li>)}
                         </ul>
                     </div>
@@ -423,9 +450,6 @@ const NormCheck = () => {
                                 </th>
                                 <th>
                                     Engineer
-                                </th>
-                                <th>
-                                    Email
                                 </th>
                                 <th>
                                     WBS
@@ -475,10 +499,9 @@ const NormCheck = () => {
                                         /></td>
                                         <td>{item.Date}</td>
                                         <td>{item.Resource}</td>
-                                        <td>{item.to_email ? "yes" : false}</td>
                                         <td>{item.wbsCustomer}</td>
                                         <td>{item.Task}</td>
-                                        <td><span title={item.taskComments}>{item.taskComments.substring(0,10)}</span> </td>
+                                        <td><span title={item.taskComments}>{item.taskComments.substring(0, 10)}</span> </td>
                                         <td><span title={item.timeWrittingComments}>{item.timeWrittingComments.substring(0, 10)}</span>  </td>
                                         <td>{item.billableHours}</td>
                                         <td>{item.realHour}</td>
@@ -487,13 +510,12 @@ const NormCheck = () => {
                                         <td>{item.status}</td>
                                         <td>{item.variation}</td>
                                         <td className="cellTextArea">
-                                        <textarea
-                                            type="textarea"
-                                            rows={2}
-                                            defaultValue={item.correction || 'please check'}
-                                            disabled={checked.find((y) => y.uid == item.uid) ? false : true}
-                                            onChange={(e) => updateCapacityNormsComments(item.uid, e.target.value)}
-                                        />
+                                            <textarea
+                                                rows={2}
+                                                defaultValue={item.correction || 'please check'}
+                                                disabled={checked.find((y) => y.uid == item.uid) ? false : true}
+                                                onChange={(e) => updateCapacityNormsComments(item.uid, e.target.value)}
+                                            />
                                         </td>
                                     </tr>
                                 )
@@ -502,10 +524,10 @@ const NormCheck = () => {
                     </Table>
 
                 </div> : null}
-                {showC2 ? <div className="c2"> LAWSON VS. CAPACITY
+                {showC2 ? <div className="c2"> 
                     <Table striped bordered hover className="normsTable">
 
-                        <thead>
+                        <thead >
                             <tr>
                                 <th>Select</th>
                                 <th>
@@ -513,9 +535,6 @@ const NormCheck = () => {
                                 </th>
                                 <th>
                                     Engineer
-                                </th>
-                                <th>
-                                    Email
                                 </th>
                                 <th>
                                     WBS Capacity
@@ -552,25 +571,26 @@ const NormCheck = () => {
                                         /></td>
                                         <td>{item.Date}</td>
                                         <td>{item.Resource}</td>
-                                        <td>{item.to_email}</td>
                                         <td>{item.wbsCustomer}</td>
                                         <td>{item.workFolderCode}</td>
                                         <td>{item.wbsCheck}</td>
                                         <td>{item.sumCapacity}</td>
                                         <td>{item.sumLawson}</td>
                                         <td>{item.variation}</td>
-                                        <input
-                                            type="text"
-                                            value={item.correction}
-                                            // checked={checked.find((y) => y.uid == item.uid) ? true : false}
-                                            onChange={(e) => createArr(item.uid, item)}
-                                        />
+                                        <td>
+                                            <textarea
+                                                // rows={2}
+                                                defaultValue={item.correction}
+                                                disabled={checkedLC.find((y) => y.uid == item.uid) ? false : true}
+                                                onChange={(e) => updateCapacitLawsonComments(item.uid, e.target.value)}
+                                            />
+                                        </td>
                                     </tr>
                                 )
                             })}
                         </tbody>
                     </Table></div> : null}
-                {showC3 ? <div className="c3">  CAPACITY COMMENTS CHECK
+                {showC3 ? <div className="c3">
                     <Table striped bordered hover className="normsTable">
 
                         <thead>
@@ -581,9 +601,6 @@ const NormCheck = () => {
                                 </th>
                                 <th>
                                     Engineer
-                                </th>
-                                <th>
-                                    Email
                                 </th>
                                 <th>
                                     Task
@@ -611,16 +628,17 @@ const NormCheck = () => {
                                         /></td>
                                         <td>{item.Date}</td>
                                         <td>{item.Resource}</td>
-                                        <td>{item.to_email}</td>
                                         <td>{item.Task}</td>
                                         <td>{item.taskComments}</td>
                                         <td>{item.timeWrittingComments}</td>
-                                        <input
-                                            type="text"
-                                            value={item.result}
-                                            // checked={checked.find((y) => y.uid == item.uid) ? true : false}
-                                            onChange={(e) => createArr(item.uid, item)}
-                                        />
+                                        <td>
+                                            <textarea
+                                                rows={2}
+                                                disabled={checkedCC.find((y) => y.uid == item.uid) ? false : true}
+                                                defaultValue={item.result || "please check comments"}
+                                                onChange={(e) => updateCapacitCommentsCheck(item.uid, e.target.value)}
+                                            />
+                                        </td>
                                     </tr>
                                 )
                             })}
