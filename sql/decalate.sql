@@ -1,5 +1,5 @@
 --get recorded entries
-select final.upi, final.engineer, final.type, SUM(days) days, final.week
+select final.upi, final.engineer, final.type, SUM(days) days, employeer, final.week
 --,EXTRACT(week FROM make_date(2021,6,1)) as min_week,  
 --EXTRACT(week FROM make_date(2021,6,1)+ interval '1 month' - interval '1 day') as max_week 
 FROM ( 
@@ -48,4 +48,4 @@ LEFT JOIN
 (SELECT employees.firstname, employees.lastname, employees.upi, employees.activity,  employees.employeer, nokiaid from public.employees) as employees
 ON events.nokiaid = employees.nokiaid) where  employees.activity = 'Check KPI/Coupure - Bytel Project' 
 	)  as test ) as final
-	GROUP BY final.upi, final.engineer, final.type, final.week, final."whereFrom" order by upi, type
+	GROUP BY final.upi, final.engineer, final.type, final.week, final."whereFrom", final.employeer order by upi, type
