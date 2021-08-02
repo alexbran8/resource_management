@@ -55,7 +55,7 @@ UsersController.get("/get/:id?", async (req, res, next) => {
 });
 
 UsersController.post("/get/filter", async (req, res, next) => {
-  const { line_manager, team, coordinator, employeers, resources, admin, operational } = req.body;
+  const { line_manager, team, tpm, employeers, resources, admin, operational } = req.body;
 
 console.log('admin',admin);
 
@@ -67,8 +67,7 @@ console.log('admin',admin);
       [Op.and]: [
         {
           [Op.or]: [
-            { tpm_firstname: { [Op.substring]: `${coordinator}` } },
-            { tpm_lastname: { [Op.substring]: `${coordinator}` } },
+            { tpm: { [Op.substring]: `${tpm}` } },
           ],
         },
         {
@@ -114,6 +113,7 @@ console.log('admin',admin);
 });
 
 UsersController.post("/edit", async (req, res, next) => {
+  console.log(req)
   const {
     shortid,
     nokiaid,
@@ -135,15 +135,10 @@ UsersController.post("/edit", async (req, res, next) => {
     location_number,
     line_manager_firstname,
     line_manager_lastname,
-    tpm_firstname,
-    tpm_lastname,
-    checkPassword,
+    tpm,
   } = req.body;
-  let password = req.body.password;
-  // if (password !== checkPassword) {
-  //   password = bcrypt.hashSync(password, bcrypt.genSaltSync(8));
-  // }
-  const updateUser = await User.update(
+  
+   const updateUser = await User.update(
     {
       shortid,
       nokiaid,
@@ -165,9 +160,7 @@ UsersController.post("/edit", async (req, res, next) => {
       location_number,
       line_manager_firstname,
       line_manager_lastname,
-      tpm_firstname,
-      tpm_lastname,
-      password,
+      tpm,
     },
     { where: { nokiaid } }
   );

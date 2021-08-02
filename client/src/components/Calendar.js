@@ -5,7 +5,7 @@ import Axios from "axios";
 import 'react-big-scheduler/lib/css/style.css';
 import withDragDropContext from './withDnDContext';
 
-import DetailModal from "./DetailModal";
+import  DetailModal  from "./DetailModal";
 import OperationalModal from "./Operational_Modal";
 
 import CustomModal from "./Modal";
@@ -37,7 +37,7 @@ const Calendar = () => {
   const [editEvent, setEditEvent] = useState()
   const [filter, setFilter]=useState({line_manager: "",
   team: "",
-  coordinator: "",
+  tpm: "",
   employeers: "",
   resources: ""})
   // eslint-disable-next-line no-unused-vars
@@ -329,7 +329,7 @@ const updateData = async(data) => {
   let data = {
     line_manager: "",
     team: "",
-    coordinator: "",
+    tpm: "",
     employeers: "",
     resources: "",
     admin: true,

@@ -7,7 +7,7 @@ select *, ROW_NUMBER () OVER (
 	    PARTITION BY upi 
 	) rank_number FROM (
 select 
-employees.upi, lastname || ', '|| firstname AS Engineer, 
+employees.upi, lastname || ', '|| firstname AS Engineer,
 events.type, events.start, events.end,
 DATE_PART('day', events."end" - events.start) + 2  as DAYS, employees.employeer, 
 employees.activity, 

@@ -1,72 +1,37 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import Axios from 'axios'
 import { config } from '../config'
 
-class DetailModal extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { info: undefined, edit: false, checkPassword: '' }
+import { useSelector } from "react-redux";
+
+const DetailModal = (props) => {
+const [users, setUsers] = useState()
+const user = useSelector((state) => ({ auth: state.auth }));
+const [edit, setEdit] = useState(false)
+const [status, setStatus]= useState()
+
+
+useEffect(() => {
+  Axios.get(`${ config.baseURL + config.baseLOCATION }/usersPrivate/get/${props.id}`, {withCredentials: true})
+  .then(res => {
+    setUsers(res.data.users[0]);
   }
-  async componentDidMount() {
-    const info = await Axios.get(`${ config.baseURL + config.baseLOCATION }/usersPrivate/get/${this.props.id}`, {withCredentials: true})
-    if (!info) {
-      alert('failed')
-    }
-    this.setState({
-      info: info.data.users[0],
-      checkPassword: info.data.users[0].password
-    })
+  )
+  .catch(error => {
+    console.log(error)
+  })
+},[])
+
+  const sendChanges = (data) => { 
+  Axios.post(`${ config.baseURL + config.baseLOCATION }/usersPrivate/edit`, data, {withCredentials: true})
+  .then(res => { res.status === 200 ? setStatus('update successfull!'):setStatus('Error on update');editStatus()})
+  .catch(error => {console.log(error);setStatus('Error on update')})
+  
+  
   }
 
-  editStatus() {
-    this.setState({ edit: !this.state.edit })
-  }
-  renderRows(title, variable) {
-    return (
-      <div key={`${title}`} className="input-group mt-2">
-        <div className="input-group-prepend">
-          <span className="customSpan input-group-text">
-            <b>{`${title}`}</b>
-          </span>
-        </div>
-        <div className="form-control">{variable}</div>
-      </div>
-    )
-  }
-  renderEditRows(title, variable) {
-    return (
-      <div key={title} className="input-group mt-2">
-        <div className="input-group-prepend">
-          <span className="customSpan input-group-text">
-            <b>{`${title}`}</b>
-          </span>
-        </div>
-        <input
-          className="form-control"
-          defaultValue={
-            variable === 'password' ? '' : this.state.info[variable]
-          }
-          onChange={e => {
-            const obj = { ...this.state.info }
-            obj[variable] = e.target.value
-            this.setState({ info: obj })
-          }}
-        />
-      </div>
-    )
-  }
-
-  async sendChanges(data) {
-    data.checkPassword = this.state.checkPassword
-    const sendData = Axios.post(`${ config.baseURL + config.baseLOCATION }/usersPrivate/edit`, data, {withCredentials: true})
-    if (!sendData) {
-      alert('failed')
-    }
-    window.location.reload()
-  }
-
-  async deleteAccount(data) {
+  const deleteAccount = (data) => {
     const deleteData = Axios.delete(`${ config.baseURL + config.baseLOCATION }/usersPrivate/delete/${data}`,{withCredentials:true})
     if (!deleteData) {
       alert('failed')
@@ -76,90 +41,255 @@ class DetailModal extends Component {
 
 
 
+const renderRows = (title, variable) => {
+      return (
+        <div key={`${title}`} className="input-group mt-2">
+          <div className="input-group-prepend">
+            <span className="customSpan input-group-text">
+              <b>{`${title}`}</b>
+            </span>
+          </div>
+          <div className="form-control">{variable}</div>
+        </div>
+      )
+    }
 
-  render() {
-    const info = this.state.info
-    return this.state.info ? (
-      <Modal show={true} onHide={() => this.props.resetSlot()}>
-        <Modal.Header closeButton>
-          <Modal.Title>Detailed data</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {!this.state.edit ? (
+    const editStatus = () => { 
+      console.log('xxxx')
+       setEdit (!edit)
+    }
+  const  renderEditRows = (title, variable) => {
+      return (
+        <div key={title} className="input-group mt-2">
+          <div className="input-group-prepend">
+            <span className="customSpan input-group-text">
+              <b>{`${title}`}</b>
+            </span>
+          </div>
+          <input
+            className="form-control"
+            defaultValue={
+              variable === 'password' ? '' : users[variable]
+            }
+            onChange={e => {
+              const obj = { ...users }
+              console.log(obj)
+              obj[variable] = e.target.value
+              {console.log(users)}
+              setUsers(obj)
+            }}
+          />
+        </div>
+      )
+    }
+
+  return (  users ? (
+       <Modal show={true} onHide={() => props.resetSlot()}>
+         <Modal.Header closeButton>
+           <Modal.Title>Detailed data</Modal.Title>
+         </Modal.Header>
+       <Modal.Body>
+         <div>{status}</div>
+         {console.log(props)}
+          {!edit ? (
             <>
               {[
-                this.renderRows('Short ID', info.shortid),
-                this.renderRows('Nokia ID', info.nokiaid),
-                this.renderRows('UPI', info.upi),
-                this.renderRows('City', info.city),
-                this.renderRows('Employeer', info.employeer),
-                this.renderRows('Main Team', info.main_team),
-                this.renderRows('Second Team', info.second_team),
-                this.renderRows('Thrid team', info.third_team),
-                this.renderRows('Activity', info.activity),
-                this.renderRows('UPALU', info.upalu),
-                this.renderRows('BANDEAU', info.bandeau),
-                this.renderRows('NEW_ONNET', info.new_onnet),
-                this.renderRows('NEW TEL FR', info.new_tel_fr)
+                renderRows('Short ID', users.shortid),
+                renderRows('Nokia ID', users.nokiaid),
+                renderRows('UPI', users.upi),
+                renderRows('City', users.city),
+                renderRows('Employeer', users.employeer),
+                renderRows('Main Team', users.main_team),
+                renderRows('Second Team', users.second_team),
+                renderRows('Thrid team', users.third_team),
+                renderRows('Activity', users.activity),
+                renderRows('UPALU', users.upalu),
+                renderRows('BANDEAU', users.bandeau),
+                renderRows('NEW_ONNET', users.new_onnet),
+                renderRows('NEW TEL FR', users.new_tel_fr)
               ]}
             </>
           ) : (
               <>
                 {[
-                  this.renderEditRows('Short ID', 'shortid'),
-                  this.renderEditRows('UPI', 'upi'),
-                  this.renderEditRows('Nokia ID', 'nokiaid'),
-                  this.renderEditRows('City', 'city'),
-                  this.renderEditRows('Employeer', 'employeer'),
-                  this.renderEditRows('Email', 'email'),
-                  this.renderEditRows('Main Team', 'main_team'),
-                  this.renderEditRows('Second Team', 'second_team'),
-                  this.renderEditRows('Third Team', 'third_team'),
-                  this.renderEditRows('Activity', 'activity'),
-                  this.renderEditRows('UPALU', 'upalu'),
-                  this.renderEditRows('BANDEAU', 'bandeau'),
-                  this.renderEditRows('NEW_ONNET', 'new_onnet'),
-                  this.renderEditRows('MARCA', 'marca'),
-                  this.renderEditRows('NEW TEL FR', 'new_tel_fr'),
-                  this.renderEditRows('Location Area', 'location_area'),
-                  this.renderEditRows('Location No.', 'location_number'),
-                  this.renderEditRows('TPM First Name', 'tpm_firstname'),
-                  this.renderEditRows('TPM Last Name', 'tpm_lastname'),
-                  this.renderEditRows('LM First Name.', 'line_manager_firstname'),
-                  this.renderEditRows('LM Last Name', 'line_manager_lastname'),
+                  renderEditRows('Short ID', 'shortid'),
+                  renderEditRows('UPI', 'upi'),
+                  renderEditRows('Nokia ID', 'nokiaid'),
+                  <div key={'city'} className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span className="customSpan input-group-text">
+                      <b>City</b>
+                    </span>
+                  </div>
+                  <select
+                    className="form-control"
+                    value={users['city']
+                    }
+                    onChange={e => {
+                      const obj = { ...users }
+                      obj['city'] = e.target.value
+                      setUsers(obj)
+                    }}
+                  >
+                    <option>TM</option>
+                    <option>BU</option>
+                    </select>
+                </div>,
+                  // renderEditRows('Employeer', 'employeer'),
+                  <div key={'employeer'} className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span className="customSpan input-group-text">
+                      <b>Employeer</b>
+                    </span>
+                  </div>
+                  <select
+                    className="form-control"
+                    value={users['employeer']
+                    }
+                    onChange={e => {
+                      const obj = { ...users }
+                      obj['employeer'] = e.target.value
+                      setUsers(obj)
+                    }}
+                  >
+                    <option>Deltatel</option>
+                    <option>NOKIA</option>
+                    <option>SII</option>
+                    </select>
+                </div>,
+                  renderEditRows('Email', 'email'),
+                  <div key={'main_team'} className="input-group mt-2">
+                  <div className="input-group-prepend">
+                    <span className="customSpan input-group-text">
+                      <b>Main Team</b>
+                    </span>
+                  </div>
+                  <select
+                    className="form-control"
+                    value={users['main_team']
+                    }
+                    onChange={e => {
+                      console.log(e.target.value)
+                      const obj = { ...users }
+                      obj['main_team'] = e.target.value
+                      setUsers(obj)
+                    }}
+                  >
+                    <option>AMO</option>
+                    <option>Auto</option>
+                    <option>Build</option>
+                    <option>CDI</option>
+                    <option>Management</option>
+                    <option>Radio CDP</option>
+                    <option>Radio LDP</option>
+                    <option>SAO</option>
+                    <option>TAC</option>
+                    <option>TFT</option>
+                    </select>
+                </div>,
+                  renderEditRows('Second Team', 'second_team'),
+                  renderEditRows('Third Team', 'third_team'),
+                  <div key={'activity'} className="input-group mt-2">
+                  <div className="input-group-prepend">
+                  <span className="customSpan input-group-text">
+                      <b>Activity</b>
+                    </span>
+                  </div>
+                  <select
+                    className="form-control"
+                    value={users['activity']
+                    }
+                    onChange={e => {
+                      const obj = { ...users }
+                      obj['activity'] = e.target.value
+                      setUsers(obj)
+                    }}
+                  >
+                    <option>CRZ</option>
+                    <option>CDI</option>
+                    <option>CDR</option>
+                    <option>BMA</option>
+                    <option>Check KPI/Coupure - Bytel Project</option>
+                    <option>SAO</option>
+                    <option>TAC</option>
+                    <option>AMO</option>
+                    <option>OTHER</option>
+                    </select>
+                </div>,
+                  renderEditRows('UPALU', 'upalu'),
+                  renderEditRows('BANDEAU', 'bandeau'),
+                  renderEditRows('NEW_ONNET', 'new_onnet'),
+                  renderEditRows('MARCA', 'marca'),
+                  renderEditRows('NEW TEL FR', 'new_tel_fr'),
+                  renderEditRows('Location Area', 'location_area'),
+                  renderEditRows('Location No.', 'location_number'),
+                  <div key={'activity'} className="input-group mt-2">
+                  <div className="input-group-prepend">
+                  <span className="customSpan input-group-text">
+                      <b>TPM</b>
+                    </span>
+                  </div>
+                  <select
+                    className="form-control"
+                    value={users['tpm']
+                    }
+                    onChange={e => {
+                      const obj = { ...users }
+                      obj['tpm'] = e.target.value
+                      setUsers(obj)
+                    }}
+                  >
+                    <option value={69063787}>Alexandru, RADULESCU</option>
+                    <option value={69087716}>Mihai, PETRILA</option>
+                    <option value={69183560}>Andrada, STEFAN</option>
+                    <option value={69069805}>CHEROIU, Ionela Florentina</option>
+                    <option value={69063297}>Stelian, ANGHEL</option>
+                    <option value={69129233}>Lucian Eduard, IONESCU</option>
+                    <option value={69107758}>Eugen, GHEGU</option>
+                    <option value={69085848}>Georgiana Emilia, JURESCU</option>
+                    <option value={69035905}>Florin, ILCA</option>
+                    <option value={69038202}>Cecilia, CRISAN</option>
+                    <option value={69158281}>Ana Maria, LUPULEASA</option>
+                    <option value={69179346}>Anamaria, POPESCU</option>
+                    <option value={69087700}>Dragos, PASARICA</option>
+                    <option value={69036287}>Ramona Vasilica, SPERLEA</option>
+                    </select>
+                </div>,
+                  renderEditRows('LM First Name.', 'line_manager_firstname'),
+                  renderEditRows('LM Last Name', 'line_manager_lastname'),
                 ]}
               </>
             )}
-        </Modal.Body>
-        <Modal.Footer>
+        </Modal.Body> 
+      <Modal.Footer>
           <button
             className="btn btn-danger float-right"
-            onClick={() => this.props.resetSlot()}
+            onClick={() => props.resetSlot()}
           >
             Close
           </button>
-          {this.props.level === 'L3' ? (
+          {user.auth.role === 'L3' || user.auth.role === 'L2' ? (
             <>
               <button
                 className={
                   'float-right ' +
-                  (this.state.edit ? 'btn btn-warning' : 'btn btn-primary mr-1')
+                  (edit ? 'btn btn-warning' : 'btn btn-primary mr-1')
                 }
-                onClick={() => this.editStatus()}
+                onClick={() => editStatus()}
               >
-                {this.state.edit ? 'Close edit' : 'Edit user'}
+                {edit ? 'Close edit' : 'Edit user'}
               </button>
-              {this.state.edit ? (
+              {edit ? (
                 <>
                   <button
                     className="btn btn-success"
-                    onClick={() => this.sendChanges(this.state.info)}
+                    onClick={() => sendChanges(users)}
                   >
                     Save
                   </button>
                   <button
                     className="btn btn-danger"
-                    onClick={() => this.deleteAccount(this.state.info.nokiaid)}
+                    onClick={() => deleteAccount(users.nokiaid)}
                   >
                     Delete user
                   </button>
@@ -167,10 +297,13 @@ class DetailModal extends Component {
               ) : null}
             </>
           ) : null}
-        </Modal.Footer>
-      </Modal>
+        </Modal.Footer> 
+     </Modal>
     ) : null
-  }
+  )
 }
+
+
+
 
 export default DetailModal

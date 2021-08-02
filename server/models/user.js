@@ -94,14 +94,6 @@ module.exports = (sequelize, type) => {
         type: type.STRING,
         required: true
       },
-      tpm_firstname: {
-        type: type.STRING,
-        required: true
-      },
-      tpm_lastname: {
-        type: type.STRING,
-        required: true
-      },
       location_area: {
         type: type.STRING,
         required: false
@@ -109,6 +101,10 @@ module.exports = (sequelize, type) => {
       location_number: {
         type: type.STRING,
         required: false
+      },
+      tpm:{
+        type: type.STRING,
+        required:false
       },
       password: {
         type: type.STRING,
