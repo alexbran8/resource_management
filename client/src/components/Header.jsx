@@ -150,7 +150,7 @@ export const Header = () => {
             <li className="nav-item">
           <Link
             className="nav-link text-white"
-            to={config.baseLOCATION + "/norms"}
+            to={"/norms"}
           >
             Norms
           </Link>
