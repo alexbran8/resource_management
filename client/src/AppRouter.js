@@ -18,14 +18,14 @@ export const AppRouter = () => {
     <HashRouter  >
         <Header basename={config.baseLOCATION}/>
         <Route  exact path={"/"} component={Homepage} />
-        <Route  path={config.baseLOCATION + "/normcheck/"} component={authGuard(NormCheck)} />
-        <Route  path={config.baseLOCATION + "/exports"} component={authGuard(Exports)} />
+        <Route  path={ "/normcheck/"} component={authGuard(NormCheck)} />
+        <Route  path={"/exports"} component={authGuard(Exports)} />
         <Route  path={"/norms"} component={authGuard(Norms)} />
-        <Route  path={config.baseLOCATION + "/tasks/"} component={authGuard(Tasks)} />
-        <Route path={config.baseLOCATION + "/approvals"} component={authGuard(Approvals)} />
-        <Route  path={config.baseLOCATION + "/request/"} component={authGuard(Request)} />
-        <Route  path={config.baseLOCATION + "/signup"} component={authGuard(signUpForm)} />
-        <Route  path={config.baseLOCATION + "/schedule"} component={authGuard(Calendar)} />
+        <Route  path={ "/tasks/"} component={authGuard(Tasks)} />
+        <Route path={ "/approvals"} component={authGuard(Approvals)} />
+        <Route  path={ "/request/"} component={authGuard(Request)} />
+        <Route  path={ "/signup"} component={authGuard(signUpForm)} />
+        <Route  path={"/schedule"} component={authGuard(Calendar)} />
     </HashRouter>
   );
 };
