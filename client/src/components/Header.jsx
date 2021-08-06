@@ -163,14 +163,14 @@ export const Header = () => {
                   Add
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   className="nav-link text-white"
                   to={ "/tasks"}
                 >
                   Tasks
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </Nav>
           : null}
