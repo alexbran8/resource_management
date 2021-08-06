@@ -136,6 +136,7 @@ export const Header = () => {
         <b>NOKIA</b> {config.appversion}
       </Link>
       <Collapse  navbar>
+      {state.authenticated ?
         <Nav navbar>
           <ul className="navbar-nav text-center">
             <li className="nav-item">
@@ -172,6 +173,7 @@ export const Header = () => {
             </li>
           </ul>
         </Nav>
+        : null }
       </Collapse>
       <div className="navbar-text">
         <Nav navbar>
