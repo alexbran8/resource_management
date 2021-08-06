@@ -33,7 +33,7 @@ const Calendar = () => {
   const [event, setEvent] = useState()
   const [slot, setSlot] = useState()
   const [types, setTypes] = useState()
-  const [params, setParams] = useState({ 'admin': false, 'operational': true })
+  const [params, setParams] = useState({ 'admin': true, 'operational': false })
   const [editEvent, setEditEvent] = useState()
   const [filter, setFilter]=useState({line_manager: "",
   team: "",
