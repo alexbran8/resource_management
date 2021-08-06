@@ -132,7 +132,7 @@ export const Header = () => {
   };
   return (
     <Navbar className="navbar sticky-nav" expand="sm" fixed="top">
-      <Link className="navbar-brand text-white" to={config.baseLOCATION + "/"}>
+      <Link className="navbar-brand text-white" to={"/"}>
         <b>NOKIA</b> {config.appversion}
       </Link>
       <Collapse navbar>
