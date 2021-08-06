@@ -20,7 +20,7 @@ export const AppRouter = () => {
         <Route  exact path={"/"} component={Homepage} />
         <Route  path={config.baseLOCATION + "/normcheck/"} component={authGuard(NormCheck)} />
         <Route  path={config.baseLOCATION + "/exports"} component={authGuard(Exports)} />
-        <Route  path={config.baseLOCATION + "/norms"} component={authGuard(Norms)} />
+        <Route  path={"/norms"} component={authGuard(Norms)} />
         <Route  path={config.baseLOCATION + "/tasks/"} component={authGuard(Tasks)} />
         <Route path={config.baseLOCATION + "/approvals"} component={authGuard(Approvals)} />
         <Route  path={config.baseLOCATION + "/request/"} component={authGuard(Request)} />

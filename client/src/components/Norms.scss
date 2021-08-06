@@ -1,0 +1,56 @@
+.dash-table {
+    margin-top: 100px;
+    text-align: center;
+
+}
+
+  .dash-table thead {
+    background-color: #e7e7e0;
+    position: sticky;
+    // border: 1px #7b8d9b solid;
+    top: 170px; //140
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.green {
+  color: green;
+}
+
+.orange {
+  color: orange;
+}
+
+.red {
+  color: red;
+}
+.filterContainer {
+  position: sticky;
+  top: 70px;
+  display: flex;
+  z-index: 999;
+  height: 100px;
+  
+  // flex-wrap: wrap-reverse;
+  // margin-top: 150px;
+  // border: 1px #7b8d9b solid;
+  
+  overflow-y: hidden;
+  opacity: 100%;
+  // align-items: stretch;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+// .filterContainer .box {
+//   -webkit-flex: 1;
+
+// }
+
+
+.filter-item {
+  width: 200px;
+}
