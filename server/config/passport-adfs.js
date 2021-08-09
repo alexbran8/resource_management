@@ -7,6 +7,7 @@ module.exports = function (
   profile,
   done
 ) {
+  try {
   console.log(`**Passport ADFS strategy...`)
   const userProfile = jwt.decode(params.id_token, '', true)
   // New user
@@ -30,4 +31,10 @@ module.exports = function (
   console.log(userProfile.roles[0])
   console.log(`**ADFS user added...`)
   return done(null, user)
+}
+catch {
+  console.log('error on login');
+  return done(null, null)
+}
+
 }

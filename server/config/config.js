@@ -9,6 +9,9 @@ const baseLocation = process.env.NODE_ENV === `development` ? "" :  '/nptbeta';
 
 
 var config = {
+  CLIENT_HOME_PAGE_URL: process.env.NODE_ENV === `development` ? "http://localhost:3000/#/" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta/',
+  CLIENT_ERROR_URL: process.env.NODE_ENV === `development` ? "http://localhost:3000/#/error" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta/#/error',
+
   azureApp: {
     // Azure Application details
     base: process.env.AAD_AUTH_URL || 'https://login.microsoftonline.com/',

@@ -5,6 +5,7 @@ import Request from "./components/Request";
 import Approvals from "./components/Approval";
 import NormCheck from './components/NormCheck'
 import Exports from './components/Exports'
+import LoginError from "./components/LoginError";
 import Calendar from './components/Calendar.js'
 import Norms from './components/Norms'
 import Tasks from './components/Tasks.js'
@@ -18,6 +19,7 @@ export const AppRouter = () => {
     <HashRouter  >
         <Header basename={config.baseLOCATION}/>
         <Route  exact path={"/"} component={Homepage} />
+        <Route exact path={"/error"} component={LoginError} />
         <Route  path={ "/normcheck/"} component={authGuard(NormCheck)} />
         <Route  path={"/exports"} component={authGuard(Exports)} />
         <Route  path={"/norms"} component={authGuard(Norms)} />
