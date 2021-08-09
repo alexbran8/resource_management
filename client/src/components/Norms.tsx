@@ -4,8 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Table } from 'react-bootstrap'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-
+import ITutorialData from "../types/Tutorial";
 import "./Norms.scss"
+
+
+// define interface
+
 
 const GET_ALL = gql`
   query ($date: String, $responsible_entity:String, $site: String, $week:String, $no_itv: String, $status: String) { 

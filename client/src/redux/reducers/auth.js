@@ -15,9 +15,9 @@ export default (state = DEFAULT_STATE, action) => {
       console.log('x', action.payload.role)
       return {
         ...state,
-        // access_token: action.payload,
-        // name: action.payload_name,
-        // email: action.payload_email,
+        access_token: action.payload.id,
+        name: action.payload.name,
+        email: action.payload.email,
         role: action.payload.role,
         // nokiaid: action.payload_nokiaid,
         isAuthenticated: true,
