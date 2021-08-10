@@ -8,6 +8,7 @@ const HomePage = () => {
   const user = useSelector((state) => ({ auth: state.auth }));
   return (
     <div>
+      
       <div className="toppane">
         {!user.auth.isAuthenticated ? (<>
           <h1>Welcome, please login in order to continue!</h1>
@@ -18,6 +19,7 @@ const HomePage = () => {
             <h2>Welcome, {user.auth.name}!</h2>
           </div>
         )}
+        <h5>This web application is still under development!</h5>
       </div>
       {/* </div> */}
       <div className="flexbox-container">
@@ -30,6 +32,12 @@ const HomePage = () => {
         <div className="box fillx2"><div className="middlepane">
           <h4>This is the Planning Tool application</h4>
           <p>This application has been built using the most modern frameworks: node.JS, react.JS, TypeScript(JS superset), GraphQL, Redux, PostGreSQL, Docker and Jenkins</p>
+          <h5>Most relevant advantages:</h5>
+          <ul>
+            <li>competence based operational planning</li>
+            <li>top UX</li>
+            <li>cross resource sharing based on competences</li>
+          </ul>
           <h5>This is a purpose built web application in order to server any planning needs a team may encounter:</h5>
           <ul>
             <li>administrative planning (vacations, recovery days, specific weekly schedules: e.g. schifted schedules)</li>
