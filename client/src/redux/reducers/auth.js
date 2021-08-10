@@ -36,11 +36,11 @@ export default (state = DEFAULT_STATE, action) => {
     case AUTH_SIGN_OUT:
       return {
         ...state,
-        access_token: action.payload,
-        username: action.payload_username,
-        // email: action.payload_email,
-        role: action.payload_role,
-        // nokiaid: action.payload_nokiaid,
+        access_token: undefined,
+        username: undefined,
+        email: undefined,
+        role: undefined,
+        nokiaid: undefined,
         isAuthenticated: false,
         errorMessage: "",
       };

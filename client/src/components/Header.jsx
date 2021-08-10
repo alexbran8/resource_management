@@ -129,14 +129,15 @@ export const Header = () => {
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('roles')
     handleNotAuthenticated();
-  };
+    dispatch({type: AUTH_SIGN_OUT});
+  }
   const _handleNotAuthenticated = () => {
     setState({ authenticated: false });
   };
   return (
     <Navbar className="navbar sticky-nav" expand="sm" fixed="top">
       <Link className="navbar-brand text-white" to={"/"}>
-        <b>NOKIA</b> {config.appversion}
+        <b>NOKIA</b> {config.appversion} {config.AppName}
       </Link>
       <Collapse navbar>
         {state.authenticated ?
