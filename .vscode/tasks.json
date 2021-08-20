@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "start",
+            "label": "Client Build",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}//client"
+            },            
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "custom",
+                "pattern": {
+                    "regexp": "ˆ$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Compiling...",
+                    "endsPattern": " Compiled successfully.*"
+                }
+            }
+        },
+        {
+            "label": "Server Build",
+            "type": "chrome",
+}
+     
+        {
+            "label": "Build",
+            "dependsOn": [
+                "Client Build",
+                // "Server Build"
+            ]
+        }
+    ]
+}

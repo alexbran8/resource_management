@@ -40,6 +40,7 @@ button {
   .normsTable th {
     position: sticky;
     top: 240px; //140
+    vertical-align: text-top !important;
     background: #7b8d9b;
     border: 3px #7b8d9b solid;
     max-width: 40px; 

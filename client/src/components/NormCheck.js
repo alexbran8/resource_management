@@ -95,6 +95,9 @@ const GET_CAPACITY_LAWSON = gql`
 const NormCheck = () => {
     const [scrolling, setScrolling] = useState(false);
     const [scrollTop, setScrollTop] = useState(0);
+    const [selectAllCapNorms, setSelectAllCapNorms] = useState(false);
+    const [selectAllLawsonCapacity, setSelectAllLawsonCapacity] = useState(false);
+    const [selectAllCommentsCheck, setSelectAllCommentsCheck] = useState(false);
     const [showC1, setShowC1] = useState(true);
     const [showC2, setShowC2] = useState(false);
     const [showC3, setShowC3] = useState(false);
@@ -345,19 +348,35 @@ const NormCheck = () => {
 
 
     const updateCapacityNormsComments = (uid, comment) => {
-        const newChecked = [... checked]
+        const newChecked = [...checked]
         newChecked.find((y) => y.uid == uid).correction = comment
         setChecked(newChecked)
     }
     const updateCapacitLawsonComments = (uid, comment) => {
-        const newChecked = [... checkedLC]
+        const newChecked = [...checkedLC]
         checkedLC.find((y) => y.uid == uid).correction = comment
         setChecked(newChecked)
     }
     const updateCapacitCommentsCheck = (uid, comment) => {
-        const newChecked = [... checkedCC]
+        const newChecked = [...checkedCC]
         newChecked.find((y) => y.uid == uid).result = comment
         setCheckedCC(newChecked)
+    }
+
+    const selectAll =  (table) => {
+        if (table === 'norms_capacity') {
+            setSelectAllCapNorms(!selectAllCapNorms)
+            capacityItems.forEach(x => {createArr(x.uid, x)})
+        }
+        if (table === 'lawson_capacity') {
+            setSelectAllLawsonCapacity(!selectAllLawsonCapacity)
+            capLawsonItems.forEach(x => {createArrLC(x.uid, x)})
+        }
+        if (table === 'comments_check') {
+            setSelectAllCommentsCheck(!selectAllCommentsCheck)
+            commentsCheck.forEach(x => {createArrCC(x.uid, x)})
+        }
+
     }
 
     return (
@@ -443,7 +462,11 @@ const NormCheck = () => {
                     <Table striped bordered hover responsive="xl" className="normsTable">
                         <thead >
                             <tr>
-                                <th>Select</th>
+                                <th>Select <input
+                                    type="checkbox"
+                                    checked={selectAllCapNorms}
+                                    onChange={(e) => selectAll('norms_capacity')}
+                                /></th>
                                 <th>
                                     Date
                                 </th>
@@ -523,12 +546,16 @@ const NormCheck = () => {
                     </Table>
 
                 </div> : null}
-                {showC2 ? <div className="c2"> 
+                {showC2 ? <div className="c2">
                     <Table striped bordered hover className="normsTable">
 
                         <thead >
                             <tr>
-                                <th>Select</th>
+                                <th>Select <p><input
+                                    type="checkbox"
+                                    checked={selectAllLawsonCapacity}
+                                    onChange={(e) => selectAll('lawson_capacity')}
+                                /></p></th>
                                 <th>
                                     Date
                                 </th>
@@ -594,7 +621,11 @@ const NormCheck = () => {
 
                         <thead>
                             <tr>
-                                <th>Select</th>
+                                <th>Select <p><input
+                                    type="checkbox"
+                                    checked={selectAllCommentsCheck}
+                                    onChange={(e) => selectAll('comments_check')}
+                                /></p></th>
                                 <th>
                                     Date
                                 </th>
