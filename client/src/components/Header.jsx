@@ -167,6 +167,7 @@ export const Header = () => {
                   Add
                 </Link>
               </li>
+              
               {/* <li className="nav-item">
                 <Link
                   className="nav-link text-white"
@@ -213,6 +214,14 @@ export const Header = () => {
                   to={"/normcheck"}
                 >
                   NormCheck
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link text-white"
+                  to={"/howto"}
+                >
+                  HowTo?
                 </Link>
               </li>
             </>

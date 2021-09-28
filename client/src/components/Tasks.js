@@ -6,7 +6,7 @@ import { OnEditModal } from './OnEditModal'
 import { onDeleteTask } from '../redux/actions/tasks/onDeleteTask'
 import { getTasks } from "../redux/actions/tasks/getTasks"
 // import { motion } from "framer-motion"
-// import { pageTransitions } from "../data/pageTransitions"
+// import { pageTransitions } from "../data/pageTransitons"
 // import { pageVariants } from "../data/pageVariants"
 import { config } from "../config";
 import { Button, Modal, Form } from 'react-bootstrap'

@@ -9,6 +9,7 @@ import LoginError from "./components/LoginError";
 import Calendar from './components/Calendar.js'
 import Norms from './components/Norms'
 import Tasks from './components/Tasks.js'
+import {HowTo} from './components/howTo/howTo'
 import { HashRouter,Route } from "react-router-dom";
 import { signUpForm } from './components/SignUp'
 import {config} from "./config"
@@ -28,6 +29,7 @@ export const AppRouter = () => {
         <Route  path={ "/request/"} component={authGuard(Request)} />
         <Route  path={ "/signup"} component={authGuard(signUpForm)} />
         <Route  path={"/schedule"} component={authGuard(Calendar)} />
+        <Route  path={"/howto"} component={authGuard(HowTo)} />
     </HashRouter>
   );
 };
