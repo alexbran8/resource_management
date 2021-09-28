@@ -20,7 +20,7 @@ export const HowTo = () => {
             <li>Click on <b>Users and Groups</b></li>
             <li>Click on <b>Add user/group</b></li>
             <li>Select on user by email from <b>Users and groups</b></li>
-            <li>Select role as <b>admin</b> <b>Select a role</b></li>
+            <li>Select role as <b>admin</b> from <b>Select a role</b></li>
             <li>Click on <b>assign</b></li>
             </ol>
             </article>
