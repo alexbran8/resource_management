@@ -14,7 +14,7 @@ export const HowTo = () => {
                 <article>
             <h2>Assign user as admin</h2>
             <ol>
-            <li>Go to <a href="https://portal.azure.com/#home">Azure Platform</a></li>
+            <li>Go to <a target="blank" href="https://portal.azure.com/#home">Azure Platform</a></li>
             <li>Find <b>Enterprise Applications</b></li>
             <li>Search application by name (<b>nokiaplanningtool</b>)</li>
             <li>Click on <b>Users and Groups</b></li>
