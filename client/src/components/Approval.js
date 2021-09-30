@@ -81,7 +81,7 @@ class Approval extends Component {
 
     console.log(this);
 
-    const response = await Axios.post(`${ config.baseURL + config.baseLOCATION }/schedule/update/`, data);
+    const response = await Axios.post(`${ config.baseURL + config.baseLOCATION }/schedule/update/`, data, {withCredentials: true}) ;
     if (!response) {
       alert("failed");
     }
