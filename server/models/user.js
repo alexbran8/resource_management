@@ -104,19 +104,19 @@ module.exports = (sequelize, type) => {
       },
       tpm:{
         type: type.STRING,
-        required:false
+        required:true
       },
-      password: {
-        type: type.STRING,
-        required: false
-      }
+      // password: {
+      //   type: type.STRING,
+      //   required: false
+      // }
     },
     {
-      hooks: {
-        beforeCreate: user => {
-          user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8))
-        }
-      },
+    //   hooks: {
+    //     beforeCreate: user => {
+    //       user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8))
+    //     }
+    //   },
       freezeTableName: true
     }
   )

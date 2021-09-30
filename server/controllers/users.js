@@ -78,7 +78,7 @@ UsersController.post('/signup', async (req, res, next) => {
       tpm_lastname,
       location_area,
       location_number,
-      password
+      // tpm
     } = req.body)
   )
 

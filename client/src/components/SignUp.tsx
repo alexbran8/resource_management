@@ -82,6 +82,7 @@ export const signUpForm = () => {
           <Form.Control as="select" label="select employeer" name="employeer" defaultValue="" {...register('employeer')}>
             <option>Deltatel</option>
             <option>Nokia</option>
+            <option>Connect 44</option>
           </Form.Control>
         </Form.Group> 
         </Col>
@@ -170,9 +171,17 @@ export const signUpForm = () => {
         </Form.Group>
         </Col>
         <Col>
-        <Form.Group controlId="password">
-          <Form.Label>password</Form.Label>
-          <Form.Control type="text" label="Enter password" required={true} name="password" defaultValue="1" {...register('password')} />
+        <Form.Group controlId="tpm">
+          <Form.Label>TPM</Form.Label>
+          <Form.Control as="select" label="Select TPM" required={true} name="tpm" defaultValue="Select" {...register('tpm')}>
+            <option value="69038202">Cecilia Crisan</option>
+            <option value="69141307">Diana Bulzan</option>
+            <option value="69158281">Ana Maria Lupuleasa</option>
+            <option value="69069805">CHEROIU Ionela</option>
+            <option value="69069805">CHEROIU Ionela</option>
+            <option value="69179346">Anamaria Popescu</option>
+            <option value="69036287">Ramona Vasilica Sperlea</option>
+            </Form.Control>
         </Form.Group>
         </Col>
       </Form.Row>
