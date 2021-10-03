@@ -13,5 +13,7 @@ docker stop nptjenkins && docker rm nptjenkins
 
 # delete existing image
 
+
+# how to import name and ip from .env???
 # run new image
-docker run  -d -p 5002:4000  --name nptjenkins nptjenkins
+docker run  -d -p 5001:4000  --name nptjenkins nptjenkins

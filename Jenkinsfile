@@ -4,8 +4,8 @@ node {
 
     try {
         stage 'Checkout'
-
-            dir('/apps/nptbeta'){
+                // how to import location from .env???
+            dir('/apps/npt'){
             sh "pwd"
        
             checkout scm
@@ -23,7 +23,7 @@ node {
             // sh 'env/bin/python3.5 manage.py test --testrunner=djtrump.tests.test_runners.NoDbTestRunner'
 
         stage 'Deploy'
-         dir('/apps/nptbeta'){
+         dir('/apps/npt'){
             sh 'chmod +x deploy_prod.sh'
             sh 'cat deploy_prod.sh'
             sh './deploy_prod.sh'

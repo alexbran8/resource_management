@@ -2,7 +2,7 @@ var config2 = []
 
 const prod = {
     baseURL: `${window.location.origin}`,
-    baseLOCATION: "/nptbeta",
+    baseLOCATION: "/npt",
   };
   
   const dev = {

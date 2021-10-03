@@ -3,14 +3,14 @@ const Sequelize = require("sequelize");
  * create a `.env` file with environment variables in order to laod at runtime.
 */
 
-const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:4000/" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta/';
-const baseLocation = process.env.NODE_ENV === `development` ? "" :  '/nptbeta';
+const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:4000/" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/npt/';
+const baseLocation = process.env.NODE_ENV === `development` ? "" :  '/npt';
 
 
 
 var config = {
-  CLIENT_HOME_PAGE_URL: process.env.NODE_ENV === `development` ? "http://localhost:3000/#/" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta/',
-  CLIENT_ERROR_URL: process.env.NODE_ENV === `development` ? "http://localhost:3000/#/error" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/nptbeta/#/error',
+  CLIENT_HOME_PAGE_URL: process.env.NODE_ENV === `development` ? "http://localhost:3000/#/" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/npt/',
+  CLIENT_ERROR_URL: process.env.NODE_ENV === `development` ? "http://localhost:3000/#/error" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/npt/#/error',
 
   azureApp: {
     // Azure Application details

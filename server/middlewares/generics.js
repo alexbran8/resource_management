@@ -100,7 +100,7 @@ const emailFormater = async (
     from: "poweremail.ni_gsd_timisoara@nokia.com",
     to: sendTO,
     cc: sendCC,
-    subj: `[nptbeta] ${operation}: ${revStatus} - ${type} - ${newCreatedBy} [nptbeta]`,
+    subj: `[npt] ${operation}: ${revStatus} - ${type} - ${newCreatedBy} [npt]`,
     text: `${operation}: ${revStatus} ${newCreatedBy} ${type} from ${start} to ${end}.${
       replacement !== "" ? ` ${replacement} as replacement.` : ""
     }`,
