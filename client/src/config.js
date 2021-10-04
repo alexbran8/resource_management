@@ -12,7 +12,7 @@ const prod = {
   
 
   config2 = process.env.NODE_ENV === `development` ? dev : prod
-  config2.AppName = 'Planning Tool Beta'
+  config2.AppName = 'Planning Tool'
   config2.appVersion = '1.00'
 
   export const config = config2
