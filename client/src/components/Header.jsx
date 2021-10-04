@@ -114,13 +114,13 @@ export const Header = () => {
 
   const _handleSignInClick = () => {
     // Authenticate using via passport api in the backend
-    // Open Twitter login page
+    // Open azure login page
     // Upon successful login, a cookie session will be stored in the client
-    window.open(config.baseURL + config.baseLOCATION + "/auth/twitter", "_self");
+    window.open(config.baseURL + config.baseLOCATION + "/auth/azure", "_self");
   };
 
   const _handleLogoutClick = () => {
-    // Logout using Twitter passport api
+    // Logout using azure passport api
     // Set authenticated state to false in the HomePage
     window.open(config.baseURL + config.baseLOCATION + "/auth/logout", "_self");
     sessionStorage.removeItem('exp')

@@ -31,12 +31,12 @@ router.get("/logout", (req, res) => {
   res.redirect(CLIENT_HOME_PAGE_URL);
 });
 
-// auth with twitter
-router.get("/twitter", passport.authenticate("adfs"));
+// auth with azure
+router.get("/azure", passport.authenticate("adfs"));
 
 // redirect to home page after successfully login via twitter
 router.get(
-  "/twitter/redirect/auth/cbAdfs",
+  "/azure/redirect/auth/cbAdfs",
   passport.authenticate("adfs", {
     successRedirect: config.CLIENT_HOME_PAGE_URL,
     failureRedirect: config.CLIENT_ERROR_URL
