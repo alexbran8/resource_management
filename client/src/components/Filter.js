@@ -141,6 +141,7 @@ const Filter = (props) => {
         >
           <option value="">Coordinator</option>
           <option value={69063787}>Alexandru, RADULESCU</option>
+          <option value={69141307}>Diana, BULZAN</option>
           <option value={69087716}>Mihai, PETRILA</option>
           <option value={69183560}>Andrada, STEFAN</option>
           <option value={69069805}>CHEROIU, Ionela Florentina</option>
