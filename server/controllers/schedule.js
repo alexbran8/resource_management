@@ -35,7 +35,7 @@ const ScheduleController = require("express").Router();
 ScheduleController.post("/add", async (req, res) => {
   const Response = { error: null, data: null };
   try {
-    newSchedule = new Schedule(
+    newSchedule = new db.Schedule(
       ({
         createdBy,
         type,
@@ -50,8 +50,8 @@ ScheduleController.post("/add", async (req, res) => {
         end,
       } = req.body)
     );
-    console.log(req.body);
-    const [typeQuery] = await db.seequlize.query(
+    console.log(req.body, newSchedule);
+    const [typeQuery] = await db.sequelize.query(
       `SELECT "InitialLevel" FROM types WHERE type='${type}'`
     );
 
@@ -333,7 +333,7 @@ ScheduleController.delete("/delete/:id", async (req, res, next) => {
   console.log(req.body);
   const id = JSON.parse("[" + req.params.id + "]");
   const userlevel = "L1";
-  const deleteSchedule = await Schedule.destroy({ where: { id } });
+  const deleteSchedule = await db.Schedule.destroy({ where: { id } });
   if (!deleteSchedule) {
     Response.error = { message: "No Schedule found." };
     return res.json(Response);
