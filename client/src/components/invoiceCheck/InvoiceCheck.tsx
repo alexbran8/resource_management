@@ -5,6 +5,34 @@ import { setEnvironmentData } from 'worker_threads';
 
 export const InvoiceCheck = () => {
     const [inputData, setInputData] = useState()
+    const [collumns, setCollumns] = useState()
+
+
+
+    const arr2 = [
+        { MARCA: "1843", regularHours: 65, schifted:10 },
+        { MARCA: "1709", regularHours: 70, schfited: 5 }
+    ];
+
+    const newThing = (stringData) => {
+        let objects = []
+        let columns = ''
+
+        let allRows = stringData.split('\n')
+        columns = allRows[0].split('\t')
+        let rows = allRows.slice(1, allRows.length - 1)
+        let finishedRows = []
+
+        for (let iterator = 1; iterator <= rows.length; iterator++) {
+            let row = []
+            if (rows[iterator]) {
+                let data = rows[iterator].split('\t')
+                row = data.map(eachItem => eachItem)
+                finishedRows = [...finishedRows, row]
+            }
+        }
+        return { finishedRows, columns }
+    }
 
     const excelToObjects = (stringData) => {
         // console.log(stringData)
@@ -35,6 +63,20 @@ export const InvoiceCheck = () => {
 
     const handleChange = (event) => {
         setInputData(excelToObjects(event.target.value))
+        setCollumns(newThing(event.target.value).columns)
+
+        // const map = new Map();
+        // inputData && inputData.forEach(item => map.set(item.MARCA, item));
+        // arr2.forEach(item => map.set(item.MARCA, { ...map.get(item.MARCA), ...item }));
+        // const mergedArr = Array.from(map.values());
+        // console.log({mergedArr})
+
+        const result = excelToObjects(event.target.value).map(item => {
+            const obj = arr2.find(o => o.MARCA === item.MARCA);
+            return { ...item, ...obj };
+          });
+        
+        console.log({result});
     }
     return (
         <div>
@@ -52,12 +94,25 @@ export const InvoiceCheck = () => {
             </section>
             <section>
                 <table>
+                    <thead>
+                        <tr>
+                            {collumns && collumns.map((item, index) => {
+                                return (
+                                    <th key={index}>
+                                        {item}
+                                    </th>
+                                )
+                            }
+                            )
+                            }
+                        </tr>
+                    </thead>
                     <tbody>
                         {console.log(inputData)}
                         {inputData && inputData.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    {Object.values(item).map((subItem) => {return <td>{subItem}</td>})}
+                                    {item.map((subItem, subIndex) => { return <td key={'x' + subIndex}>{subItem}</td> })}
                                 </tr>
                             )
 
