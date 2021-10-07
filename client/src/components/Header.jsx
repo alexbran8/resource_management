@@ -219,6 +219,14 @@ export const Header = () => {
               <li className="nav-item">
                 <Link
                   className="nav-link text-white"
+                  to={"/invoicecheck"}
+                >
+                  InvoiceCheck
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link text-white"
                   to={"/howto"}
                 >
                   HowTo?

@@ -14,6 +14,7 @@ import { HashRouter,Route } from "react-router-dom";
 import { signUpForm } from './components/SignUp'
 import {config} from "./config"
 import authGuard from "./HOCs/authGuard.js";
+import  {InvoiceCheck}  from "./components/invoiceCheck/InvoiceCheck";
 
 export const AppRouter = () => {
   return (
@@ -30,6 +31,8 @@ export const AppRouter = () => {
         <Route  path={ "/signup"} component={authGuard(signUpForm)} />
         <Route  path={"/schedule"} component={authGuard(Calendar)} />
         <Route  path={"/howto"} component={authGuard(HowTo)} />
+        <Route  path={"/invoicecheck"} component={authGuard(InvoiceCheck)} />
+        {/* <Route  path={"/invoicecheck"} component={authGuard(InvoiceCheckTool)} /> */}
     </HashRouter>
   );
 };
