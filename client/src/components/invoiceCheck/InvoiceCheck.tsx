@@ -76,7 +76,7 @@ export const InvoiceCheck = () => {
             return { ...item, ...obj };
           });
         
-        console.log({result});
+          setInputData(result);
     }
     return (
         <div>
@@ -112,7 +112,7 @@ export const InvoiceCheck = () => {
                         {inputData && inputData.map((item, index) => {
                             return (
                                 <tr key={index}>
-                                    {item.map((subItem, subIndex) => { return <td key={'x' + subIndex}>{subItem}</td> })}
+                                    {Object.values(item).map((subItem, subIndex) => { return <td key={'x' + subIndex}>{subItem}</td> })}
                                 </tr>
                             )
 
