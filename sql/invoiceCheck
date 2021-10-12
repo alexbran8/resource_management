@@ -1,0 +1,7 @@
+SELECT marca, "WBS_Customer", "Tasks", "Real_Hours" FROM (
+(SELECT *
+	FROM public.npt_capacity) as sql1
+	LEFT JOIN
+(SELECT *
+	FROM public.employees) as sql2
+ON sql1."Reported_by_UPI" = sql2.upi)	
