@@ -122,8 +122,13 @@ ScheduleController.get("/get/status", async (req, res) => {
   const Response = { error: null, data: null };
   if (req.params.title === null || req.params.title === undefined) {
     try {
+      // add field name from employees table
       const schedule = await db.Schedule.findAll({
         where: { [Op.or]: [{ status: "L2" }, { status: "L1" }] },
+        include: [{
+          model: db.User,
+          // where: ["nokiaid = nokiaid"]
+         }]
       });
       if (!schedule) {
         Response.error = { message: "No Schedule found." };
@@ -131,8 +136,9 @@ ScheduleController.get("/get/status", async (req, res) => {
       }
       Response.data = schedule;
       res.json(Response);
-    } catch (e) {
+    } catch (err) {
       Response.error = { message: err };
+      console.log(err.message)
       res.status(500).json(Response);
     }
   } else {

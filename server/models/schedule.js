@@ -57,7 +57,12 @@ module.exports = (sequelize, type) => {
       replacement: { type: type.STRING },
       createdBy: { type: type.STRING },
     },
-    { timestamps: false }
+    { timestamps: false },
+   
   );
   return Event;
+  // Event.associate = (models) => {
+  //   // associations can be defined here
+  //   authoriseDate.belongsTo(db.User, { foreignKey: 'nokiaid', });
+  // }
 };

@@ -31,13 +31,13 @@ class Approval extends Component {
   }
 
   renderEvents(data) {
-   
+   console.log({data})
     if (data.length > 0) {
       var x = data.map((e) => {
         return (
           <div className="eventBar mt-3 p-2 shadow-sm row" key={e.id}>
             <strong>Name:</strong>
-            <p className="col">{e.createdBy}</p>
+            <p className="col">{e.employee.firstname + ', '+e.employee.lastname}</p>
             <strong>Title:</strong>
             <p className="col">{e.title}</p>
             {e.replacement !== null && e.replacement !== "" ? (

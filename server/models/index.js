@@ -24,13 +24,16 @@ db.Schedule = require("./schedule.js")(sequelize, Sequelize);
 db.Project = require("./dailyTasks.model.js")(sequelize, Sequelize);
 db.User= require("./user.js")(sequelize, Sequelize);
 
+
+db.User.hasMany(db.Schedule,{foreignKey: 'nokiaid'});
+db.Schedule.belongsTo(db.User,{foreignKey: 'nokiaid'});
 // db.gallery = require("./gallery.js")(sequelize, Sequelize);
 // db.cartItem = require("./cartItem.js")(sequelize, Sequelize);
 // db.tags = require("./tags.js")(sequelize, Sequelize);
 // db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 // db.comments = require("./comment.model.js")(sequelize, Sequelize);
 
-// db.tutorials.hasMany(db.comments, { as: "comments" });
+
 // db.comments.belongsTo(db.tutorials, {
 //   foreignKey: "tutorialId",
 //   as: "tutorial",
