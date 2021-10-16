@@ -1,18 +1,25 @@
-import React, { useState } from 'react'
-import { setEnvironmentData } from 'worker_threads';
-
+import React, { useEffect, useState } from 'react'
+// import { setEnvironmentData } from 'worker_threads';
+import "./invoiceCheck.scss"
 
 
 export const InvoiceCheck = () => {
     const [inputData, setInputData] = useState()
     const [collumns, setCollumns] = useState()
+    const [copied, setShowCopied] = useState()
 
 
 
     const arr2 = [
-        { MARCA: "1843", regularHours: 65, schifted:10 },
+        { MARCA: "1843", regularHours: 65, schifted: 10 },
         { MARCA: "1709", regularHours: 70, schfited: 5 }
     ];
+
+    const copyToClipboard = () => {
+        setShowCopied(true)
+    }
+
+    useEffect(() => {copyToClipboard(true)},[])
 
     const newThing = (stringData) => {
         let objects = []
@@ -74,14 +81,30 @@ export const InvoiceCheck = () => {
         const result = excelToObjects(event.target.value).map(item => {
             const obj = arr2.find(o => o.MARCA === item.MARCA);
             return { ...item, ...obj };
-          });
-        
-          setInputData(result);
+        });
+
+        setInputData(result);
     }
     return (
-        <div>
+        <div className="invoiceCheck-container">
             <h1>Deltatel Invoice Check</h1>
+            {copied ? <h4>Text has already been copied to clipboard</h4>:null}
             <h6>1. Replace header in Excel file with the below one</h6>
+            <table  id="header-template"> 
+                    <tr>
+                        <th>Luna</th>
+                        <th>MARCA</th>
+                        <th>NUME</th>
+                        <th>PRENUME</th>
+                        <th>ORE NORMALE</th>
+                        <th>ORE SUPLIM</th>
+                        <th>ORE SUPLIM WEEKEND</th>
+                        <th>ORE REPAUS SAPT</th>
+                        <th>ORE NOAPTE</th>
+                        <th>PRIMA ONCALL</th>
+                        <th>PRIMA PRG DECALAT</th>
+                    </tr>
+            </table>
             <h6>2. Select month for which you want the check to be performed</h6>
             <h6>3. Copy Excel table and paste it below:</h6>
             <section>
@@ -96,11 +119,11 @@ export const InvoiceCheck = () => {
                 </form>
             </section>
             <section>
-            {collumns ? <h6>4. Check results:</h6> : null }
+                {collumns ? <h6>4. Check results:</h6> : null}
                 <table>
                     <thead>
                         <tr>
-                            
+
                             {collumns && collumns.map((item, index) => {
                                 return (
                                     <th key={index}>
