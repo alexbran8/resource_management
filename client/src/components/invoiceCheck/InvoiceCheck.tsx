@@ -81,6 +81,9 @@ export const InvoiceCheck = () => {
     return (
         <div>
             <h1>Deltatel Invoice Check</h1>
+            <h6>1. Replace header in Excel file with the below one</h6>
+            <h6>2. Select month for which you want the check to be performed</h6>
+            <h6>3. Copy Excel table and paste it below:</h6>
             <section>
                 <form>
                     <textarea
@@ -93,9 +96,11 @@ export const InvoiceCheck = () => {
                 </form>
             </section>
             <section>
+            {collumns ? <h6>4. Check results:</h6> : null }
                 <table>
                     <thead>
                         <tr>
+                            
                             {collumns && collumns.map((item, index) => {
                                 return (
                                     <th key={index}>

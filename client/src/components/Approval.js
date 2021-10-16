@@ -100,7 +100,7 @@ class Approval extends Component {
         alert("failed");
       }
     }
-
+ 
     window.location.reload();
   }
 
