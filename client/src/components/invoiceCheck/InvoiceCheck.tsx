@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-import "./invoiceCheck.scss"
+import "./InvoiceCheck.scss"
 
 const useStyles = makeStyles((theme) => ({
     container: {
