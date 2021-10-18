@@ -140,8 +140,8 @@ export const InvoiceCheck = () => {
         setCollumns(newThing(event.target.value).columns)
 
         // add custom collumns
-        console.log({collumns})
-        setCollumns(collumns.concat('test', 'tesdt2'))
+        // console.log({collumns})
+        // setCollumns(collumns.concat('Normal Hours', 'Extra Hours', 'Night Hours', 'Marca'))
 
         // const map = new Map();
         // inputData && inputData.forEach(item => map.set(item.MARCA, item));
@@ -154,7 +154,26 @@ export const InvoiceCheck = () => {
             return { ...item, ...obj };
         });
 
+        // iterate through merged array to make calculations
+        for ( var index=0; index<result.length; index++ ) {
+                result[index]["Normal Hours Check"] = result[index]["ORE NORMALE"]-result[index].normalH
+                result[index]["Night Hours Check"] = result[index]["ORE NOAPTE"]-result[index].nightH
+                result[index]["Vacation Hours Check"] = result[index]["ORE REPAUS SAPT"]-result[index].nwH
+                result[index]["Extra Hours Check"] = result[index]["ORE SUPLIM"]-result[index].extraH
+                result[index]["Extra Hours Weekend Check"] = result[index]["ORE SUPLIM WEEKEND"]-result[index].extraHWeekend
+                result[index]["Schifted Schedule Check"] = result[index]["PRIMA PRG DECALAT"]-result[index].sSchedule
+                console.log(result[index])
+
+            // get collumns
+            setCollumns(Object.keys(result[0]))
+        }
+
+        
+        console.log({result})
+
         setInputData(result);
+
+        // check how to add new collumns
     }
     return (
         <div className="invoiceCheck-container" >
@@ -205,7 +224,7 @@ export const InvoiceCheck = () => {
             </section>
             <section>
                 {collumns ? <h6>4. Check results:</h6> : null}
-                <table>
+                <table id="table">
                     <thead>
                         <tr>
 
