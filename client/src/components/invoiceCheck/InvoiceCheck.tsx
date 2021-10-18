@@ -41,8 +41,12 @@ query($month:String) {
 export const InvoiceCheck = () => {
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = useState()
-    const [monthList, setMonthList] = useState()
+    const [monthList, setMonthList] = useState([])
     const [inputData, setInputData] = useState()
+
+    localStorage.getItem('data') !== null ? localStorage.getItem('data') : []
+
+
     const [collumns, setCollumns] = useState()
     const [copied, setShowCopied] = useState()
     const [capacityData, setCapacityData] = useState()
@@ -78,26 +82,10 @@ export const InvoiceCheck = () => {
         console.log('copied')
     };
 
-
-
-
-    const arr2 = [
-        { MARCA: "1843", regularHours: 65, schifted: 10 },
-        { MARCA: "1709", regularHours: 70, schfited: 5 }
-    ];
-
     const copyToClipboard = () => {
         setShowCopied(true)
         // copyTable()
     }
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         // copyToClipboard(true)
-    //             // ; copyTable()
-    //     }, 5000)
-    // },
-    //     [])
 
     const newThing = (stringData) => {
         let objects = []
@@ -147,8 +135,13 @@ export const InvoiceCheck = () => {
     }
 
     const handleChange = (event) => {
+        // localStorage.getItem('data') ? null : localStorage.setItem('data',event.target.value) 
         setInputData(excelToObjects(event.target.value))
         setCollumns(newThing(event.target.value).columns)
+
+        // add custom collumns
+        console.log({collumns})
+        setCollumns(collumns.concat('test', 'tesdt2'))
 
         // const map = new Map();
         // inputData && inputData.forEach(item => map.set(item.MARCA, item));
@@ -189,7 +182,8 @@ export const InvoiceCheck = () => {
             <>
                 <Autocomplete
                     id="combo-box-demo"
-                    options={monthList && monthList}
+                    options={monthList}
+                    noOptionsText={'Your Customized No Options Text'}
                     getOptionLabel={(option) => option.month}
                     style={{ width: 300 }}
                     className={classes.textField}
@@ -202,7 +196,7 @@ export const InvoiceCheck = () => {
                 <form>
                     <textarea
                         //   ref={textAreaRef}
-                        //   value='Some text to copy'
+                        defaultValue={localStorage.getItem('data')}
                         onChange={handleChange}
                         rows={15}
                         cols={180}
