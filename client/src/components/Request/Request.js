@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Axios from 'axios'
 // import * as actions from '../actions'
-import { config } from '../config'
+import { config } from '../../config'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'

@@ -2,6 +2,7 @@ const { gql } = require("apollo-server");
 
 const normCheck = require("./norms");
 const invoiceCheck = require("./invoiceCheck");
+const schedule = require("./schedule");
 
 
 const rootType = gql`
@@ -13,4 +14,4 @@ const rootType = gql`
   }
 `;
 
-module.exports = [rootType, normCheck, invoiceCheck];
+module.exports = [rootType, normCheck, invoiceCheck, schedule];

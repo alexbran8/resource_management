@@ -29,7 +29,9 @@ export const signUpForm = () => {
 
 
   return (
-    <Form className="containerForm" onSubmit={handleSubmit(OnSubmit)}>
+    <Form className="containerForm" 
+    onSubmit={handleSubmit(OnSubmit)}
+    >
       <Form.Row>
       <Col>
         <Form.Group controlId="nokiaid">

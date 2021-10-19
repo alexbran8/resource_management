@@ -75,6 +75,7 @@ export const InvoiceCheck = () => {
     myRef.current.value = code;
     //Hidden textarea triggers select which highlights all text
     myRef.current.select();
+    
     //Copy highlighted text
     document.execCommand("copy");
     

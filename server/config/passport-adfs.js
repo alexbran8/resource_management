@@ -12,6 +12,7 @@ module.exports = function (
   const userProfile = jwt.decode(params.id_token, '', true)
   // New user
   console.log(`**New ADFS user...`)
+  console.log(accessToken)
 
   console.log(JSON.stringify(userProfile))
   console.log(profile)
