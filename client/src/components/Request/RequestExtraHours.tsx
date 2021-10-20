@@ -35,9 +35,26 @@ mutation($data: [extraHours], $userEmail: String!) {
 }
 `;
 
+const GET_DD_DATA = gql`
+query($department:String!) {
+    getDistinctNorms(department:$department) {
+        task
+        WBS
+    }
+}
+`;
+
 export const RequestExtraHours = (props) => {
     const classes = useStyles();
     const { register, handleSubmit, control } = useForm({});
+    const [services, setServices] = useState([])
+
+    const { data, loading: get_dd_data_loading, error: get_dd_data_error } = useQuery(GET_DD_DATA, {
+        variables: { department: 'RADIO' }, onCompleted: () => {
+            console.log(data)
+            setServices(data.getDistinctNorms)
+        }
+    });
 
     const [addItemMutation] = useMutation(ADD_ITEM, {
         onCompleted: (data) => {
@@ -165,20 +182,39 @@ export const RequestExtraHours = (props) => {
                         control={control}
                         defaultValue=""
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                id="service"
-                                type="text"
-                                // defaultValue="2021-05-24"
-                                label="Service"
-                                // variant="outlined"
-                                className={classes.textField}
-                                onChange={onChange}
+                            // <TextField
+                            //     id="service"
+                            //     type="text"
+                            //     // options={services}
+                            //     // defaultValue="2021-05-24"
+                            //     label="Service"
+                            //     // variant="outlined"
+                            //     className={classes.textField}
+                            //     onChange={onChange}
+                            //     error={!!error}
+                            //     helperText={error ? error.message : null}
+                            //     InputLabelProps={{
+                            //         shrink: true,
+                            //     }}
+                            // />
+                            <Autocomplete
+                            id="service"
+                            options={services}
+                            noOptionsText={'Your Customized No Options Text'}
+                            getOptionLabel={(option) => option.task}
+                            // style={{ width: 300 }}
+                            className={classes.textField}
+                            // onChange={(e,v) => {setSelectedMonth(v.month);refetch()}}
+                            renderInput={(params) => <TextField id="service"
+                              type="text" {...params}
+                                label="service" 
                                 error={!!error}
                                 helperText={error ? error.message : null}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                            />
+                                />}
+                        />
                         )}
                         rules={{ required: 'Service is required' }}
                     />

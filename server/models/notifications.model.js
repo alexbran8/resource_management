@@ -1,17 +1,17 @@
-const { db } = require("../config/configProvider")();
 
-module.exports = function (DataTypes) {
-  const notification = db.define(
+
+module.exports = (sequelize, type) => {
+  const notification =  sequelize.define(
     "scheduled_notifications",
     {
       uid: {
-        type: DataTypes.STRING,
+        type: type.STRING,
       },
       value: {
-        type: DataTypes.NUMERIC,
+        type: type.NUMERIC,
       },
-      creationDate:{type: DataTypes.DATE()},
-      createdBy: { type: DataTypes.STRING },
+      creationDate:{type: type.DATE()},
+      createdBy: { type: type.STRING },
     },
     { timestamps: false }
   );

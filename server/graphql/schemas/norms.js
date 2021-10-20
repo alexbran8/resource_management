@@ -124,6 +124,25 @@ type normCheck {
     correction: String
     Dep: String
    }
+  type Norm {
+    type: String!
+    uid: String
+    to_email: String
+    date: String
+    resource: String
+    WBS: String
+    task: String
+    taskComments: String
+    twc: String
+    bh: String
+	  rh: String
+	  normOK: String
+	  normNok:  String
+	  status: String
+    var: String
+    correction: String
+    Dep: String
+   }
 
 extend  type Query  {
     normCheckQuery(department: String!): [normCheck]
@@ -131,6 +150,7 @@ extend  type Query  {
     normCheckQueryNA: [normCheck]
     getTasksQuery(department: String!): [Tasks]
     commentsCheckQuery(department: String!): [commentsCheck]
+    getDistinctNorms(department: String!): [Norm]
 } 
 
 extend type Mutation {

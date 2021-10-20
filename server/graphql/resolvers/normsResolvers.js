@@ -1,10 +1,6 @@
 const e = require("cors");
 const nodemailer = require("nodemailer");
-const { db, transporterConfig } = require("../../config/configProvider")();
-const sequelize = require("sequelize");
-const { DataTypes, Op } = sequelize;
-// const Schedule = require("../../models/schedule")(sequelize, DataTypes);
-const Notifications = require("../../models/notifications.model")(sequelize, DataTypes);
+const db = require("../../models");
 const { uid } = require( 'uid');
 
 const errorHandler = (err, req, res, next) => {
@@ -27,33 +23,42 @@ module.exports = {
   Query: {
     async commentsCheckQuery(root, args, context) {
       console.log(args)
-      let result = await db.query(`SELECT * FROM public.get_norms_comments_check('${args.department}')`);
+      let result = await db.sequelize.query(`SELECT * FROM public.get_norms_comments_check('${args.department}')`);
       await console.log(result)
       return result[0];
 
     },
     async getTasksQuery(root, args, context) {
       console.log(args)
-      let result = await db.query(`SELECT "Capacity",  "Norm_OK", "Norm_NOK_RA" , "id" FROM  public.npt_norms_capacity where "Department" = ('${args.department}')`);
+      let result = await db.sequelize.query(`SELECT "Capacity",  "Norm_OK", "Norm_NOK_RA" , "id" FROM  public.npt_norms_capacity where "Department" = ('${args.department}')`);
+      await console.log(result)
+      return result[0];
+
+    },
+    async getDistinctNorms(root, args, context) {
+      console.log(args)
+      console.log(root)
+      console.log(context)
+      let result = await db.sequelize.query(`SELECT distinct "Capacity" as "task" FROM  public.npt_norms_capacity where "Department" = ('${args.department}')`);
       await console.log(result)
       return result[0];
 
     },
     async normCheckQuery(root, args, context) {
       console.log(args)
-      let result = await db.query(`SELECT * FROM get_norms_check('${args.department}')`);
+      let result = await db.sequelize.query(`SELECT * FROM get_norms_check('${args.department}')`);
       return result[0];
 
     },
 
     async normCheckQueryNA(root, args, context) {
-      let result = await db.query(`SELECT * FROM get_norms_na()`);
+      let result = await db.sequelize.query(`SELECT * FROM get_norms_na()`);
 
       return result[0];
 
     },
     async capacityLawsonQuery(root, args, context) {
-      let result = await db.query(`SELECT * FROM check_capacity_lawson('${args.department}')`);
+      let result = await db.sequelize.query(`SELECT * FROM check_capacity_lawson('${args.department}')`);
       return result[0];
     }
   },
@@ -61,7 +66,7 @@ module.exports = {
     async addTask(root, data, context) {
       try {
         uuid = uid(3)
-        newTask = new Schedule(
+        newTask = new db.Schedule(
           ({
             comments,
             end, 
@@ -146,7 +151,7 @@ function saveNotifications(data, uuid) {
     notification.push(row)
   }
   
-  Notifications.bulkCreate(notification)
+  db.Notifications.bulkCreate(notification)
 }
 
 
