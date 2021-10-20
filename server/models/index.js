@@ -23,6 +23,7 @@ db.sequelize = sequelize;
 db.Schedule = require("./schedule.js")(sequelize, Sequelize);
 db.Project = require("./dailyTasks.model.js")(sequelize, Sequelize);
 db.User= require("./user.js")(sequelize, Sequelize);
+db.ExtraHours= require("./extraHours.model.js")(sequelize, Sequelize);
 
 
 db.User.hasMany(db.Schedule,{foreignKey: 'nokiaid'});

@@ -21,6 +21,9 @@ export const RequestParent = () => {
             <Button variant="contained" color="primary" onClick={() =>{setShowAdmin(false);setShowExtraHours(true)}}>Extra Hours</Button>
         </section>
        {showAdmin === true ? <Request /> : null }
-       {showExtraHours === true ? <RequestExtraHours /> : null }
+       {showExtraHours === true ? 
+       <RequestExtraHours 
+       resourceEmail = {user.auth.email}
+       /> : null }
     </div>)
 }
