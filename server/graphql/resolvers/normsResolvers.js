@@ -19,6 +19,8 @@ const emailHandler = async (metadata) => {
   });
 };
 
+// export default emailHandler;
+
 module.exports = {
   Query: {
     async commentsCheckQuery(root, args, context) {
