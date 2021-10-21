@@ -70,7 +70,9 @@ export const RequestExtraHours = (props) => {
         // check if time is correct
         var beginningTime = moment(data.start, 'h:mm');
         var endTime = moment(data.end, 'h:mm');
-     if (beginningTime.isBefore(endTime))
+        // split hours after 22:00 as night hours
+        // add form as night hours
+        if (beginningTime.isBefore(endTime))
      { 
         
         addItemMutation({
