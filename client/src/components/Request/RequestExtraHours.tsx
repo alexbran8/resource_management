@@ -178,42 +178,15 @@ export const RequestExtraHours = (props) => {
                         rules={{ required: 'Domain is required' }}
                     />
                     <Controller
+                        control={control}
                         name="service"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <Autocomplete
-                                id="service"
-                                options={services}
-                                // noOptionsText={'Your Customized No Options Text'}
-                                getOptionLabel={(option) => option.task}
-
-                                // style={{ width: 300 }}
-                                className={classes.textField}
-                                // onChange={(e,v) => {setSelectedMonth(v.month);refetch()}}
-                                renderInput={(params) => <TextField id="service"
-                                    type="text" {...params}
-                                    label="service"
-                                    onChange={onChange}
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />}
-                            />
-                        )}
-                        rules={{ required: 'Service is required' }}
-                    />
-                    <Controller
-                        control={control}
-                        name="item"
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) => (
+                        rules={{ required: 'service is required' }}
+                        render={({ field: { onChange, value },fieldState: { error } }) => (
                             <Autocomplete
                                 onChange={(event, item) => {
                                     onChange(item.task);
                                 }}
+                                // error={!!error}
                                 value={value}
                                 options={services}
                                 getOptionLabel={(item) => (item.task ? item.task : "")}
@@ -223,12 +196,17 @@ export const RequestExtraHours = (props) => {
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
-                                        label="items"
-                                        margin="normal"
-                                        variant="outlined"
+                                        label="service"
+                                        className={classes.textField}
+                                        // margin="normal"
+                                        // variant="outlined"
                                         // error={!!errors.item}
                                         // helperText={errors.item && "item required"}
-                                        required
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                     />
                                 )}
                             />
@@ -255,6 +233,28 @@ export const RequestExtraHours = (props) => {
                             />
                         )}
                         rules={{ required: 'Scope is required' }}
+                    />
+                                        <Controller
+                        name="reason"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                id="reason"
+                                type="text"
+                                // defaultValue="2021-05-24"
+                                // variant="outlined"
+                                label="reason"
+                                className={classes.textField}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        )}
+                        rules={{ required: 'Reason is required' }}
                     />
                     <Controller
                         name="wbs"
