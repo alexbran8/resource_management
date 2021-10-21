@@ -1,16 +1,9 @@
 const db = require("../../models");
-// const emailHandler =  require("./normsResolvers");
+const emailHandler = require("../../middleware/emailHandler");
+const {
+  transporterConfig,
+} = require("../../config/configProvider")();
 
-const emailHandler = async (metadata) => {
-  await metadata.transporter.sendMail({
-    from: metadata.from,
-    to: metadata.to,
-    cc: metadata.cc,
-    subject: metadata.subj,
-    text: metadata.text,
-    html: metadata.html
-  });
-};
 
 module.exports = {
 
@@ -33,17 +26,30 @@ module.exports = {
         );
         newItem.resource_email = args.userEmail
         await newItem.save();
-
+        
+        var timeStart = new Date("01/01/2007 " +  args.data[0].start).getHours();
+        var timeEnd = new Date("01/01/2007 " +  args.data[0].end).getHours();
+        
+        var hourDiff = timeEnd - timeStart;             
+        console.log( args.data[0].end, timeStart, timeEnd, hourDiff)
         // generate email body
         const metadata = {
           transporter: transporterConfig,
           from: "poweremail.ni_gsd_timisoara@nokia.com",
           to: "alexandru.bran@nokia.com",
           // to:'alexandru.bran@nokia.com',
-          cc: 'cecilia.crisan@nokia.com',
-          subj: `[NPT] Extra hours reported by: `+ args.userEmail + ` [NPT]`,
+          // cc: 'cecilia.crisan@nokia.com',
+          subj: `[NPT] Extra hours reported by: ` + args.userEmail + ` [NPT]`,
           // text: "Th:",
-          html: '<div>'+args.userEmail + 'has reported EH on the '+ args.data[0].date + ' ( ' +args.data[0].end-args.data[0].start +'  ): </div>'
+          html: `<div>` + args.userEmail + ` has reported EH on the ` + args.data[0].date + `: `+
+            `<ul><li>start hour: ` + args.data[0].start + 
+            `</li><li>end hour: `+ args.data[0].end + `</li> ` + 
+            `<li>duration: ` + hourDiff + `</li>` + 
+            `<li>domain: ` + args.data[0].domain + `</li>` + 
+            `<li>scope: ` + args.data[0].scope + `</li>` + 
+            `<li>reason: ` + args.data[0].reason + `</li>` + 
+            `<li>service: ` + args.data[0].service + `</li>` + 
+            `</ul></div>`
         };
 
 

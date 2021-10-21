@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { useMutation, useQuery, gql } from "@apollo/client";
 
+import moment from 'moment'
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
     },
     textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
         width: 200,
     },
 }));
@@ -65,14 +67,26 @@ export const RequestExtraHours = (props) => {
 
 
     const onSubmit = (data: any) => {
-        console.log(data); addItemMutation({
+        // check if time is correct
+        var beginningTime = moment(data.start, 'h:mm');
+        var endTime = moment(data.end, 'h:mm');
+     if (beginningTime.isBefore(endTime))
+     { 
+        
+        addItemMutation({
             variables: {
                 data: data,
                 userEmail: props.resourceEmail
             }
         }
         )
+    }
+    else
+    {
+        alert("please select proper end hour")
+    }
     };
+
 
     return (<div className="request-extra-hours-form">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -81,7 +95,9 @@ export const RequestExtraHours = (props) => {
                 <Divider
                     style={{ marginTop: 1, marginBottom: 10 }}
                 />
-                <Grid item xs={12}>
+                <Grid item xs={12}
+                    style={{ padding: 20 }}
+                >
                     <Controller
                         name="date"
                         control={control}
@@ -105,83 +121,64 @@ export const RequestExtraHours = (props) => {
                         )}
                         rules={{ required: 'Date is required' }}
                     />
-                    <>
-                        <Controller
-                            name="start"
-                            control={control}
-                            defaultValue=""
-                            render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                <TextField
-                                    id="start"
-                                    type="time"
-                                    // label="start"
-                                    // label="start hour"
-                                    // defaultValue="2021-05-24"
-                                    // variant="filled"
-                                    // value={value}
-                                    onChange={onChange}
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
-                                />
-                            )}
-                            rules={{ required: 'Start hour is required' }}
-                        />
-                        <Controller
-                            name="end"
-                            control={control}
-                            defaultValue=""
-                            render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                <TextField
-                                    id="end"
-                                    type="time"
-                                    // label="end"
-                                    // style = {{width: 150}}
-                                    // defaultValue="2021-05-24"
-                                    // variant="filled"
-                                    // value={value}
-                                    onChange={onChange}
-                                    error={!!error}
-                                    helperText={error ? error.message : null}
-                                />
-                            )}
-                            rules={{ required: 'End hour is required' }}
-                        />
-                    </>
+
+                    <Controller
+                        name="start"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                id="start"
+                                type="time"
+                                className={classes.textField}
+                                // label="start"
+                                // label="start hour"
+                                // defaultValue="2021-05-24"
+                                // variant="filled"
+                                // value={value}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                            />
+                        )}
+                        rules={{ required: 'Start hour is required' }}
+                    />
+                    <Controller
+                        name="end"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                id="end"
+                                type="time"
+                                className={classes.textField}
+                                // label="end"
+                                // style = {{width: 150}}
+                                // defaultValue="2021-05-24"
+                                // variant="filled"
+                                // value={value}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                            />
+                        )}
+                        rules={{ required: 'End hour is required' }}
+                    />
                 </Grid>
 
-                <Grid item xs={12} style={{ padding: 20 }}>
+                <Grid item xs={12}
+                    style={{ padding: 20 }}
+                >
                     {/* <FormRow  style={{ marginTop: 10, marginBottom: 10 }}/> */}
                     Details
                     <Divider
                         style={{ marginTop: 1, marginBottom: 10 }}
                     />
                     <Controller
-                        name="domain"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                id="domain"
-                                type="text"
-                                label="Domain"
-                                // defaultValue="Radio"
-                                // variant="outlined"
-                                className={classes.textField}
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        )}
-                        rules={{ required: 'Domain is required' }}
-                    />
-                    <Controller
                         control={control}
                         name="service"
                         rules={{ required: 'service is required' }}
-                        render={({ field: { onChange, value },fieldState: { error } }) => (
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <Autocomplete
                                 onChange={(event, item) => {
                                     onChange(item.task);
@@ -213,6 +210,29 @@ export const RequestExtraHours = (props) => {
                         )}
                     />
                     <Controller
+                        name="domain"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                id="domain"
+                                type="text"
+                                label="Domain"
+                                // defaultValue="Radio"
+                                // variant="outlined"
+                                className={classes.textField}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        )}
+                        rules={{ required: 'Domain is required' }}
+                    />
+
+                    <Controller
                         name="scope"
                         control={control}
                         defaultValue=""
@@ -234,7 +254,7 @@ export const RequestExtraHours = (props) => {
                         )}
                         rules={{ required: 'Scope is required' }}
                     />
-                                        <Controller
+                    <Controller
                         name="reason"
                         control={control}
                         defaultValue=""

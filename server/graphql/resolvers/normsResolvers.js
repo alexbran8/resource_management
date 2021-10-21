@@ -2,6 +2,9 @@ const e = require("cors");
 const nodemailer = require("nodemailer");
 const db = require("../../models");
 const { uid } = require( 'uid');
+const {
+  transporterConfig,
+} = require("../../config/configProvider")();
 
 const errorHandler = (err, req, res, next) => {
   const { code, desc = err.message } = err;
