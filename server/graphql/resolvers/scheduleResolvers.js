@@ -33,12 +33,15 @@ module.exports = {
         var hourDiff = timeEnd - timeStart;             
         console.log( args.data[0].end, timeStart, timeEnd, hourDiff)
         // generate email body
+
+        // configure TO based on selected WBS
+
         const metadata = {
           transporter: transporterConfig,
           from: "poweremail.ni_gsd_timisoara@nokia.com",
           to: "alexandru.bran@nokia.com",
           // to:'alexandru.bran@nokia.com',
-          // cc: 'cecilia.crisan@nokia.com',
+          cc: 'cecilia.crisan@nokia.com',
           subj: `[NPT] Extra hours reported by: ` + args.userEmail + ` [NPT]`,
           // text: "Th:",
           html: `<div>` + args.userEmail + ` has reported EH on the ` + args.data[0].date + `: `+
@@ -49,7 +52,9 @@ module.exports = {
             `<li>scope: ` + args.data[0].scope + `</li>` + 
             `<li>reason: ` + args.data[0].reason + `</li>` + 
             `<li>service: ` + args.data[0].service + `</li>` + 
-            `</ul></div>`
+            `</ul> ` +
+            `NOTE: email body styling is under delevopment` +
+            `</div>`
         };
 
 
