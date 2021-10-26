@@ -1,36 +1,30 @@
 import React from "react";
+import { useDispatch } from 'react-redux'
 
 import { useForm } from 'react-hook-form'
-import { SignUp } from "../redux/actions/index"
+import { SignUp } from "../../redux/actions/index"
 import { Form, Col, Row } from "react-bootstrap"
-
-import "./SignUp.scss"
-
-
-import { useSelector, useDispatch } from 'react-redux'
-// import CustomInput from "./CustomInput";
-// import * as actions from "../actions";
-// import { fromPairs } from "lodash";
-
+  
 const defaultValues = {
-  select: "",
-  input: ""
-};
+    select: "",
+    input: ""
+  };
 
-const SignUpForm = () => {
-  const dispatch = useDispatch();
-  const { register, handleSubmit, control } = useForm({ defaultValues });
+export const AddUsers = () => {
+    const dispatch = useDispatch();
+    const { register, handleSubmit, control } = useForm({ defaultValues });
+  
+    const OnSubmit = async (data) => {
+      dispatch(await SignUp(data))
+    }
 
-  const OnSubmit = async (data) => {
-    dispatch(await SignUp(data))
-  }
 
-
-  return (
-    <Form className="containerForm" 
+  
+  
+    return (<div> <Form className="containerForm" 
     onSubmit={handleSubmit(OnSubmit)}
     >
-      <Form.Row>
+     <Form>
       <Col>
         <Form.Group controlId="nokiaid">
           <Form.Label>NokiaID</Form.Label>
@@ -86,7 +80,7 @@ const SignUpForm = () => {
           </Form.Control>
         </Form.Group> 
         </Col>
-      </Form.Row>
+      </Form>
       <Row>
       <Col>
       <Form.Group controlId="upalu">
@@ -134,7 +128,7 @@ const SignUpForm = () => {
         </Form.Group>
         </Col>
       </Row>
-      <Form.Row>
+      <Form>
       <Col>
         <Form.Group controlId="line_manager_firstname">
           <Form.Label>line_manager_firstname</Form.Label>
@@ -184,7 +178,7 @@ const SignUpForm = () => {
             </Form.Control>
         </Form.Group>
         </Col>
-      </Form.Row>
+      </Form>
       {/* 
           {this.props.errorMessage ? (
             <div className="alert  alert-danger">
@@ -196,8 +190,7 @@ const SignUpForm = () => {
         Sign Up
             </button>
             </div>
-    </Form>
+    </Form></div>
 
-  )
+    )
 }
-export default SignUpForm
