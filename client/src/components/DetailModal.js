@@ -185,6 +185,7 @@ const renderRows = (title, variable) => {
                     <option>SAO</option>
                     <option>TAC</option>
                     <option>TFT</option>
+                    <option>Prod XP</option>
                     </select>
                 </div>,
                   renderEditRows('Second Team', 'second_team'),
