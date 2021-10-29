@@ -3,7 +3,7 @@ import Homepage from "./components/Homepage.jsx";
 import {Header} from "./components/Header.jsx";
 import {RequestParent} from "./components/Request/RequestParent";
 import Approvals from "./components/Approval/Approval";
-import NormCheck from './components/NormCheck'
+import NormCheck from './components/NormCheck/NormCheck'
 import Exports from './components/Exports'
 import LoginError from "./components/LoginError";
 import Calendar from './components/Calendar.js'

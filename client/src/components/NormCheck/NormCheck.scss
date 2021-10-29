@@ -62,8 +62,10 @@ button {
     // position: sticky;
     // top: 150px;
     // margin-top: 150px;
-    border: 2px #7b8d9b solid;
-    display: flex;
+    border: 3px #7b8d9b solid;
+    display: inline-flex;
+    width: 100%;
+    flex-direction: row;
     overflow-y: hidden;
     opacity: 100%;
 

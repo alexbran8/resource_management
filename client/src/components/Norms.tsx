@@ -5,7 +5,7 @@ import { Table } from 'react-bootstrap'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import ITutorialData from "../types/Tutorial";
-import "./Norms.scss"
+// import "./Norms.scss"
 
 
 // define interface

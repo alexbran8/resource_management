@@ -384,8 +384,8 @@ const NormCheck = () => {
             <h5>Prior to checking the below table please update the files using the following <a target="_blank" href="https://apps.gdceur.eecloud.dynamic.nsn-net.net/tools/">application</a> (soon to be integrated here!!!)</h5>
             <div className="tableHeader">
                 <div className="filterContainer">
-                    <form
-                        className="filter text-center row"
+                    <form 
+                        // className="filter text-center row"
                         onSubmit={(e) => {
                             e.preventDefault();
                             // this.filter(this.state.filter);
@@ -400,7 +400,7 @@ const NormCheck = () => {
                                 onClick={sendNotifications}>Send {selected} notification(s) </Button>
                         </>
                         <select
-                            className="form-control p-2 m-3 col"
+                            // className="form-control col"
                             defaultValue=""
                             onChange={(e) => {
                                 _onChangeFitler(e, "resource")
@@ -420,7 +420,7 @@ const NormCheck = () => {
                             }
                         </select>
                         <select
-                            className="form-control p-2 m-3 col"
+                            // className="form-control p-2 m-3 col"
                             defaultValue=""
                             onChange={(e) => {
                                 _onChangeFitler(e, "dep")
