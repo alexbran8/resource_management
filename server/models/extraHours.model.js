@@ -12,15 +12,19 @@ module.exports = (sequelize, type) => {
       //   primaryKey: true,
       // },
       start: {
-        type: type.STRING(),
+        type: type.STRING,
         required: true,
       },
       end: {
-        type: type.STRING(),
+        type: type.STRING,
+        required: true,
+      },
+      duration: {
+        type: type.STRING,
         required: true,
       },
       resource_email: {
-        type: type.INTEGER,
+        type: type.STRING,
         required: true,
       },
       date: {

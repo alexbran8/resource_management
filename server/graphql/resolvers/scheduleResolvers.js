@@ -46,8 +46,7 @@ module.exports = {
           // text: "Th:",
           html: `<div>` + args.userEmail + ` has reported EH on the ` + args.data[0].date + `: `+
             `<ul><li>start hour: ` + args.data[0].start + 
-            `</li><li>end hour: `+ args.data[0].end + `</li> ` + 
-            `<li>duration: ` + hourDiff + `</li>` + 
+            `<li>duration: ` + args.data[0].duration + `</li>` + 
             `<li>domain: ` + args.data[0].domain + `</li>` + 
             `<li>scope: ` + args.data[0].scope + `</li>` + 
             `<li>reason: ` + args.data[0].reason + `</li>` + 

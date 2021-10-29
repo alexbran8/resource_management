@@ -8,7 +8,8 @@ input extraHours {
     date: String!
     domain: String!
     start: String!
-    end: String!
+    end: String
+    duration: String!
     reason: String!
     scope: String!
     service: String!

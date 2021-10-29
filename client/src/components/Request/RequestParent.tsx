@@ -17,7 +17,7 @@ export const RequestParent = () => {
         <h5><b>{user.auth.name}</b>, please the select type of request which you would like to enter:</h5>
         <section> 
             <Button variant="contained" color="primary" onClick={() =>{setShowAdmin(true);setShowExtraHours(false)}}>Administrative</Button>
-            <Button variant="contained" color="secondary" disabled={true}> Operational</Button>
+            <Button variant="contained" color="secondary" disabled={true}> Operationpmnal</Button>
             <Button variant="contained" color="primary" onClick={() =>{setShowAdmin(false);setShowExtraHours(true)}}>Extra Hours</Button>
         </section>
        {showAdmin === true ? <Request /> : null }
