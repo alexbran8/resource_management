@@ -2,7 +2,7 @@ import React from "react";
 import Homepage from "./components/Homepage.jsx";
 import {Header} from "./components/Header.jsx";
 import {RequestParent} from "./components/Request/RequestParent";
-import Approvals from "./components/approval/approval.js";
+import Approvals from "./components/approval.tsx";
 import NormCheck from './components/NormCheck/NormCheck'
 import Exports from './components/Exports'
 import LoginError from "./components/LoginError";
