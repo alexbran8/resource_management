@@ -1,0 +1,26 @@
+#approval-table td {
+    border: 1px solid black;
+    // padding: 1% 1% 0% 0%;
+    text-align: center;
+}
+
+#approval-table thead th {
+    border: 2px solid black;
+    // padding: 1% 1% 0% 0%;
+    background-color: #66d3fa;
+    text-align: center;
+}
+#approval-table {
+    text-align: center;
+    border: 2px solid black;
+    margin: 1% 1% 1% 1%;
+}
+
+#approval-table tr td:last-child {
+    width: 1%;
+    min-width: 100px;
+    white-space: pre-wrap;
+}
+#approval-table tr:hover {
+    background-color: #ffff99;
+  }
