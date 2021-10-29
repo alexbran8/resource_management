@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Axios from "axios";
 import { config } from "../../config";;
+var moment = require("moment");
 
 import "./Approval.scss"
 
-var moment = require("moment");
+
 
 class Approval extends Component {
   constructor(props) {
