@@ -6,7 +6,7 @@ import moment from 'moment'
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import CheckBox from '@material-ui/core/CheckBox';
+import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -68,6 +68,9 @@ export const RequestExtraHours = (props) => {
     const classes = useStyles();
     const { register, handleSubmit, control } = useForm({});
     const [services, setServices] = useState([])
+    const [val, setMyVal] = useState()
+
+    const fruits = register("fruits");
 
     const { data, loading: get_dd_data_loading, error: get_dd_data_error } = useQuery(GET_DD_DATA, {
         variables: { department: 'RADIO' }, onCompleted: () => {
@@ -144,14 +147,18 @@ export const RequestExtraHours = (props) => {
                                 // variant="filled"
                                 // value={value}
                                 {...register('start')}
-                                onChange={onChange}
+                                onChange={(e) => {
+                                    fruits.onChange(e);
+                                    setMyVal(e.target.value); // react hook form onChange
+                                    console.log("Here would go the my onChange"); // my onChange
+                                  }}
                                 error={!!error}
                                 helperText={error ? error.message : null}
                             />
                         )}
                         rules={{ required: 'Start hour is required' }}
                     />
-                    {/* <Controller
+                    <Controller
                         name="end"
                         control={control}
                         defaultValue=""
@@ -164,14 +171,14 @@ export const RequestExtraHours = (props) => {
                                 // style = {{width: 150}}
                                 // defaultValue="2021-05-24"
                                 // variant="filled"
-                                // value={value}
+                                // value={val + duration}
                                 onChange={onChange}
                                 error={!!error}
                                 helperText={error ? error.message : null}
                             />
                         )}
                         rules={{ required: 'End hour is required' }}
-                    /> */}
+                    />
 
                     <Controller
                         name="duration"
@@ -200,7 +207,7 @@ export const RequestExtraHours = (props) => {
                         control={control}
                         // defaultValue=""
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <CheckBox
+                            <Checkbox
                                 id="nightTask"
                                 className={classes.textField}
                                 // className={classes.textField}
@@ -216,9 +223,10 @@ export const RequestExtraHours = (props) => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                // rules={{ required: true }}
                             />
                         )}
-                        rules={{ required: 'End hour is required' }}
+                        
                     />
                 </Grid>
 
@@ -265,41 +273,7 @@ export const RequestExtraHours = (props) => {
                             />
                         )}
                     />
-                    <Controller
-                        control={control}
-                        name="wbs"
-                        rules={{ required: 'wbs is required' }}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <Autocomplete
-                                onChange={(event, item) => {
-                                    onChange(item.value);
-                                }}
-                                // error={!!error}
-                                value={value}
-                                options={wbsList}
-                                getOptionLabel={(item) => (item.value ? item.value : "")}
-                                getOptionSelected={(option, value) =>
-                                    value === undefined || value === "" || option.id === value.id
-                                }
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="wbs"
-                                        className={classes.textField}
-                                        // margin="normal"
-                                        // variant="outlined"
-                                        // error={!!errors.item}
-                                        // helperText={errors.item && "item required"}
-                                        error={!!error}
-                                        helperText={error ? error.message : null}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                )}
-                            />
-                        )}
-                    />
+                   
                     <Controller
                         name="domain"
                         control={control}
@@ -366,6 +340,64 @@ export const RequestExtraHours = (props) => {
                             />
                         )}
                         rules={{ required: 'Reason is required' }}
+                    />
+                                        <Controller
+                        name="reason"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                id="reason"
+                                type="text"
+                                // defaultValue="2021-05-24"
+                                // variant="outlined"
+                                label="reason"
+                                className={classes.textField}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        )}
+                        rules={{ required: 'Reason is required' }}
+                    />
+                     <Controller
+                        control={control}
+                        name="wbs"
+                        rules={{ required: 'wbs is required' }}
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <Autocomplete
+                                onChange={(event, item) => {
+                                    onChange(item.value);
+                                }}
+                                
+                                // error={!!error}
+                                value={value}
+                                options={wbsList}
+                                getOptionLabel={(item) => (item.value ? item.value : "")}
+                                getOptionSelected={(option, value) =>
+                                    value === undefined || value === "" || option.id === value.id
+                                }
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="wbs"
+                                        className={classes.textField}
+                                        // margin="normal"
+                                        // variant="outlined"
+                                        // error={!!errors.item}
+                                        // helperText={errors.item && "item required"}
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                )}
+                            />
+                        )}
                     />
 
                 </Grid>
