@@ -41,14 +41,16 @@ const domainList = [
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        display: 'flex',
-        flexWrap: 'wrap',
+        // display: 'flex',
+        // flexWrap: 'wrap',
     },
     textField: {
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2),
-        width: 200,
-    },
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(2),
+        width: 250,
+      },
 }));
 
 const ADD_ITEM = gql`
@@ -154,7 +156,7 @@ export const RequestExtraHours = (props) => {
                                 // defaultValue="2021-05-24"
                                 // variant="filled"
                                 value={value}
-                                onChange={(e) => { onChange(e); setMyVal(e.target.value); console.log(val) }}
+                                onChange={(e) => { onChange(e); setMyVal(e.target.value) }}
                                 // {...register('start', {
                                 //     onChange: (e) => {  setMyVal(e.target.value);},
                                 //     onBlur: (e) => {  setMyVal(e.target.value);},
@@ -231,11 +233,11 @@ export const RequestExtraHours = (props) => {
                                 value={value}
                                 // checked={checked}
                                 onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                                // error={!!error}
+                                // helperText={error ? error.message : null}
+                                // InputLabelProps={{
+                                //     shrink: true,
+                                // }}
                             // rules={{ required: true }}
                             />
                         )}
@@ -249,14 +251,16 @@ export const RequestExtraHours = (props) => {
                     {/* <FormRow  style={{ marginTop: 10, marginBottom: 10 }}/> */}
                     Details
                     <Divider
-                        style={{ marginTop: 1, marginBottom: 10 }}
+                        style={{ marginTop: 10, marginBottom: 10 }}
                     />
                     <Controller
                         control={control}
                         name="service"
+                     
                         rules={{ required: 'service is required' }}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <Autocomplete
+                            
                                 onChange={(event, item) => {
                                     onChange(item.task);
                                 }}
@@ -271,6 +275,7 @@ export const RequestExtraHours = (props) => {
                                     <TextField
                                         {...params}
                                         label="service"
+                                        style={{ marginTop: 10, marginBottom: 10 }}
                                         className={classes.textField}
                                         // margin="normal"
                                         // variant="outlined"
@@ -323,31 +328,6 @@ export const RequestExtraHours = (props) => {
                             />
                         )}
                     />
-
-                   
-
-                    {/* <Controller
-                        name="reason"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                id="reason"
-                                type="text"
-                                // defaultValue="2021-05-24"
-                                // variant="outlined"
-                                label="reason"
-                                className={classes.textField}
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        )}
-                        rules={{ required: 'Reason is required' }}
-                    /> */}
                     <Controller
                         control={control}
                         name="wbs"

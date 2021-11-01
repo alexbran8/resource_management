@@ -91,7 +91,6 @@ module.exports = {
 
         // send notification
         process.env.NODE_ENV === `development` ? console.log(metadata.html) : emailHandler(metadata).catch(console.error);
-        emailHandler(metadata).catch(console.error)
 
         const response = { message: 'Added', success: true }
         return response
