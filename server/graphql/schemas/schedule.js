@@ -14,6 +14,7 @@ input extraHours {
     scope: String!
     service: String!
     wbs: String!
+    nightTask: Boolean
 }
 
 

@@ -34,6 +34,11 @@ const wbsList = [
     { value: 'FRLI000642-FP-RADIO', label: 'FRLI000642-FP-RADIO' }
 ]
 
+const domainList = [
+    { value: 'RADIO', label: 'RADIO' },
+    { value: 'TRANS', label: 'TRANS' }
+]
+
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
@@ -69,6 +74,7 @@ export const RequestExtraHours = (props) => {
     const { register, handleSubmit, control } = useForm({});
     const [services, setServices] = useState([])
     const [val, setMyVal] = useState()
+    const [duration, setDuration] = useState()
 
     const fruits = register("fruits");
 
@@ -97,6 +103,8 @@ export const RequestExtraHours = (props) => {
         }
         )
     };
+
+    console.log(moment(val, "hh:mm").add('02:00', 'hours'))
 
 
     return (<div className="request-extra-hours-form">
@@ -145,41 +153,24 @@ export const RequestExtraHours = (props) => {
                                 // label="start hour"
                                 // defaultValue="2021-05-24"
                                 // variant="filled"
-                                // value={value}
-                                {...register('start')}
-                                onChange={(e) => {
-                                    fruits.onChange(e);
-                                    setMyVal(e.target.value); // react hook form onChange
-                                    console.log("Here would go the my onChange"); // my onChange
-                                  }}
+                                value={value}
+                                onChange={(e) => { onChange(e); setMyVal(e.target.value); console.log(val) }}
+                                // {...register('start', {
+                                //     onChange: (e) => {  setMyVal(e.target.value);},
+                                //     onBlur: (e) => {  setMyVal(e.target.value);},
+                                //   })}
                                 error={!!error}
                                 helperText={error ? error.message : null}
+                            // onChange={(e) => {
+                            //     fruits.onChange(e);
+                            //     onChange;
+                            //     setMyVal(e.target.value); // react hook form onChange
+                            //     console.log("Here would go the my onChange"); // my onChange
+                            // }}
                             />
                         )}
                         rules={{ required: 'Start hour is required' }}
                     />
-                    <Controller
-                        name="end"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                id="end"
-                                type="time"
-                                className={classes.textField}
-                                // label="end"
-                                // style = {{width: 150}}
-                                // defaultValue="2021-05-24"
-                                // variant="filled"
-                                // value={val + duration}
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'End hour is required' }}
-                    />
-
                     <Controller
                         name="duration"
                         control={control}
@@ -191,7 +182,7 @@ export const RequestExtraHours = (props) => {
                                 inputProps={{ min: 0 }}
                                 label="duration (hours)"
                                 className={classes.textField}
-                                onChange={onChange}
+                                onChange={(e) => { onChange(e); setDuration(e.target.value) }}
                                 error={!!error}
                                 helperText={error ? error.message : null}
                                 InputLabelProps={{
@@ -201,6 +192,28 @@ export const RequestExtraHours = (props) => {
 
                         )}
                         rules={{ required: 'Duration is required' }}
+                    />
+                    <Controller
+                        name="end"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                id="end"
+                                type="time"
+                                className={classes.textField}
+                                label="end"
+                                disabled={true}
+                                // style = {{width: 150}}
+                                // defaultValue="2021-05-24"
+                                // variant="filled"
+                                value={moment(val, "hh:mm A").add(duration, 'hours').format('HH:mm')}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                            />
+                        )}
+                    // rules={{ required: 'End hour is required' }}
                     />Is Night Task?
                     <Controller
                         name="nightTask"
@@ -214,7 +227,7 @@ export const RequestExtraHours = (props) => {
                                 // label="nightTask?"
                                 // type="checkbox"
                                 // name={nightTask}
-                                required={true}
+                                // required={true}
                                 value={value}
                                 // checked={checked}
                                 onChange={onChange}
@@ -223,10 +236,10 @@ export const RequestExtraHours = (props) => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                // rules={{ required: true }}
+                            // rules={{ required: true }}
                             />
                         )}
-                        
+
                     />
                 </Grid>
 
@@ -273,18 +286,57 @@ export const RequestExtraHours = (props) => {
                             />
                         )}
                     />
-                   
+
                     <Controller
+                        control={control}
                         name="domain"
+                        rules={{ required: 'domain is required' }}
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <Autocomplete
+                                onChange={(event, item) => {
+                                    onChange(item.value);
+                                }}
+
+                                // error={!!error}
+                                value={value}
+                                options={domainList}
+                                getOptionLabel={(item) => (item.value ? item.value : "")}
+                                getOptionSelected={(option, value) =>
+                                    value === undefined || value === "" || option.id === value.id
+                                }
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="domain"
+                                        className={classes.textField}
+                                        // margin="normal"
+                                        // variant="outlined"
+                                        // error={!!errors.item}
+                                        // helperText={errors.item && "item required"}
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                )}
+                            />
+                        )}
+                    />
+
+                   
+
+                    {/* <Controller
+                        name="reason"
                         control={control}
                         defaultValue=""
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
-                                id="domain"
+                                id="reason"
                                 type="text"
-                                label="Domain"
-                                // defaultValue="Radio"
+                                // defaultValue="2021-05-24"
                                 // variant="outlined"
+                                label="reason"
                                 className={classes.textField}
                                 onChange={onChange}
                                 error={!!error}
@@ -294,10 +346,45 @@ export const RequestExtraHours = (props) => {
                                 }}
                             />
                         )}
-                        rules={{ required: 'Domain is required' }}
-                    />
-
+                        rules={{ required: 'Reason is required' }}
+                    /> */}
                     <Controller
+                        control={control}
+                        name="wbs"
+                        rules={{ required: 'wbs is required' }}
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <Autocomplete
+                                onChange={(event, item) => {
+                                    onChange(item.value);
+                                }}
+
+                                // error={!!error}
+                                value={value}
+                                options={wbsList}
+                                getOptionLabel={(item) => (item.value ? item.value : "")}
+                                getOptionSelected={(option, value) =>
+                                    value === undefined || value === "" || option.id === value.id
+                                }
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="wbs"
+                                        className={classes.textField}
+                                        // margin="normal"
+                                        // variant="outlined"
+                                        // error={!!errors.item}
+                                        // helperText={errors.item && "item required"}
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                )}
+                            />
+                        )}
+                    />
+                     <Controller
                         name="scope"
                         control={control}
                         defaultValue=""
@@ -307,7 +394,7 @@ export const RequestExtraHours = (props) => {
                                 type="text"
                                 // defaultValue="2021-05-24"
                                 // variant="outlined"
-                                label="Scope"
+                                label="scope"
                                 className={classes.textField}
                                 onChange={onChange}
                                 error={!!error}
@@ -340,64 +427,6 @@ export const RequestExtraHours = (props) => {
                             />
                         )}
                         rules={{ required: 'Reason is required' }}
-                    />
-                                        <Controller
-                        name="reason"
-                        control={control}
-                        defaultValue=""
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                id="reason"
-                                type="text"
-                                // defaultValue="2021-05-24"
-                                // variant="outlined"
-                                label="reason"
-                                className={classes.textField}
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        )}
-                        rules={{ required: 'Reason is required' }}
-                    />
-                     <Controller
-                        control={control}
-                        name="wbs"
-                        rules={{ required: 'wbs is required' }}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <Autocomplete
-                                onChange={(event, item) => {
-                                    onChange(item.value);
-                                }}
-                                
-                                // error={!!error}
-                                value={value}
-                                options={wbsList}
-                                getOptionLabel={(item) => (item.value ? item.value : "")}
-                                getOptionSelected={(option, value) =>
-                                    value === undefined || value === "" || option.id === value.id
-                                }
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="wbs"
-                                        className={classes.textField}
-                                        // margin="normal"
-                                        // variant="outlined"
-                                        // error={!!errors.item}
-                                        // helperText={errors.item && "item required"}
-                                        error={!!error}
-                                        helperText={error ? error.message : null}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
-                                )}
-                            />
-                        )}
                     />
 
                 </Grid>

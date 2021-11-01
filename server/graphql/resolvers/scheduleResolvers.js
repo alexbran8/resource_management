@@ -26,33 +26,65 @@ module.exports = {
         );
         newItem.resource_email = args.userEmail
         await newItem.save();
-        
-        var timeStart = new Date("01/01/2007 " +  args.data[0].start).getHours();
-        var timeEnd = new Date("01/01/2007 " +  args.data[0].end).getHours();
-        
-        var hourDiff = timeEnd - timeStart;             
-        console.log( args.data[0].end, timeStart, timeEnd, hourDiff)
+
+        var toList = ""
+        var ccList = "cecilia.crisan@nokia.com"
+        // get to and cc based on wbs
+        switch (args.data[0].wbs) {
+          case 'FRLI000642-FP-PROD':
+            toList = 'jihane.targhali@nokia.com'
+            ccList = ccList + ', ' + 'anamaria.popescu.ext@nokia.com'
+            break;
+          case 'FRLI000642-FP-TAC':
+            toList = 'cornelia.coanda@nokia.com'
+            ccList = ccList + ', ' + 'ionela.cheroiu@nokia.com'
+          case 'FRLI000642-FP-Fiab-Radio':
+            toList = 'cornelia.coanda@nokia.com'
+            ccList = ccList + ', ' + 'ramona.sperlea@nokia.com'
+          case 'FRLI000642-FP-AMO':
+            toList = 'cornelia.coanda@nokia.com'
+            ccList = ccList + ', ' + 'diana.bulzan.ext@nokia.com'
+          case 'FRLI000642-FP-SAO':
+            toList = 'cornelia.coanda@nokia.com'
+            ccList = ccList + ', ' + 'mariana.spulber@nokia.com'
+          case 'FRLI000642-FP-RADIO':
+            toList = 'cornelia.coanda@nokia.com'
+            ccList = ccList
+            // code block
+            break;
+          default:
+          // code block
+        }
+
+
+        var timeStart = new Date("01/01/2007 " + args.data[0].start).getHours();
+        var timeEnd = new Date("01/01/2007 " + args.data[0].end).getHours();
+
+        var hourDiff = timeEnd - timeStart;
+        console.log(args.data[0].end, timeStart, timeEnd, hourDiff)
         // generate email body
 
         // configure TO based on selected WBS
-
         const metadata = {
           transporter: transporterConfig,
           from: "poweremail.ni_gsd_timisoara@nokia.com",
-          to: "alexandru.bran@nokia.com",
+          to: toList,
           // to:'alexandru.bran@nokia.com',
-          cc: 'cecilia.crisan@nokia.com',
+          cc: ccList,
           subj: `[NPT] Extra hours reported by: ` + args.userEmail + ` [NPT]`,
           // text: "Th:",
-          html: `<div>` + args.userEmail + ` has reported EH on the ` + args.data[0].date + `: `+
-            `<ul><li>start hour: ` + args.data[0].start + 
-            `<li>duration: ` + args.data[0].duration + `</li>` + 
-            `<li>domain: ` + args.data[0].domain + `</li>` + 
-            `<li>scope: ` + args.data[0].scope + `</li>` + 
-            `<li>reason: ` + args.data[0].reason + `</li>` + 
-            `<li>service: ` + args.data[0].service + `</li>` + 
+          html: `<div><b>` + args.userEmail + `</b> has reported EH on the <b>` + args.data[0].date + `</b>: ` +
+            `<ul><li>start hour: <b>` + args.data[0].start + '</b></li>' +
+            `<li>duration: <b>` + args.data[0].duration + 'hour(s)' + `</b></li>` +
+            `<li>domain: <b>` + args.data[0].domain + `</b></li>` +
+            `<li>WBS: <b>` + args.data[0].wbs + `</b></li>` +
+            `<li>service: <b>` + args.data[0].service + `</b></li>` +
+            `<li>scope: <b>` + args.data[0].scope + `</b></li>` +
+            `<li>reason: <b>` + args.data[0].reason + `</b></li>` +
+            `<li>night task: <b>` + args.data[0].nightTask + `</b></li>` +
+
             `</ul> ` +
-            `NOTE: email body styling is under delevopment` +
+            `<b>NOTE: email body styling is under delevopment </b>` +
             `</div>`
         };
 
