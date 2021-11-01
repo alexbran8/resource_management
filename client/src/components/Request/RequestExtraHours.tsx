@@ -77,6 +77,7 @@ export const RequestExtraHours = (props) => {
     const [services, setServices] = useState([])
     const [val, setMyVal] = useState()
     const [duration, setDuration] = useState()
+    const [isNightTask, setIsNightTask] =useState(false)
 
     const fruits = register("fruits");
 
@@ -106,6 +107,24 @@ export const RequestExtraHours = (props) => {
         )
     };
 
+    const checkIfNightTask = (val) =>
+    {
+        var format = 'hh:mm'
+        var time = moment(val,format),
+  beforeTime = moment('06:00', format),
+  afterTime = moment('22:00', format);
+
+if (time.isBetween(beforeTime, afterTime)) {
+
+  setIsNightTask(false)
+
+} else {
+
+    setIsNightTask(true)
+
+}
+    }
+
     console.log(moment(val, "hh:mm").add('02:00', 'hours'))
 
 
@@ -119,6 +138,7 @@ export const RequestExtraHours = (props) => {
                 <Grid item xs={12}
                     style={{ padding: 20 }}
                 >
+                   <h6> 1. Select date, start hour and duration. If task performed after 22:00, then it will be considered as night task.</h6>
                     <Controller
                         name="date"
                         control={control}
@@ -231,7 +251,6 @@ export const RequestExtraHours = (props) => {
                                 // name={nightTask}
                                 // required={true}
                                 value={value}
-                                // checked={checked}
                                 onChange={onChange}
                                 // error={!!error}
                                 // helperText={error ? error.message : null}
@@ -253,6 +272,7 @@ export const RequestExtraHours = (props) => {
                     <Divider
                         style={{ marginTop: 10, marginBottom: 10 }}
                     />
+                    <h6> 2.Select task details: service(capacity task), domain, wbs and add scope and reason for which the task has been performed..</h6>
                     <Controller
                         control={control}
                         name="service"
