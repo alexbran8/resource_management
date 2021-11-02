@@ -12,9 +12,11 @@ const sequelize = new Sequelize("npt", "postgres", "fJdyP2Dyj@&6v!5hMM#VD", {
     acquire: 30000,
     idle: 10000,
   },
-  "dialectOptions": {
-    "useUTC": true
-},
+  dialectOptions: {
+    // useUTC: false, // for reading from database
+    timezone : '+02:00' // for writing to database
+  },
+  timezone : '+02:00' // for writing to database
 });
 
 const db = {};
