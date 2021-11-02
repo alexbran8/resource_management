@@ -12,6 +12,9 @@ const sequelize = new Sequelize("npt", "postgres", "fJdyP2Dyj@&6v!5hMM#VD", {
     acquire: 30000,
     idle: 10000,
   },
+  "dialectOptions": {
+    "useUTC": true
+},
 });
 
 const db = {};

@@ -53,6 +53,7 @@ module.exports = {
             // code block
             break;
           default:
+            toList = ccList
           // code block
         }
 
