@@ -124,13 +124,14 @@ type normCheck {
     correction: String
     Dep: String
    }
-  type Norm {
+
+   type CapLawsNpt {
     type: String!
     uid: String
     to_email: String
     date: String
     resource: String
-    WBS: String
+    wbsCustomer: String
     task: String
     taskComments: String
     twc: String
@@ -144,6 +145,18 @@ type normCheck {
     Dep: String
    }
 
+  type Norm {
+    type: String!
+    uid: String
+    to_email: String
+    date: String
+    resource: String
+    WBS: String
+    task: String
+    correction: String
+    Dep: String
+   }
+
 extend  type Query  {
     normCheckQuery(department: String!): [normCheck]
     capacityLawsonQuery(department: String!): [capacityLawson]
@@ -151,6 +164,7 @@ extend  type Query  {
     getTasksQuery(department: String!): [Tasks]
     commentsCheckQuery(department: String!): [commentsCheck]
     getDistinctNorms(department: String!): [Norm]
+    getCapacityLawsonNptCheck(department: String!): [CapLawsNpt]
 } 
 
 extend type Mutation {
