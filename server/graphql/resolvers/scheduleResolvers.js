@@ -10,6 +10,9 @@ module.exports = {
   Mutation: {
     async addExtraHours(root, args, context) {
       try {
+
+        // check if eh exist for that resource on that day
+        
         console.log(args)
         const extraHour = db.ExtraHours
         newItem = new extraHour(
@@ -38,19 +41,23 @@ module.exports = {
           case 'FRLI000642-FP-TAC':
             toList = 'cornelia.coanda@nokia.com'
             ccList = ccList + ', ' + 'ionela.cheroiu@nokia.com'
+            break;
           case 'FRLI000642-FP-Fiab-Radio':
             toList = 'cornelia.coanda@nokia.com'
             ccList = ccList + ', ' + 'ramona.sperlea@nokia.com'
+            break;
           case 'FRLI000642-FP-AMO':
             toList = 'cornelia.coanda@nokia.com'
             ccList = ccList + ', ' + 'diana.bulzan.ext@nokia.com'
+            break;
           case 'FRLI000642-FP-SAO':
             toList = 'cornelia.coanda@nokia.com'
             ccList = ccList + ', ' + 'mariana.spulber@nokia.com'
+            break;
           case 'FRLI000642-FP-RADIO':
             toList = 'cornelia.coanda@nokia.com'
             ccList = ccList
-            // code block
+
             break;
           default:
             toList = ccList
