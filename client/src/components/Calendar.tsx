@@ -12,8 +12,12 @@ import CustomModal from "./Modal";
 import Filter from "./Filter";
 import { config } from "../config";
 
+import {AlertComponent} from "./Alert/Alert"
+
+// import "./Scheduler.scss"
+
 let schedulerData = new SchedulerData(new Date(), ViewTypes.Week, false, false,
-//  {schedulerMaxHeight: 1800}
+ {schedulerMaxHeight: 800}
 );
 schedulerData.localeMoment.locale('en');
 
@@ -35,6 +39,7 @@ const Calendar = () => {
   const [types, setTypes] = useState()
   const [params, setParams] = useState({ 'admin': true, 'operational': false })
   const [editEvent, setEditEvent] = useState()
+  const [showAlerts, setShowAlerts]=useState<boolean>(true)
   const [filter, setFilter]=useState({line_manager: "",
   team: "",
   tpm: "",
@@ -132,7 +137,11 @@ const Calendar = () => {
     setEditEvent(undefined)
   }
 
-
+  useEffect(() => {
+    setTimeout(() => {
+      setShowAlerts(false);
+    }, 10000);
+  }, []);
 
   useEffect(() => {
     getType();
@@ -438,6 +447,9 @@ const updateData = async(data) => {
       filter={(value, field) => _filter(value, field)}
       eventsFilter={(value, field) => _eventsFilter(value, field)}
       />
+      {showAlerts ?
+      <AlertComponent />
+      : null }
         {(event || editEvent) && params.admin === true   ? (
           <CustomModal
             resources={schedulerData.resources}

@@ -6,7 +6,7 @@ import Approvals from "./components/approval.tsx";
 import NormCheck from './components/NormCheck/NormCheck'
 import Exports from './components/Exports'
 import LoginError from "./components/LoginError";
-import Calendar from './components/Calendar.js'
+import Calendar from './components/Calendar'
 import Norms from './components/Norms'
 import Tasks from './components/Tasks.js'
 import {HowTo} from './components/howTo/howTo'
