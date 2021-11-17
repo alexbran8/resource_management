@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
  * create a `.env` file with environment variables in order to laod at runtime.
 */
 
-const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:4000/" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/npt/';
+const hostUrl = process.env.NODE_ENV === `development` ? "http://localhost:4000/auth/azure/redirect" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/npt/auth/azure/redirect';
 const baseLocation = process.env.NODE_ENV === `development` ? "" :  '/npt';
 
 
@@ -16,7 +16,7 @@ var config = {
     // Azure Application details
     base: process.env.AAD_AUTH_URL || 'https://login.microsoftonline.com/',
     clientID: process.env.AAD_AUTH_CLIENTID || 'ae919e4c-3cba-44d7-80d6-f94ea0898d7d',
-    clientSecret: process.env.AAD_AUTH_CLIENTSECRET || '~GGPP7dpehaav.Y.jLci8enaw~M5ibT_23',
+    clientSecret: process.env.AAD_AUTH_CLIENTSECRET || 'khk7Q~uWLrWBtqArp2L6_EZCaUrNSp7x2hjv2',
     callbackUri: hostUrl + '/auth/cbAdfs',
     resource: process.env.MS_GRAPH_URL || 'https://graph.microsoft.com/',
     tenant: process.env.AAD_AUTH_TENANT || '5d471751-9675-428d-917b-70f44f9630b0'

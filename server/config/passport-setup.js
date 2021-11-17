@@ -3,7 +3,7 @@ const TwitterStrategy = require("passport-twitter");
 const AzureOAuth2Strategy = require('passport-azure-ad-oauth2')
 const keys = require("./keys");
 const User = require("../models/user-model");
-const config = require('../config2/config')
+const config = require('./config')
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
 // passport.serializeUser((user, done) => {
