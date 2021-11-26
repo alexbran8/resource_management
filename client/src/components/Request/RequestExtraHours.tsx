@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(2),
         width: 250,
-      },
+    },
 }));
 
 const ADD_ITEM = gql`
@@ -73,11 +73,13 @@ query($department:String!) {
 
 export const RequestExtraHours = (props) => {
     const classes = useStyles();
-    const { register, handleSubmit, control } = useForm({});
+    const { register, handleSubmit, control, watch } = useForm({});
     const [services, setServices] = useState([])
     const [val, setMyVal] = useState()
     const [duration, setDuration] = useState()
-    const [isNightTask, setIsNightTask] =useState(false)
+    const [isNightTask, setIsNightTask] = useState(false)
+    const [hasRecovery, setHasRecovery] = useState(false)
+    const [isWeekendTask, setIsWeekendTask]= useState<boolean>(true)
 
     const fruits = register("fruits");
 
@@ -90,7 +92,8 @@ export const RequestExtraHours = (props) => {
 
     const [addItemMutation] = useMutation(ADD_ITEM, {
         onCompleted: (data) => {
-            alert("Request added successfully!")
+            data.addExtraHours.success !== "false" ? alert("Request added successfully!") : alert(data.addExtraHours.message)
+            console.log(data)
         },
         onError: (error) => { console.error("Error creating a new item", error); alert("Error creating a post request " + error.message) },
     });
@@ -107,25 +110,38 @@ export const RequestExtraHours = (props) => {
         )
     };
 
-    const checkIfNightTask = (val) =>
-    {
+    const checkIfNightTask = (val) => {
         var format = 'hh:mm'
-        var time = moment(val,format),
-  beforeTime = moment('06:00', format),
-  afterTime = moment('22:00', format);
+        var time = moment(val, format),
+            beforeTime = moment('06:00', format),
+            afterTime = moment('22:00', format);
 
-if (time.isBetween(beforeTime, afterTime)) {
+        if (time.isBetween(beforeTime, afterTime)) {
 
-  setIsNightTask(false)
+            setIsNightTask(false)
 
-} else {
+        } else {
 
-    setIsNightTask(true)
+            setIsNightTask(true)
 
-}
+        }
     }
 
     console.log(moment(val, "hh:mm").add('02:00', 'hours'))
+    const dateValue = new Date(watch("date"))
+    const durationValue = watch("duration")
+
+    console.log(dateValue.getDay())
+
+    useEffect(() => {
+            if (dateValue && dateValue.getDay() == 6 || dateValue && dateValue.getDay() == 0) {
+            durationValue >= 8 ? setHasRecovery(true) : setHasRecovery(false)    
+          }
+          else {
+            setHasRecovery(false)
+          }
+        
+    }, [dateValue, durationValue])
 
 
     return (<div className="request-extra-hours-form">
@@ -138,7 +154,7 @@ if (time.isBetween(beforeTime, afterTime)) {
                 <Grid item xs={12}
                     style={{ padding: 20 }}
                 >
-                   <h6> 1. Select date, start hour and duration. If task performed after 22:00, then it will be considered as night task.</h6>
+                    <h6> 1. Select date, start hour and duration. If task performed after 22:00, then it will be considered as night task.</h6>
                     <Controller
                         name="date"
                         control={control}
@@ -252,16 +268,45 @@ if (time.isBetween(beforeTime, afterTime)) {
                                 // required={true}
                                 value={value}
                                 onChange={onChange}
-                                // error={!!error}
-                                // helperText={error ? error.message : null}
-                                // InputLabelProps={{
-                                //     shrink: true,
-                                // }}
+                            // error={!!error}
+                            // helperText={error ? error.message : null}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
                             // rules={{ required: true }}
                             />
                         )}
 
                     />
+                    {
+                        hasRecovery ?
+                            <Controller
+                                name="recovery_date"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                    <TextField
+                                        id="recovery_date"
+                                        type="date"
+                                        label="recovery date"
+                                        // defaultValue="2021-05-24"
+                                        // variant="outlined"
+                                        className={classes.textField}
+                                        onChange={onChange}
+                                        error={!!error}
+                                        helperText={error ? error.message : null}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                )}
+                                rules={{ required: hasRecovery }}
+                            />
+                            : null
+                    }
+                    {/* {errors.recovery_date && (
+                <ErrorLabel>This field is required</ErrorLabel>
+              )} */}
                 </Grid>
 
                 <Grid item xs={12}
@@ -276,11 +321,11 @@ if (time.isBetween(beforeTime, afterTime)) {
                     <Controller
                         control={control}
                         name="service"
-                     
+
                         rules={{ required: 'service is required' }}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <Autocomplete
-                            
+
                                 onChange={(event, item) => {
                                     onChange(item.task);
                                 }}
@@ -384,7 +429,7 @@ if (time.isBetween(beforeTime, afterTime)) {
                             />
                         )}
                     />
-                     <Controller
+                    <Controller
                         name="scope"
                         control={control}
                         defaultValue=""

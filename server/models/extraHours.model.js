@@ -30,6 +30,9 @@ module.exports = (sequelize, type) => {
       date: {
         type: type.STRING,
       },
+      recovery_date: {
+        type: type.STRING,
+      },
       domain: {
         type: type.STRING,
       },

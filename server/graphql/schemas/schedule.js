@@ -15,6 +15,7 @@ input extraHours {
     service: String!
     wbs: String!
     nightTask: Boolean
+    recovery_date: String
 }
 
 
