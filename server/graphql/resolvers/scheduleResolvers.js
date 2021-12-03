@@ -34,7 +34,6 @@ module.exports = {
 
           // check if request date is in weekend (email to PM not to be sent then
           // TODO: check if request date is holliday
-          console.log(typeof date)
           if (requestDate.getDay() == 6 || requestDate.getDay() == 0) {
             sendToPM = false
           }
@@ -83,7 +82,6 @@ module.exports = {
           var timeEnd = new Date("01/01/2007 " + args.data[0].end).getHours();
 
           var hourDiff = timeEnd - timeStart;
-          console.log(args.data[0].end, timeStart, timeEnd, hourDiff)
           // generate email body
 
           // configure TO based on selected WBS
