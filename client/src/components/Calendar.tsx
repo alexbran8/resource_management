@@ -63,6 +63,8 @@ const Calendar = () => {
 
 
   const sendData = async(data, viewModal) => {
+    // FIXME: check if token is valid
+    // TODO: go to login page if token has expired
     data.schedulerData = ""
     console.log('sendData', data)
     data.status =
