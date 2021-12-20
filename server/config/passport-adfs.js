@@ -20,6 +20,7 @@ module.exports = function (
 
   var user = {
     id: userProfile.aud,
+    token: accessToken,
     groups: userProfile.groups,
     email: userProfile.unique_name,
     first_name: userProfile.given_name,
