@@ -1,6 +1,6 @@
 import React from "react";
 import Homepage from "./components/Homepage.jsx";
-import {Header} from "./components/Header.jsx";
+import {Header} from "./components/Header/Header";
 import {RequestParent} from "./components/Request/RequestParent";
 import Approvals from "./components/approval.tsx";
 import NormCheck from './components/NormCheck/NormCheck'
@@ -28,8 +28,8 @@ export const AppRouter = () => {
         <Route  path={"/norms"} component={authGuard(Norms)} />
         <Route  path={ "/tasks/"} component={authGuard(Tasks)} />
         <Route path={ "/approvals"} component={authGuard(Approvals)} />
-        <Route  path={ "/request/"} component={authGuard(RequestParent)} />
-        <Route  path={ "/signup"} component={authGuard(AddUsers)} />
+        <Route  path={ "/add/"} component={authGuard(RequestParent)} />
+        <Route  path={ "/add-users"} component={authGuard(AddUsers)} />
         <Route  path={"/schedule"} component={authGuard(Calendar)} />
         <Route  path={"/howto"} component={authGuard(HowTo)} />
         <Route  path={"/invoicecheck"} component={authGuard(InvoiceCheck)} />

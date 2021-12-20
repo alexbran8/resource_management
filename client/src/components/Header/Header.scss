@@ -1,0 +1,29 @@
+  .navbar-brand {
+    // transform: translateX(-50%);
+    margin-left: 10%;
+    position: relative;
+  }
+  
+  .navbar-text {
+      margin-right: 10%
+  }
+
+  .avatar {
+    height: 45px;
+    width: 175px;
+    background-color: #4E5478;
+    // padding: 10px 10px 10px 10px;
+    // border:#141938 2px solid;
+    border-radius: 20px 20px;
+  }
+
+  .icon {
+    margin: auto auto 50px -5px;
+    height: 45px;
+  }
+
+  .avatar-name {
+    max-width: 100px;
+    padding-left: 10px;
+    font-size: 20px;
+  }
