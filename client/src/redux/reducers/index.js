@@ -8,5 +8,5 @@ export default combineReducers({
   auth: authReducer,
   // form: formReducer,
   // projectsReducer,
-  // tasksReducer,
+  tasksReducer,
 });

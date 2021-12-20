@@ -6,6 +6,7 @@ const initialState = {
 };
 
 const tasksReducer = (state = initialState, action) => {
+    console.log({action})
     switch (action.type) {
         case 'DELETE':   
         const tasks = {

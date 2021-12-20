@@ -2,22 +2,20 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { Table, Container, Row, Col} from 'react-bootstrap'
-import { OnEditModal } from './OnEditModal'
-import { onDeleteTask } from '../redux/actions/tasks/onDeleteTask'
-import { getTasks } from "../redux/actions/tasks/getTasks"
-// import { motion } from "framer-motion"
-// import { pageTransitions } from "../data/pageTransitons"
-// import { pageVariants } from "../data/pageVariants"
-import { config } from "../config";
+import { OnEditModal } from '../OnEditModal'
+import { onDeleteTask } from '../../redux/actions/tasks/onDeleteTask'
+import { getTasks } from "../../redux/actions/tasks/getTasks"
+import { config } from "../../config";
 import { Button, Modal, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import "./Tasks.scss"
 
-const Tasks = () => {
+export const Tasks = () => {
     const { handleSubmit } = useForm();    
     const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
     const [taskIndex, setTaskIndex] = useState(null);
+    // const [taskReducer, setTaskReducer] = useState()
 
     useEffect( () => {
         axios.get( config.baseURL + config.baseLOCATION + '/dailyTasks', {withCredentials: true})
@@ -28,6 +26,7 @@ const Tasks = () => {
                 console.log(err);
             })
     },[]);
+
     let tasksReducer = useSelector(state => state.tasksReducer);   
 
     const selfAssign =  (props) => {
@@ -91,7 +90,7 @@ const Tasks = () => {
                             </thead>
                             <tbody>
                                 {
-                                    tasksReducer.tasks.map((task, index) => {
+                                     tasksReducer && tasksReducer.tasks.map((task, index) => {
                                         return (
                                             <tr key={task.id}> 
                                                 <td>{task.task}</td>
@@ -134,11 +133,11 @@ const Tasks = () => {
                             </tbody>
                         </Table>
                     </Row>
-                    <OnEditModal
+                    {/* <OnEditModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                         index={taskIndex}
-                    />
+                    /> */}
                 </Container>
 
             // </motion.div>
@@ -146,5 +145,3 @@ const Tasks = () => {
         );
     
 }
-
-export default Tasks;

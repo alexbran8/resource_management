@@ -8,7 +8,7 @@ import Exports from './components/Exports'
 import LoginError from "./components/LoginError";
 import Calendar from './components/Calendar'
 import Norms from './components/Norms'
-import Tasks from './components/Tasks.js'
+import {Tasks} from './components/Tasks/Tasks'
 import {HowTo} from './components/howTo/howTo'
 import { HashRouter,Route } from "react-router-dom";
 // import  SignUpForm  from './components/SignUp'
