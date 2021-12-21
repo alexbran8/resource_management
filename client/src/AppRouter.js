@@ -16,10 +16,13 @@ import {config} from "./config"
 import authGuard from "./HOCs/authGuard.js";
 import  {InvoiceCheck}  from "./components/invoiceCheck/InvoiceCheck";
 import { AddUsers } from "./components/AddUsers/addUsers";
+import { AlertComponent } from "./components/common/Alert/Alerts";
 
 export const AppRouter = () => {
   return (
     <HashRouter  >
+       <AlertComponent          messages={[{ message: 'File Export is now working for admins...', type: 'success' },{ message: 'Filter by site is now active', type: 'success' },{ message: 'Filter by week is now active', type: 'success' },{ message: 'Filter by ITV is active', type: 'success' },{ message: 'Modal is now responsive', type: 'success' }, { message: 'updated filter fields', type: 'success' }, { message: '[planned update] review form options', type: 'info' }]} 
+          />
         <Header basename={config.baseLOCATION}/>
         <Route  exact path={"/"} component={Homepage} />
         <Route exact path={"/error"} component={LoginError} />

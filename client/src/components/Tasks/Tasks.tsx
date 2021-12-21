@@ -15,8 +15,7 @@ export const Tasks = () => {
     const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
     const [taskIndex, setTaskIndex] = useState(null);
-    // const [taskReducer, setTaskReducer] = useState()
-
+    
     useEffect( () => {
         axios.get( config.baseURL + config.baseLOCATION + '/dailyTasks', {withCredentials: true})
             .then(res =>{

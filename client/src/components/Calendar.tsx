@@ -449,9 +449,6 @@ const updateData = async(data) => {
       filter={(value, field) => _filter(value, field)}
       eventsFilter={(value, field) => _eventsFilter(value, field)}
       />
-      {showAlerts ?
-      <AlertComponent />
-      : null }
         {(event || editEvent) && params.admin === true   ? (
           <CustomModal
             resources={schedulerData.resources}
