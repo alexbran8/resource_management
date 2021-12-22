@@ -226,18 +226,18 @@ export const Header = () => {
 
 
 
-
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Link
-                  className="nav-link text-white"
-                  to={page}
-                >
-                  {page.toUpperCase()}
-                </Link>
-              ))}
-            </Box>
-
+            {user.auth.isAuthenticated ?
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                {pages.map((page) => (
+                  <Link
+                    className="nav-link text-white"
+                    to={page}
+                  >
+                    {page.toUpperCase()}
+                  </Link>
+                ))}
+              </Box>
+              : null}
             <Box sx={{ flexGrow: 0 }}>
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {user.auth.role === 'L3' ?
