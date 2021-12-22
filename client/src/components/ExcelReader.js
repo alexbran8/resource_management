@@ -22,6 +22,7 @@ class ExcelReader extends Component {
     this.state = {
       showHide: false,
       test: "",
+      isLoading: false,
       messageData: {
         'message': ""
       },
@@ -43,12 +44,14 @@ class ExcelReader extends Component {
 
   sendData(res) {
     var that = this;
+    that.setState({ isLoading: true })
     axios.post(config.baseURL + config.baseLOCATION + '/dailyTasks', { data: res }, {
       withCredentials: true
     })
       .then(function (response) {
         // alert(response.data.message + ' => imported: ' + response.data.imported + '; existing: ' + response.data.existing );
         console.log(response.data)
+        that.setState({ isLoading: false })
         that.setState({ messageData: response.data })
       })
       .catch(function (error) {
@@ -58,7 +61,7 @@ class ExcelReader extends Component {
 
   handleModalShowHide() {
     this.setState({ showHide: !this.state.showHide })
-    this.setState({ messageData : ''  })
+    this.setState({ messageData: '' })
 
   }
 
@@ -114,16 +117,20 @@ class ExcelReader extends Component {
           Upload your XLSX planning file
         </Button>
         <Container fluid>
-          <Modal className ="bootstrap-modal" show={this.state.showHide}>
+          <Modal className="bootstrap-modal" show={this.state.showHide}>
             <Modal.Header closeButton onClick={() => this.handleModalShowHide()}>
               <Modal.Title>Upload Page</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
               <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
-              <div >{this.state.messageData.message ? <div className="alert alert-success" role="alert">{this.state.messageData.message}</div> : null}</div>
-              <div> {this.state.messageData.imported >= 0 ? <div className="alert alert-info" role="alert">imported items: {this.state.messageData.imported}</div> : null} </div>
-              <div> {this.state.messageData.existing >= 0 ? <div className="alert alert-warning" role="alert">existing items: {this.state.messageData.existing}</div> : null} </div>
+              {this.state.isLoading === true ? <div className="alert alert-info" role="alert">File is being imported...</div> :
+                <div>
+                  <div >{this.state.messageData.message ? <div className="alert alert-success" role="alert">{this.state.messageData.message}</div> : null}</div>
+                  <div> {this.state.messageData.imported >= 0 ? <div className="alert alert-info" role="alert">imported items: {this.state.messageData.imported}</div> : null} </div>
+                  <div> {this.state.messageData.existing >= 0 ? <div className="alert alert-warning" role="alert">existing items: {this.state.messageData.existing}</div> : null} </div>
+                </div>
+              }
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={() => this.handleModalShowHide()}>
