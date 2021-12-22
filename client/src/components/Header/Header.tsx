@@ -226,18 +226,23 @@ export const Header = () => {
 
 
 
-            {user.auth.isAuthenticated ?
-              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {pages.map((page) => (
-                  <Link
-                    className="nav-link text-white"
-                    to={page}
-                  >
-                    {page.toUpperCase()}
-                  </Link>
-                ))}
-              </Box>
-              : null}
+
+
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {(state && state.authenticated) ?
+                <>
+                  {pages.map((page) => (
+                    <Link
+                      className="nav-link text-white"
+                      to={page}
+                    >
+                      {page.toUpperCase()}
+                    </Link>
+                  ))}
+                </>
+                : null}
+            </Box>
+
             <Box sx={{ flexGrow: 0 }}>
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {user.auth.role === 'L3' ?
@@ -292,7 +297,7 @@ export const Header = () => {
 
                   </div>
 
-                ) : (<div><Button variant="contained" color="primary" onClick={_handleSignInClick}><span title="log in">Login</span></Button></div>)}
+                ) : (<div className><Button variant="contained" color="primary" onClick={_handleSignInClick}><span title="log in">Login</span></Button></div>)}
               </Box>
             </Box>
           </Toolbar>
