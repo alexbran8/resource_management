@@ -61,7 +61,7 @@ const apolloServer = new ApolloServer({
   // },
 });
 
-app.use(bodyParser.json())
+app.use(express.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true }))
 
 db.sequelize

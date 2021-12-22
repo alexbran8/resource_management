@@ -1,15 +1,29 @@
-.tasksTable th {
+.tasksTable  thead, th {
     position: sticky;
     top: 135px; //140
     background: #7b8d9b;
     z-index: 99;
-    border: 3px #7b8d9b solid;
+    // border: 3px #7b8d9b solid;
   }
 
-  .tasks-header {
-      position: sticky;
-      top:80px;
-      width: 100%;
-      z-index: 99;
-      background-color: aliceblue;
+  .tasks-button-container {
+    //   position: sticky;
+    // border: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //   top:80px;
+    //   width: 100%;
+    //   z-index: 99;
+    //   background-color: aliceblue;
   }
+
+  .bootstrap-modal {
+    margin-top: 200px;
+   }
+
+
+//   .button {
+//       width: 300px;
+//       height: 50px;
+//   }

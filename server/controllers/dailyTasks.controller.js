@@ -6,7 +6,7 @@ const  db  = require("../models/index");
 // Create and Save a new Project
 exports.create = async (req, res) => {
   try {
-    console.log(req.body.data[0]["Element Conf"])
+    console.log(req.body.data)
     // Validate request
     if (req.body.data[0]["Element Conf"]) {
       console.log("promo upload")
@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
     for (var i = 0; i < req.body.data.length; i++) {
 
       // check if entry allready exists in datbase
-      let check = await db.query(
+      let check = await db.sequelize.query(
         `SELECT id, task, tt FROM "dailyTasks" 
         WHERE task = '${req.body.data[i]["Nom Activite"]}' and tt = '${req.body.data[i]["Num Instance"]}'
         `

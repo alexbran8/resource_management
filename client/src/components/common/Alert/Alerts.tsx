@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/core/Icon/Icon';
+import "./Alert.scss"
 
 export const AlertComponent = (props) => {
         const [open, setOpen] = useState < boolean > (true);

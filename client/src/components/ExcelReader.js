@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import XLSX from 'xlsx'
 import { Button, Modal, Container } from 'react-bootstrap'
-import styles from '../stylesheets/home.module.css'
 import axios from 'axios'
-// import { motion } from "framer-motion"
-// import { pageTransitions} from "../data/pageTransitions"
-// import { pageVariants } from "../data/pageVariants"
 import { config } from "../config";;
 
 
@@ -47,8 +43,8 @@ class ExcelReader extends Component {
 
   sendData(res) {
     var that = this;
-    axios.post(config.baseURL + baseLOCATION + '/dailyTasks', {
-      data: res
+    axios.post(config.baseURL + config.baseLOCATION + '/dailyTasks', { data: res }, {
+      withCredentials: true
     })
       .then(function (response) {
         // alert(response.data.message + ' => imported: ' + response.data.imported + '; existing: ' + response.data.existing );
@@ -62,6 +58,8 @@ class ExcelReader extends Component {
 
   handleModalShowHide() {
     this.setState({ showHide: !this.state.showHide })
+    this.setState({ messageData : ''  })
+
   }
 
   handleChange(e) {
@@ -110,47 +108,36 @@ class ExcelReader extends Component {
   render() {
     return (
 
-      // <motion.div
-      //   initial="initial"
-      //   animate="in"
-      //   exit="out"
-      //   variants={pageVariants}
-      //   transition={pageTransitions}
-      // >
+      <div>
+        <Button className="button"
+          onClick={() => this.handleModalShowHide()}>
+          Upload your XLSX planning file
+        </Button>
+        <Container fluid>
+          <Modal className ="bootstrap-modal" show={this.state.showHide}>
+            <Modal.Header closeButton onClick={() => this.handleModalShowHide()}>
+              <Modal.Title>Upload Page</Modal.Title>
+            </Modal.Header>
 
-      <Container fluid>
-        <div className="upload-container">
-          <label htmlFor="file" className={styles.text}>Upload your XLSX file by pressing "Upload"</label>
-          <div >{this.state.messageData.message ? <div className="alert alert-success" role="alert">{this.state.messageData.message}</div> : null}</div>
-          <div> {this.state.messageData.imported >= 0 ? <div className="alert alert-info" role="alert">imported items: {this.state.messageData.imported}</div> : null} </div>
-          <div> {this.state.messageData.existing >= 0 ? <div className="alert alert-warning" role="alert">existing items: {this.state.messageData.existing}</div> : null} </div>
-        </div>
-        <Button variant="primary" className={styles.button} onClick={() => this.handleModalShowHide()}>
-          Upload
+            <Modal.Body>
+              <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
+              <div >{this.state.messageData.message ? <div className="alert alert-success" role="alert">{this.state.messageData.message}</div> : null}</div>
+              <div> {this.state.messageData.imported >= 0 ? <div className="alert alert-info" role="alert">imported items: {this.state.messageData.imported}</div> : null} </div>
+              <div> {this.state.messageData.existing >= 0 ? <div className="alert alert-warning" role="alert">existing items: {this.state.messageData.existing}</div> : null} </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => this.handleModalShowHide()}>
+                Close
               </Button>
-        <Modal show={this.state.showHide}>
-          <Modal.Header closeButton onClick={() => this.handleModalShowHide()}>
-            <Modal.Title>Upload Page</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
-
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.handleModalShowHide()}>
-              Close
-                </Button>
-            <Button variant="primary"
-              onClick={() => { this.handleFile(); this.handleModalShowHide(); }}
-            >
-              Confirm
-                </Button>
-          </Modal.Footer>
-        </Modal>
-      </Container>
-
-      // </motion.div>
+              <Button variant="primary"
+                onClick={() => { this.handleFile() }}
+              >
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Container>
+      </div>
 
     )
   }

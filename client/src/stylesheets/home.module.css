@@ -1,0 +1,30 @@
+.button {
+    height: 50px;
+    width: 25%;
+    margin: 0;
+    position: relative;
+    margin-top: 5%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  
+  .alert{
+    text-align: center;
+    /* margin: auto;
+    width: 200px; */
+  }
+  
+  .text {
+    text-align: center;
+    font-size: 45px;
+    height: 1px;
+    width: 55%; 
+    margin: 0;
+    position: relative;
+    top: 20%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  

@@ -9,6 +9,7 @@ import { config } from "../../config";
 import { Button, Modal, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import "./Tasks.scss"
+import ExcelReader from '../ExcelReader'
 
 export const Tasks = () => {
     const { handleSubmit } = useForm();    
@@ -30,7 +31,7 @@ export const Tasks = () => {
 
     const selfAssign =  (props) => {
         let data = { id: props.id, data: props, date: new Date(), resourceNokiaID:sessionStorage.getItem('nokiaid')}
-        axios.post( config.baseURL + config.baseLOCATION + '/dailyTasks/selfassign', data).then(
+        axios.post( config.baseURL  + '/dailyTasks/selfassign', data).then(
             res => {
                 dispatch(onDeleteTask(props.id))
             }
@@ -45,13 +46,18 @@ export const Tasks = () => {
 
     
         return (
+            <div>
+            <div className="tasks-button-container">
+            {/* <Form className="tasks-form"> */}
+               <Button onClick={OnSubmit} className='button' > Transfer to Scheduler</Button>
+               <ExcelReader />
+               {/* <Button type="submit">Transfer Planning to Scheduler</Button> */}
+           {/* </Form> */}
+           </div>
                 <Container>
-                    <div className="tasks-header">
-                     <Form onSubmit={handleSubmit(OnSubmit)} className="tasks-form">
-                        <Button type="submit">Transfer Planning to Scheduler</Button>
-                    </Form>
-                    </div>
-                    <Row>
+                   
+                   
+                    {/* <Row> */}
                         <Table striped bordered hover className='tasksTable'>
                             <thead>
                                 <tr>
@@ -131,13 +137,14 @@ export const Tasks = () => {
                                 }
                             </tbody>
                         </Table>
-                    </Row>
+                    {/* </Row> */}
                     {/* <OnEditModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                         index={taskIndex}
                     /> */}
                 </Container>
+                </div>
 
             // </motion.div>
 
