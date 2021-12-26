@@ -1,10 +1,16 @@
-.tasksTable  thead, th {
+.tasks-table  thead {
     position: sticky;
-    top: 135px; //140
+    top: 70px; //140
     background: #7b8d9b;
-    z-index: 99;
-    // border: 3px #7b8d9b solid;
   }
+
+
+  .tasks-table { border-collapse: collapse; }
+  .tasks-table tr { border: none; }
+  .tasks-table td, thead {
+  border-right: solid 0.5px black; 
+  border-left: solid 0.5px black;
+}
 
   .tasks-button-container {
     //   position: sticky;

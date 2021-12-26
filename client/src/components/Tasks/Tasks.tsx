@@ -58,7 +58,7 @@ export const Tasks = () => {
                    
                    
                     {/* <Row> */}
-                        <Table striped bordered hover className='tasksTable'>
+                        <Table striped hover className='tasks-table'>
                             <thead>
                                 <tr>
                                     <th>

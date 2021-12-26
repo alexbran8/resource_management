@@ -157,7 +157,7 @@ const Norms = () => {
             </>
             {/* </form> */}
         </div>
-        <Table striped bordered hover responsive="xl" className="dash-table">
+        <Table striped bordered hover responsive="xl" className="norm-table">
             <thead >
                 <tr>
                     <th>Select</th>

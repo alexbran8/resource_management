@@ -1,14 +1,13 @@
-.dash-table {
+.norm-table {
     margin-top: 100px;
     text-align: center;
 
 }
 
-  .dash-table thead {
-    background-color: #e7e7e0;
+  .norms-table thead {
+    background: #7b8d9b;
     position: sticky;
-    // border: 1px #7b8d9b solid;
-    top: 170px; //140
+    top: 170px;
 }
 
 ::-webkit-scrollbar {

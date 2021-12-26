@@ -31,13 +31,13 @@ button {
 //   // border: 4px solid #ddd;
 // }
 
-.normsTable {
+.norms-check-table {
     // position: relative;
     text-align: center;
     vertical-align: middle;
   }
   
-  .normsTable th {
+  .norms-check-table thead {
     position: sticky;
     top: 240px; //140
     vertical-align: text-top !important;
@@ -49,7 +49,7 @@ button {
     border: 2px #7b8d9b solid;
   }
 
-  .normsTable tr td {
+  .norms-check-table tr td {
     max-width: 3cm;
     white-space: pre-line;
   }

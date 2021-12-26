@@ -459,7 +459,7 @@ const NormCheck = () => {
 
             <div className='selectable-containers'>
                 {showC1 ? <div className="c1">
-                    <Table striped bordered hover responsive="xl" className="normsTable">
+                    <Table striped bordered hover responsive="xl" className="norms-check-table">
                         <thead >
                             <tr>
                                 <th>Select <input
