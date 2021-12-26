@@ -69,6 +69,7 @@ class CustomModal extends Component {
       <>
         <Modal
           show={true}
+          style={{marginTop: 100}}
           onHide={
             this.props.event
               ? () => this.props.reset()

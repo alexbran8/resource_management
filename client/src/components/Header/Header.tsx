@@ -7,14 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { config } from "../../config"
 import { UPDATE_PROFILE, AUTH_SIGN_IN, AUTH_SIGN_OUT, AUTH_ERROR } from '../../redux/reducers/types'
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
   Button,
-  UncontrolledPopover, PopoverHeader, PopoverBody
+ PopoverHeader, PopoverBody
 } from 'reactstrap'
 
 import { ExitToApp, ThreeDRotation } from '@material-ui/icons';
@@ -27,11 +21,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Container from '@material-ui/core/Container';
-import Tooltip from '@material-ui/core/Tooltip';
+
 import Avatar from '@material-ui/core/Avatar';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
+
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -69,6 +61,7 @@ const pages = ['schedule', 'norms', 'add'];
 const pagesRight = ['approvals', 'add-users', 'exports', 'normCheck', 'invoiceCheck', 'howTo?', 'tasks'];
 
 export const Header = () => {
+  const [nextCheck, setNextCheck] = useState<Number>(10000)
   const user = useSelector((state) => ({ auth: state.auth }));
   const [state, setState] = useState([]);
   const classes = useStyles();
@@ -80,6 +73,17 @@ export const Header = () => {
   const [pic, setPic] = useState();
   const dispatch = useDispatch();
 
+
+  const getDiff = (expDate) => {
+    
+    var currentTime = new Date()
+    var expDate = new Date(expDate)
+    expDate = expDate
+    currentTime = currentTime
+
+    setNextCheck(expDate - currentTime - 10000)
+
+  }
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -105,8 +109,7 @@ export const Header = () => {
     setAnchorElUser(null);
   };
 
-
-  useEffect(() => {
+  const loginCheck = () => {
     fetch(config.baseURL + config.baseLOCATION + "/auth/login/success/", {
       method: "GET",
       credentials: "include",
@@ -121,11 +124,11 @@ export const Header = () => {
         throw new Error("failed to authenticate user");
       })
       .then(responseJson => {
-        console.log(responseJson)
         setState({
           authenticated: true,
           user: responseJson.user
         });
+        getDiff(responseJson.user.exp)
         sessionStorage.setItem('exp', responseJson.user.exp);
         sessionStorage.setItem('userEmail', responseJson.user.email);
         sessionStorage.setItem('userName', responseJson.user.userName);
@@ -152,14 +155,21 @@ export const Header = () => {
         });
         console.log(error)
       });
+  }
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loginCheck();
+    }, nextCheck);
+    return () => clearInterval(interval);
+  }, []);
 
-
+  useEffect(() => {
+    loginCheck();
   }, [])
 
-
+  
   const getIcon = (token) => {
-    console.log(token)
     fetch("https://graph.microsoft.com/v1.0/me/photo/$value", {
       method: "GET",
       // credentials: "include",
@@ -231,8 +241,9 @@ export const Header = () => {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {(state && state.authenticated) ?
                 <>
-                  {pages.map((page) => (
+                  {pages.map((page, index) => (
                     <Link
+                      key={index+page}
                       className="nav-link text-white"
                       to={page}
                     >
@@ -246,8 +257,9 @@ export const Header = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {user.auth.role === 'L3' ?
-                  pagesRight.map((page) => (
+                  pagesRight.map((page, index) => (
                     <Link
+                    key={index+page}
                       className="nav-link text-white"
                       to={page}
                     >
@@ -259,8 +271,6 @@ export const Header = () => {
 
                 {(state && state.authenticated) ? (
                   <div className="avatar">
-                    {console.log(pic)}
-                    {/* {pic ? */}
                     <div className='icon'>
                       <IconButton
                         aria-label="account of current user"
@@ -297,7 +307,7 @@ export const Header = () => {
 
                   </div>
 
-                ) : (<div className><Button variant="contained" color="primary" onClick={_handleSignInClick}><span title="log in">Login</span></Button></div>)}
+                ) : (<div ><Button variant="contained" color="primary" onClick={_handleSignInClick}><span title="log in">Login</span></Button></div>)}
               </Box>
             </Box>
           </Toolbar>
