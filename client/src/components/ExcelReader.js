@@ -57,7 +57,9 @@ class ExcelReader extends Component {
         that.props.refetch()
       })
       .catch(function (error) {
-        console.log(error);
+        console.log({error});
+        that.setState({ isLoading: false })
+        that.setState({ messageData: error.response.data })
       })
   }
 
@@ -128,7 +130,7 @@ class ExcelReader extends Component {
               <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
               {this.state.isLoading === true ? <div className="alert alert-info" role="alert">File is being imported...</div> :
                 <div>
-                  <div >{this.state.messageData.message ? <div className="alert alert-success" role="alert">{this.state.messageData.message}</div> : null}</div>
+                  <div >{this.state.messageData.message ? <div className="alert alert-warning" role="alert">{this.state.messageData.message}</div> : null}</div>
                   <div> {this.state.messageData.imported >= 0 ? <div className="alert alert-info" role="alert">imported items: {this.state.messageData.imported}</div> : null} </div>
                   <div> {this.state.messageData.existing >= 0 ? <div className="alert alert-warning" role="alert">existing items: {this.state.messageData.existing}</div> : null} </div>
                 </div>

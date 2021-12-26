@@ -41,10 +41,11 @@ exports.create = async (req, res) => {
         auteur: req.body.data[i]["Responsable"],
         itv: req.body.data[i]["Num Instance"],
         description: req.body.data[i].Zone + req.body.data[i].Region,
-        // start: req.body.data[i]["Date Demarrage"],
-        // end: req.body.data[i]["Date Demarrage"],
+        start: new Date(req.body.data[i]["Date Demarrage"]),
+        // end: new Date(req.body.data[i]["Date Demarrage"]),
         crDate: Date.now(),
       }
+      console.log(typeof true)
       console.log(check[0].length > 0) 
       if (check[0].length == 0 ) {
         project.push(row)
@@ -53,6 +54,8 @@ exports.create = async (req, res) => {
         existingEntries.push(row)
       }
     }
+
+    console.log(project)
 
     db.Project.bulkCreate(project)
       .then(data => {
@@ -63,9 +66,12 @@ exports.create = async (req, res) => {
         });
       })
       .catch(err => {
+        console.log(err);
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Project."
+            err.message || "Some error occurred while creating the Project.",
+            imported: 0,
+            existing: existingEntries.length
         });
       });
 
