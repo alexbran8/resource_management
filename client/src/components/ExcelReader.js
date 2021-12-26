@@ -45,6 +45,7 @@ class ExcelReader extends Component {
   sendData(res) {
     var that = this;
     that.setState({ isLoading: true })
+    console.log(this.props)
     axios.post(config.baseURL + config.baseLOCATION + '/dailyTasks', { data: res }, {
       withCredentials: true
     })
@@ -53,6 +54,7 @@ class ExcelReader extends Component {
         console.log(response.data)
         that.setState({ isLoading: false })
         that.setState({ messageData: response.data })
+        that.props.refetch()
       })
       .catch(function (error) {
         console.log(error);

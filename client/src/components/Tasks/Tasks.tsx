@@ -16,7 +16,8 @@ export const Tasks = () => {
     const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
     const [taskIndex, setTaskIndex] = useState(null);
-    
+    const [refetch, setRefetch] = useState<Number>(0);
+
     useEffect( () => {
         axios.get( config.baseURL + config.baseLOCATION + '/dailyTasks', {withCredentials: true})
             .then(res =>{
@@ -25,7 +26,7 @@ export const Tasks = () => {
             .catch(err =>{
                 console.log(err);
             })
-    },[]);
+    },[refetch]);
 
     let tasksReducer = useSelector(state => state.tasksReducer);   
 
@@ -36,6 +37,9 @@ export const Tasks = () => {
                 dispatch(onDeleteTask(props.id))
             }
         )
+    }
+    function refetchFunction() {
+        setRefetch(refetch+1)
     }
 
     const OnSubmit = () => {
@@ -50,7 +54,9 @@ export const Tasks = () => {
             <div className="tasks-button-container">
             {/* <Form className="tasks-form"> */}
                <Button onClick={OnSubmit} className='button' > Transfer to Scheduler</Button>
-               <ExcelReader />
+               <ExcelReader 
+               refetch = {refetchFunction}
+               />
                {/* <Button type="submit">Transfer Planning to Scheduler</Button> */}
            {/* </Form> */}
            </div>
