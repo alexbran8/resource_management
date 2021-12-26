@@ -57,8 +57,8 @@ const PopoverContent = () => {
 }
 
 
-const pages = ['schedule', 'norms', 'add'];
-const pagesRight = ['approvals', 'add-users', 'exports', 'normCheck', 'invoiceCheck', 'howTo?', 'tasks'];
+const pages = ['schedule', 'add'];
+const pagesRight = ['approvals', 'norms',  'add-users', 'exports', 'normCheck', 'invoiceCheck', 'howTo?', 'tasks'];
 
 export const Header = () => {
   const [nextCheck, setNextCheck] = useState<Number>(10000)
