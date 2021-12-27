@@ -144,11 +144,11 @@ export const Tasks = () => {
                             </tbody>
                         </Table>
                     {/* </Row> */}
-                    {/* <OnEditModal
+                    <OnEditModal
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                         index={taskIndex}
-                    /> */}
+                    />
                 </Container>
                 </div>
 
