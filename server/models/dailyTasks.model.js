@@ -50,11 +50,11 @@ module.exports = (sequelize, type) => {
             type: type.STRING
         },
         start: {
-            type: type.STRING,
+            type: type.DATE,
             allowNull: true
         },
         end: {
-            type: type.STRING,
+            type: type.DATE,
             allowNull: true
         },
         crDate: {

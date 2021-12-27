@@ -1,4 +1,5 @@
-const  db  = require("../models/index");
+const db = require("../models/index");
+const moment = require("moment")
 // const sequelize = require("sequelize");
 // const { DataTypes, Op } = sequelize;
 // const Project = require("../models/dailyTasks.model")(sequelize, DataTypes);
@@ -22,7 +23,7 @@ exports.create = async (req, res) => {
 
     for (var i = 0; i < req.body.data.length; i++) {
 
-      // check if entry allready exists in datbase
+      // check if entry allready exists in datbase      
       let check = await db.sequelize.query(
         `SELECT id, task, tt FROM "dailyTasks" 
         WHERE task = '${req.body.data[i]["Nom Activite"]}' and tt = '${req.body.data[i]["Num Instance"]}'
@@ -41,21 +42,26 @@ exports.create = async (req, res) => {
         auteur: req.body.data[i]["Responsable"],
         itv: req.body.data[i]["Num Instance"],
         description: req.body.data[i].Zone + req.body.data[i].Region,
-        start: new Date(req.body.data[i]["Date Demarrage"]),
-        // end: new Date(req.body.data[i]["Date Demarrage"]),
+        end : (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now(),
+        start : (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now(),
         crDate: Date.now(),
       }
-      console.log(typeof true)
-      console.log(check[0].length > 0) 
-      if (check[0].length == 0 ) {
+
+      row.end = (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now();
+      row.start = (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now();
+
+
+
+      // console.log(check[0].length > 0) 
+      if (check[0].length == 0) {
         project.push(row)
       }
       else {
         existingEntries.push(row)
       }
     }
-// FIXME: check why some dates error
-    console.log(project)
+    // FIXME: check why some dates error
+    // console.log(project)
 
     db.Project.bulkCreate(project)
       .then(data => {
@@ -70,8 +76,8 @@ exports.create = async (req, res) => {
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Project.",
-            imported: 0,
-            existing: existingEntries.length
+          imported: 0,
+          existing: existingEntries.length
         });
       });
 
@@ -117,7 +123,7 @@ exports.update = (req, res) => {
   const id = req.params.id;
   console.log(id)
   console.log(req.body)
-  Project.update(req.body, {
+  db.Project.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -172,7 +178,7 @@ exports.selfassign = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Project.destroy({
+  db.Project.destroy({
     where: { id: id }
   })
     .then(num => {
@@ -195,7 +201,7 @@ exports.delete = (req, res) => {
 
 // Delete all Projects from the database.
 exports.deleteAll = (req, res) => {
-  Project.destroy({
+  db.Project.destroy({
     where: {},
     truncate: false
   })
