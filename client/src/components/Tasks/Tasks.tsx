@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import moment from 'moment'
 import { useSelector, useDispatch } from 'react-redux'
 import { Table, Container, Row, Col} from 'react-bootstrap'
 import { OnEditModal } from '../OnEditModal'
@@ -67,6 +68,9 @@ export const Tasks = () => {
                         <Table striped hover className='tasks-table'>
                             <thead>
                                 <tr>
+                                <th>
+                                        No.
+                                </th>
                                     <th>
                                         Task
                                 </th>
@@ -107,15 +111,16 @@ export const Tasks = () => {
                                      tasksReducer && tasksReducer.tasks.map((task, index) => {
                                         return (
                                             <tr key={task.id}> 
+                                                <td>{index}</td>
                                                 <td>{task.task}</td>
-                                                <td>{task.crDate}</td>
+                                                <td>{moment(task.crDate).format("YYYY/MM/DD HH:MM")}</td>
                                                 <td>{task.projectName}</td>
                                                 <td>{task.resourceName}</td>
                                                 <td>{task.tt}</td>
                                                 <td>{task.status}</td>
                                                 <td>{task.site}</td>
-                                                <td>{task.start}</td>
-                                                <td>{task.end}</td>
+                                                <td>{moment(task.start).format("YYYY/MM/DD HH:MM")}</td>
+                                                <td>{moment(task.end).format("YYYY/MM/DD HH:MM")}</td>
                                                 <td>
                                                     <Container>
                                                         <Row>
