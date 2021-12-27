@@ -42,13 +42,13 @@ exports.create = async (req, res) => {
         auteur: req.body.data[i]["Responsable"],
         itv: req.body.data[i]["Num Instance"],
         description: req.body.data[i].Zone + req.body.data[i].Region,
-        end : (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now(),
-        start : (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now(),
+        end : (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? req.body.data[i]["Date Demarrage"] : null,
+        start : (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ?  req.body.data[i]["Date Demarrage"]:null,
         crDate: Date.now(),
       }
 
-      row.end = (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now();
-      row.start = (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : Date.now();
+      // row.end = (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : req.body.data[i]["Date Demarrage"];
+      // row.start = (new Date(req.body.data[i]["Date Demarrage"]).getTime() > 0) ? null : req.body.data[i]["Date Demarrage"];
 
 
 
