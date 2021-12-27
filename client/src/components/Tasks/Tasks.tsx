@@ -70,6 +70,9 @@ export const Tasks = () => {
                                     <th>
                                         Task
                                 </th>
+                                <th>
+                                        Upload Date
+                                </th>
                                     <th>
                                         Project
                                 </th>
@@ -105,6 +108,7 @@ export const Tasks = () => {
                                         return (
                                             <tr key={task.id}> 
                                                 <td>{task.task}</td>
+                                                <td>{task.crDate}</td>
                                                 <td>{task.projectName}</td>
                                                 <td>{task.resourceName}</td>
                                                 <td>{task.tt}</td>
