@@ -54,7 +54,7 @@ exports.create = async (req, res) => {
         existingEntries.push(row)
       }
     }
-
+// FIXME: check why some dates error
     console.log(project)
 
     db.Project.bulkCreate(project)
