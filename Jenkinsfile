@@ -26,8 +26,8 @@ node {
        
         throw err
     }
-    finally {
-        // deploy previous  container
-    }
+    // finally {
+    //     // deploy previous  container
+    // }
 
 }
