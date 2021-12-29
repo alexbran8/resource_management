@@ -1,5 +1,5 @@
 # Dockerfile
-FROM node:15
+FROM node:16
 # copy source and install dependencies
 RUN mkdir -p /opt/app
 RUN cd ..

@@ -29,7 +29,7 @@ export const AppRouter = () => {
         //  { message: '[planned update] review form options', type: 'info' }
         ]}
       />
-      <Route exact path={"/"} component={Homepage} />
+      <Route exact path={"/"} component={HomePage} />
       <Route exact path={"/error"} component={LoginError} />
       <Route path={"/normcheck/"} component={authGuard(NormCheck)} />
       <Route path={"/exports"} component={authGuard(Exports)} />
