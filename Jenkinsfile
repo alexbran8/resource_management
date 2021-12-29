@@ -19,6 +19,7 @@ node {
             sh './deploy_prod.sh'
          } 
     }
+    }
 
     catch (err) {
        
