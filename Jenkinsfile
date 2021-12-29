@@ -1,7 +1,6 @@
 #!groovy
 
 node {
-
     try {
         stage 'Checkout'
                 // how to import location from .env???
@@ -18,16 +17,15 @@ node {
             sh 'chmod +x deploy_prod.sh'
             sh 'cat deploy_prod.sh'
             sh './deploy_prod.sh'
-         }
-      
+         } 
     }
 
     catch (err) {
        
         throw err
     }
-    // finally {
-    //     // deploy previous  container
-    // }
+    finally {
+        // deploy previous  container
+    }
 
 }
