@@ -1,5 +1,5 @@
 import React from "react";
-import Homepage from "./components/Homepage.jsx";
+import { HomePage } from "./components/HomePage/HomePage";
 import { Header } from "./components/Header/Header";
 import { RequestParent } from "./components/Request/RequestParent";
 import Approvals from "./components/approval.tsx";

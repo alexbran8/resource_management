@@ -1,5 +1,5 @@
 import React from "react";
-import "./Homepage.scss"
+import "./HomePage/HomePage.scss"
 // import { withTranslation } from "react-i18next";
 // import "../services/i18n";
 // import LanguageSelector from "./LanguageSelector";

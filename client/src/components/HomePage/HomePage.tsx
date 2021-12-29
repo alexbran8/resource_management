@@ -1,11 +1,10 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
+import React from "react";
+import { useSelector } from "react-redux";
 
-import "./Homepage.scss"
+import "./HomePage.scss"
 
-const HomePage = () => {
+export const HomePage = () => {
   const user = useSelector((state) => ({ auth: state.auth }));
   return (
     <div>
@@ -80,4 +79,3 @@ const HomePage = () => {
 }
 
 
-export default HomePage;
