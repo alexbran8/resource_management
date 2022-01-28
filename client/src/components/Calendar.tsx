@@ -45,6 +45,9 @@ const Calendar = () => {
   tpm: "",
   employeers: "",
   resources: ""})
+
+  // TODO: check if planned vacation and vacation are still necessary
+
   // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useState()
   const [refresh, setRefresh] = useState(1);
@@ -63,10 +66,13 @@ const Calendar = () => {
 
 
   const sendData = async(data, viewModal) => {
+    
     // FIXME: check if token is valid
+    
     // TODO: go to login page if token has expired
+
     data.schedulerData = ""
-    console.log('sendData', data)
+    
     data.status =
       localStorage.getItem("permisiuni") !== undefined
         ? localStorage.getItem("permisiuni")
@@ -250,9 +256,7 @@ const updateData = async(data) => {
     setCount(0)
     resetEdit();
     // this.getType();
-    
   }
-
 
   const editItem = (schedulerData, event) => {
     alert("This feature is currently under development. Please delete and add event as temporary solution... ")
@@ -278,8 +282,6 @@ const updateData = async(data) => {
   const resetSlot= () => {
     setSlot(undefined);
   }
-
-
 
   const onSelectDate = (schedulerData, date) => {
     setEvents(schedulerData.events)
@@ -312,12 +314,12 @@ const updateData = async(data) => {
     );
   };
 
-
   const slotClickedFunc = (schedulerData, slot) => {
     console.log(slot)
     setSlot(slot.slotId);
     
   };
+
   const newEvent = async (schedulerData, slotId, slotName, start, end, type, item) => {
     let newEvent = {
       schedulerData: schedulerData,
@@ -335,8 +337,6 @@ const updateData = async(data) => {
     setEvent(newEvent)   
   };
 
-  
-
   let data = {
     line_manager: "",
     team: "",
@@ -344,10 +344,9 @@ const updateData = async(data) => {
     employeers: "",
     resources: "",
     admin: true,
-    operational: false,
-
-   
+    operational: false,   
   }
+
   const _filter = (value, field) => {
     filter[field] = value
        Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, filter, {withCredentials: true})

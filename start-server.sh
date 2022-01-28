@@ -6,7 +6,9 @@
 # ( python manage.py collectstatic; gunicorn djsr.wsgi:application  --user www-data --bind 0.0.0.0:8010 --workers 3) &
 # nginx -g "daemon off;"
 ls
-pm2 start server/index.js
+pm2 start server/index.js  -i max
+# for testing
+# -i max
 pm2 status &
 nginx -g "daemon off;"
 
