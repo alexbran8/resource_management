@@ -5,8 +5,21 @@ console.log(process.env.NODE_ENV)
 const CLIENT_HOME_PAGE_URL = process.env.NODE_ENV === `development` ? "http://localhost:3000" :  'https://apps.gdceur.eecloud.dynamic.nsn-net.net/npt';
 const config = require("../config/config")
 
+  //secured api routes with no redirect
+  function authorizeApi(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } 
+      else return     res.status(401).json({
+       message : "User Not Authenticated",
+       user : null,
+       success: false,
+     })
+    
+}
+
 // when login is successful, retrieve user info
-router.get("/login/success", (req, res) => {
+router.get("/login/success",authorizeApi, (req, res) => {
   if (req.user) {
     res.json({
       success: true,
