@@ -26,7 +26,7 @@ module.exports = {
     auth: {
       //   user: "I_GDC_EUR_TM_IS@internal.nsn.com", // generated ethereal user
       user: "poweremail.ni_gsd_timisoara@nokia.com",
-      pass: "WSrd9d79ZL359W", // generated ethereal password
+      pass: "smhs3PBvR9i6xV", // generated ethereal password
     },
     tls: {
       rejectUnauthorized: false,
