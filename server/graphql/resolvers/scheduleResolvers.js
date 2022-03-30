@@ -111,6 +111,7 @@ module.exports = {
 
 
           // send notification
+          // FIXME: catch error and save it in database if email has not been sent
           process.env.NODE_ENV === `development` ? console.log(metadata.html) : emailHandler(metadata).catch(console.error);
 
 
