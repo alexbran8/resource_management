@@ -50,6 +50,7 @@ ScheduleController.post("/add", async (req, res) => {
         end,
       } = req.body)
     );
+    
     console.log(req.body, newSchedule);
     const [typeQuery] = await db.sequelize.query(
       `SELECT "InitialLevel" FROM types WHERE type='${type}'`
