@@ -72,6 +72,14 @@ const Calendar = () => {
     // TODO: go to login page if token has expired
 
     data.schedulerData = ""
+
+    // console.log(data.start)
+    
+      var date2 = new Date(data.start)
+      var end2 = new Date(data.end)
+      var updatedStart = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate(), 8, 0, 0)
+      var updatedEnd = new Date(end2.getFullYear(), end2.getMonth(), end2.getDate(), 17, 0, 0)
+
     
     data.status =
       localStorage.getItem("permisiuni") !== undefined
@@ -112,8 +120,8 @@ const Calendar = () => {
     let newEvent = {
       id: newFreshId,
       title: data.title,
-      start: data.start,
-      end: data.end,
+      start: updatedStart,
+      end: updatedEnd,
       resourceId: data.nokiaid,
       bgColor: "#E74C3C"
     };    
