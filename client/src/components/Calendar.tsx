@@ -80,7 +80,8 @@ const Calendar = () => {
       var updatedStart = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate(), 8, 0, 0)
       var updatedEnd = new Date(end2.getFullYear(), end2.getMonth(), end2.getDate(), 17, 0, 0)
 
-    
+    data.start = updatedStart
+    data.end = updatedEnd
     data.status =
       localStorage.getItem("permisiuni") !== undefined
         ? localStorage.getItem("permisiuni")

@@ -50,7 +50,7 @@ ScheduleController.post("/add", async (req, res) => {
         end,
       } = req.body)
     );
-    
+
     console.log(req.body, newSchedule);
     const [typeQuery] = await db.sequelize.query(
       `SELECT "InitialLevel" FROM types WHERE type='${type}'`
@@ -61,7 +61,9 @@ ScheduleController.post("/add", async (req, res) => {
     newSchedule.task_admin = true
     newSchedule.task_operational = false
 
-    console.log(typeQuery[0].InitialLevel);
+    console.log(newSchedule.start)
+
+    // console.log(typeQuery[0].InitialLevel);
 
     if (isNull(title)) {
       newSchedule.title = newSchedule.type;

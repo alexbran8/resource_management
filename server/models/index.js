@@ -13,10 +13,10 @@ const sequelize = new Sequelize("npt", "postgres", "fJdyP2Dyj@&6v!5hMM#VD", {
     idle: 10000,
   },
   dialectOptions: {
-    // useUTC: false, // for reading from database
-    timezone : '+02:00' // for writing to database
+    useUTC: false, // for reading from database
+    // timezone : '+02:00' // for writing to database
   },
-  timezone : '+02:00' // for writing to database
+  // timezone : '+02:00' // for writing to database
 });
 
 const db = {};

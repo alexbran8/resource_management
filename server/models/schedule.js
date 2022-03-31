@@ -12,11 +12,11 @@ module.exports = (sequelize, type) => {
       //   primaryKey: true,
       // },
       start: {
-        type: type.DATE(),
+        type:'TIMESTAMP',
         required: true,
       },
       end: {
-        type: type.DATE(),
+        type: 'TIMESTAMP',
         required: true,
       },
       nokiaid: {
