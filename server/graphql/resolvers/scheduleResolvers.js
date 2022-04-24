@@ -6,7 +6,20 @@ const {
 
 
 module.exports = {
+Query: {
+  async getExtraHours(root, args, context) {
+    let result = await db.ExtraHours.findAll({
+      // where: { [Op.and]: [dateFilter, weekFilter, incidentFilter, statusFilter, siteFilter, responsibleFilter, taskFilter] },
+      // limit: firstFilter,
+      order: [
+        ['date', 'DESC'],
 
+      ]
+    });
+    await console.log(result)
+    return result;
+  }
+},
   Mutation: {
     async addExtraHours(root, args, context) {
       try {

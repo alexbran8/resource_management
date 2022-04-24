@@ -4,7 +4,7 @@ import { Header } from "./components/Header/Header";
 import { RequestParent } from "./components/Request/RequestParent";
 import Approvals from "./components/approval.tsx";
 import NormCheck from './components/NormCheck/NormCheck'
-import Exports from './components/Exports'
+import Exports from './components/Exports/Exports'
 import LoginError from "./components/LoginError";
 import Calendar from './components/Calendar'
 import Norms from './components/Norms'
