@@ -31,6 +31,7 @@ type extraHoursType {
   wbs: String!
   nightTask: Boolean
   recovery_date: String
+  resource_email: String
 }
 
 extend type Mutation {

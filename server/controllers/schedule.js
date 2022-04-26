@@ -101,6 +101,7 @@ ScheduleController.post("/get", async (req, res) => {
           [Op.and]: [
             { status: "L3" },
             { task_admin: req.body.admin },
+            {start: {[Op.gte]:'01-01-2022'} },
             { task_operational: req.body.operational }
           ]
         }
