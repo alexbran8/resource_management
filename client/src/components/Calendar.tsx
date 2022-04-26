@@ -142,9 +142,7 @@ const Calendar = () => {
   }
 
 
- const  toggleLegend = () => {
-    this.setState({ legend: !this.state.legend });
-  }
+
 
   const reset = () =>  {
     setEvent(undefined)
@@ -203,6 +201,7 @@ const Calendar = () => {
 []);
 
   const onViewChange = (schedulerData, view) => {
+    console.log(view)
     setEvents(schedulerData.events)
     schedulerData.setViewType(
       view.viewType,
@@ -304,7 +303,7 @@ const updateData = async(data) => {
     schedulerData.prev();
     schedulerData.setEvents(events);
     setViewModal(schedulerData);
-    setRenderCounter(o => ++o);
+    // setRenderCounter(o => ++o);
   };
 
   const nextClick = schedulerData => {
@@ -312,7 +311,7 @@ const updateData = async(data) => {
     schedulerData.next();
     schedulerData.setEvents(events);
     setViewModal(schedulerData);
-    setRenderCounter(o => ++o);
+    // setRenderCounter(o => ++o);
   };
 
   const  eventClicked = (schedulerData, event) => {
