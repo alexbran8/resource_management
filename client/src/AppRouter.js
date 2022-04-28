@@ -17,12 +17,24 @@ import authGuard from "./HOCs/authGuard.js";
 import { InvoiceCheck } from "./components/invoiceCheck/InvoiceCheck";
 import { AddUsers } from "./components/AddUsers/addUsers";
 import { AlertComponent } from "./components/common/Alert/Alerts";
+import {ErrorBoundary} from 'react-error-boundary'
+
+
+function ErrorHandler({error}) {
+  return (
+    <div role="alert">
+      <p>An error occurred:</p>
+      <pre>{error.message}</pre>
+    </div>
+  )
+}
+
 
 export const AppRouter = () => {
   return (
     <HashRouter  >
-     
-      <Header basename={config.baseLOCATION} />
+       <Header basename={config.baseLOCATION} />
+      <ErrorBoundary FallbackComponent={ErrorHandler}>
       <AlertComponent
         messages={[{ message: 'navbar has been updated', type: 'success' }, 
         { message: 'alert bar updated', type: 'success' },
@@ -42,6 +54,7 @@ export const AppRouter = () => {
       <Route path={"/howto"} component={authGuard(HowTo)} />
       <Route path={"/invoicecheck"} component={authGuard(InvoiceCheck)} />
       {/* <Route  path={"/invoicecheck"} component={authGuard(InvoiceCheckTool)} /> */}
+      </ErrorBoundary>
     </HashRouter>
   );
 };

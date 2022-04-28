@@ -5,6 +5,9 @@ import { Button } from 'reactstrap'
 import "./NormCheck.scss"
 import { isNonNullType } from 'graphql';
 
+
+import {UploadModal} from "./FileUpload"
+
 const GET_NORMS = gql`
   query ($department: String!) { 
     normCheckQuery (department: $department) {
@@ -109,6 +112,7 @@ const NormCheck = () => {
     const [capacityItems, setCapacityItems] = useState([])
     const [capLawsonItems, setCapLawsonItems] = useState([])
     const [commentsCheck, setCommentsCheck] = useState([])
+    const [showModal, setShowModal] = useState<boolean>(false)
     const [style, setStyle] = useState({
         style: {
             logoHeight: 200
@@ -363,28 +367,33 @@ const NormCheck = () => {
         setCheckedCC(newChecked)
     }
 
-    const selectAll =  (table) => {
+    const selectAll = (table) => {
         if (table === 'norms_capacity') {
             setSelectAllCapNorms(!selectAllCapNorms)
-            capacityItems.forEach(x => {createArr(x.uid, x)})
+            capacityItems.forEach(x => { createArr(x.uid, x) })
         }
         if (table === 'lawson_capacity') {
             setSelectAllLawsonCapacity(!selectAllLawsonCapacity)
-            capLawsonItems.forEach(x => {createArrLC(x.uid, x)})
+            capLawsonItems.forEach(x => { createArrLC(x.uid, x) })
         }
         if (table === 'comments_check') {
             setSelectAllCommentsCheck(!selectAllCommentsCheck)
-            commentsCheck.forEach(x => {createArrCC(x.uid, x)})
+            commentsCheck.forEach(x => { createArrCC(x.uid, x) })
         }
 
     }
+
+    const toggleUploadModal = () => {
+        setShowModal(!showModal)
+    }
+
 
     return (
         <div className="main">
             <h5>Prior to checking the below table please update the files using the following <a target="_blank" href="https://apps.gdceur.eecloud.dynamic.nsn-net.net/tools/">application</a> (soon to be integrated here!!!)</h5>
             <div className="tableHeader">
                 <div className="filterContainer">
-                    <form 
+                    <form
                         // className="filter text-center row"
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -392,12 +401,14 @@ const NormCheck = () => {
                         }}
                     >
                         <>
+                        {showModal ? <UploadModal /> : null}
+                            {/* FIXME:  make upload button inline*/}
                             <Button color="primary"
-                                disabled={true}
-                                onClick={sendNotifications}>Upload files </Button>
+                                disabled={false}
+                                onClick={toggleUploadModal}>Upload files</Button>
                             <Button color="danger"
                                 disabled={selected < 1}
-                                onClick={sendNotifications}>Send {selected} notification(s) </Button>
+                                onClick={sendNotifications}>Send {selected} notification(s)</Button>
                         </>
                         <select
                             // className="form-control col"

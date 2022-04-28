@@ -4,6 +4,7 @@ import { useMutation, useQuery, gql } from "@apollo/client";
 
 import { DynamicTable } from "./DynamicTable";
 import "./Exports.scss"
+
 const GET_EH = gql`
   query ($department: String) { 
     getExtraHours (department: $department) {
@@ -14,13 +15,19 @@ const GET_EH = gql`
         }
   }
 `;
+
 const Exports = () => {
     const user = useSelector((state) => ({ auth: state.auth }));
     const [tableData, setTableData] = useState([])
     const { data, loading: loading, error: error } = useQuery(GET_EH, {
       // variables: { department: 'radio' },
       onCompleted: () => {
+
+        // getData
         setTableData(data.getExtraHours)
+
+        // groupData
+
 
       },
       onError: () => {

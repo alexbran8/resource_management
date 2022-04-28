@@ -6,8 +6,7 @@ import { config } from "../config";
 export default OriginalComponent => {
   class MixedComponent extends Component {
     checkAuth() {
-      var currenntDate = new Date()
-        if (!sessionStorage.getItem('exp') || !sessionStorage.getItem('token') || currenntDate > new Date(sessionStorage.getItem('exp'))) {
+        if (!sessionStorage.getItem('token') ) {
           sessionStorage.removeItem('exp')
           sessionStorage.removeItem('userEmail')
           sessionStorage.removeItem('name')
@@ -15,8 +14,6 @@ export default OriginalComponent => {
           sessionStorage.removeItem('roles')
           window.open(config.baseURL + config.baseLOCATION + "/auth/logout", "_self");
         } 
-      
-      
     }
     componentDidMount() {
       this.checkAuth()

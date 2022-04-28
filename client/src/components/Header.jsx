@@ -45,7 +45,7 @@ export const Header = () => {
         // if (response.status === 401) return response.json()
     })
       .then(responseJson => {
-        console.log('here',responseJson);
+        // console.log('here',responseJson);
         if(responseJson.success === true) {
           getIcon(responseJson.user.token)
         sessionStorage.setItem('exp', responseJson.user.exp);
