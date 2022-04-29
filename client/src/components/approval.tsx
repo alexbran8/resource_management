@@ -16,8 +16,20 @@ class Approval extends Component {
 
   async componentDidMount() {
     const events = await Axios.get(`${config.baseURL + config.baseLOCATION}/schedule/get/status`, { withCredentials: true });
-    this.setState({ events: events.data.data });
-    console.log("events to approve", events);
+    let sortedEvents = events.data.data.sort(function (a, b) {
+      var key1 = a.start;
+      var key2 = b.start;
+  
+      if (key1 < key2) {
+          return -1;
+      } else if (key1 == key2) {
+          return 0;
+      } else {
+          return 1;
+      }
+  });
+    this.setState({ events: sortedEvents });
+    console.log("events to approve", sortedEvents);
   }
 
   createArr(id) {
