@@ -5,19 +5,19 @@ import Axios from "axios";
 import 'react-big-scheduler/lib/css/style.css';
 import withDragDropContext from './withDnDContext';
 
-import  DetailModal  from "./DetailModal";
+import DetailModal from "./DetailModal";
 import OperationalModal from "./Operational_Modal";
 
 import CustomModal from "./Modal";
 import Filter from "./Filter";
 import { config } from "../config";
 
-import {AlertComponent} from "./Alert/Alert"
+import { AlertComponent } from "./Alert/Alert"
 
 // import "./Scheduler.scss"
 
 let schedulerData = new SchedulerData(new Date(), ViewTypes.Week, false, false,
- {schedulerMaxHeight: 800}
+  { schedulerMaxHeight: 800 }
 );
 schedulerData.localeMoment.locale('en');
 
@@ -39,12 +39,14 @@ const Calendar = () => {
   const [types, setTypes] = useState()
   const [params, setParams] = useState({ 'admin': true, 'operational': false })
   const [editEvent, setEditEvent] = useState()
-  const [showAlerts, setShowAlerts]=useState<boolean>(true)
-  const [filter, setFilter]=useState({line_manager: "",
-  team: "",
-  tpm: "",
-  employeers: "",
-  resources: ""})
+  const [showAlerts, setShowAlerts] = useState < boolean > (true)
+  const [filter, setFilter] = useState({
+    line_manager: "",
+    team: "",
+    tpm: "",
+    employeers: "",
+    resources: ""
+  })
 
   // TODO: check if planned vacation and vacation are still necessary
 
@@ -54,31 +56,31 @@ const Calendar = () => {
   var moment = require("moment");
 
   useEffect(() => {
-		if(refresh === 0){
-			setRefresh(1);
+    if (refresh === 0) {
+      setRefresh(1);
       setCount()
-		}
-	}, [refresh])
-	
-	useEffect(() => {
-		setRefresh(0);
-	}, [count]);
+    }
+  }, [refresh])
+
+  useEffect(() => {
+    setRefresh(0);
+  }, [count]);
 
 
-  const sendData = async(data, viewModal) => {
-    
+  const sendData = async (data, viewModal) => {
+
     // FIXME: check if token is valid
-    
+
     // TODO: go to login page if token has expired
 
     data.schedulerData = ""
 
     // console.log(data.start)
-    
-      var date2 = new Date(data.start)
-      var end2 = new Date(data.end)
-      var updatedStart = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate(), 8, 0, 0)
-      var updatedEnd = new Date(end2.getFullYear(), end2.getMonth(), end2.getDate(), 17, 0, 0)
+
+    var date2 = new Date(data.start)
+    var end2 = new Date(data.end)
+    var updatedStart = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate(), 8, 0, 0)
+    var updatedEnd = new Date(end2.getFullYear(), end2.getMonth(), end2.getDate(), 17, 0, 0)
 
     data.start = updatedStart
     data.end = updatedEnd
@@ -99,7 +101,7 @@ const Calendar = () => {
     }
     // console.log(data.findIndex(x => x == 'headers'))
     // data.headers = ""
-    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/add`,  data, {withCredentials: true})
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/add`, data, { withCredentials: true })
     // const response = await Axios.post(`${ config.baseURL + config.baseLOCATION }/schedule/add`, data, {method: "POST",credentials: "include",
     //   headers: {
     //     Accept: "application/json",
@@ -110,7 +112,7 @@ const Calendar = () => {
     // {withCredentials: true} 
     // );
 
-    console.log('data',data);
+    console.log('data', data);
     if (data.id === undefined) {
       data.id = 0;
       console.log("aici");
@@ -125,30 +127,30 @@ const Calendar = () => {
       end: updatedEnd,
       resourceId: data.nokiaid,
       bgColor: "#E74C3C"
-    };    
+    };
     setCount(data.title)
     setEvents(schedulerData.events)
     schedulerData.addEvent(newEvent);
     setViewModal(schedulerData);
-  
-    setEvent(undefined)    
+
+    setEvent(undefined)
   }
 
-  
 
- const getType = async () => {
-    const types = await Axios.get(`${ config.baseURL + config.baseLOCATION }/types`, {withCredentials: true});
+
+  const getType = async () => {
+    const types = await Axios.get(`${config.baseURL + config.baseLOCATION}/types`, { withCredentials: true });
     if (types) setTypes(types.data.data);
   }
 
 
 
 
-  const reset = () =>  {
+  const reset = () => {
     setEvent(undefined)
   }
 
-  const resetEdit = () =>  {
+  const resetEdit = () => {
     setEditEvent(undefined)
   }
 
@@ -160,8 +162,8 @@ const Calendar = () => {
 
   useEffect(() => {
     getType();
-    
-    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, params, {withCredentials: true})
+
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, params, { withCredentials: true })
       .then(res => {
         const fmtEvents = res.data.schedule.reduce((prev, entry) => {
           prev.push({
@@ -181,7 +183,7 @@ const Calendar = () => {
 
       }
       )
-    Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, data, {withCredentials: true})
+    Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, data, { withCredentials: true })
       .then(res => {
         const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
           prev.push({
@@ -196,9 +198,9 @@ const Calendar = () => {
 
       }
       )
-      // setCount(0)
+    // setCount(0)
   },
-[]);
+    []);
 
   const onViewChange = (schedulerData, view) => {
     console.log(view)
@@ -212,26 +214,26 @@ const Calendar = () => {
     setViewModal(schedulerData);
   };
 
- const deleteItem = (schedulerData, event) => {
-    if (sessionStorage.getItem('roles')=== "L3") {
+  const deleteItem = (schedulerData, event) => {
+    if (sessionStorage.getItem('roles') === "L3") {
       if (
         window.confirm(
           `Are you sure you want to delete: ${event.title}  assigned to ${event.name} with ${event.replacement} as replacement?`
         )
       )
         console.log(schedulerData)
-        schedulerData.removeEvent(event);
-        Axios.delete(`${ config.baseURL + config.baseLOCATION }/schedule/delete/${event.id}`,  {withCredentials: true});
-        
-        setViewModal2(schedulerData);
-        setCount(1)
-        console.log(schedulerData)
+      schedulerData.removeEvent(event);
+      Axios.delete(`${config.baseURL + config.baseLOCATION}/schedule/delete/${event.id}`, { withCredentials: true });
+
+      setViewModal2(schedulerData);
+      setCount(1)
+      console.log(schedulerData)
     } else {
       return;
     }
   };
-  
-const updateData = async(data) => {
+
+  const updateData = async (data) => {
     if (
       data.bgColor === undefined ||
       data.bgColor === null ||
@@ -244,21 +246,21 @@ const updateData = async(data) => {
     }
     const response = await Axios.post(
       `${baseURL}/schedule/update/${data.id}`,
-      data, {withCredentials: true}
+      data, { withCredentials: true }
     );
     if (!response) {
       alert("failed");
     }
     console.log(events)
     console.log(data.id)
-      events.map((item) => {
-          item.id === data.id? item = data: null;
-      })
-      console.log(events)
-      schedulerData.setEvents(events);
-      setViewModal2(schedulerData)
-    
-    
+    events.map((item) => {
+      item.id === data.id ? item = data : null;
+    })
+    console.log(events)
+    schedulerData.setEvents(events);
+    setViewModal2(schedulerData)
+
+
     console.log(data)
     // setViewModal2(data.schedulerData);
     setCount(0)
@@ -287,7 +289,7 @@ const updateData = async(data) => {
     //   return;
     // }
   };
-  const resetSlot= () => {
+  const resetSlot = () => {
     setSlot(undefined);
   }
 
@@ -314,10 +316,9 @@ const updateData = async(data) => {
     // setRenderCounter(o => ++o);
   };
 
-  const  eventClicked = (schedulerData, event) => {
+  const eventClicked = (schedulerData, event) => {
     alert(
-      `You clicked event: ${event.title} with ${
-        event.replacement ? event.replacement : `no one`
+      `You clicked event: ${event.title} with ${event.replacement ? event.replacement : `no one`
       } as replacement.`
     );
   };
@@ -325,7 +326,7 @@ const updateData = async(data) => {
   const slotClickedFunc = (schedulerData, slot) => {
     console.log(slot)
     setSlot(slot.slotId);
-    
+
   };
 
   const newEvent = async (schedulerData, slotId, slotName, start, end, type, item) => {
@@ -342,7 +343,7 @@ const updateData = async(data) => {
       // bgColor: "purple"
     };
     console.log('data', schedulerData)
-    setEvent(newEvent)   
+    setEvent(newEvent)
   };
 
   let data = {
@@ -352,33 +353,81 @@ const updateData = async(data) => {
     employeers: "",
     resources: "",
     admin: true,
-    operational: false,   
+    operational: false,
   }
+
+  const updateEventStart = (schedulerData, event, newStart) => {
+    let newEventStart = {
+      id: event.id,
+      nokiaid: event.resourceId,
+      start: newStart,
+      end: event.end,
+      type: event.type,
+      title: event.title,
+      replacement: event.replacement,
+      status: "L3",
+    };
+
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/update/${event.resourceId}`, newEventStart, { withCredentials: true })
+      .then(response => {
+        console.log(response)
+        schedulerData.updateEventStart(event, newStart);
+        this.setState({
+          viewModel: schedulerData,
+        });
+      })
+      .catch(function (error) {
+        console.log({ error });
+        alert(error)
+      })
+
+
+  };
+
+  const updateEventEnd = (schedulerData, event, newEnd) => {
+    let newEventEnd = {
+      id: event.id,
+      nokiaid: event.resourceId,
+      end: newEnd,
+      start: event.start,
+      title: event.title,
+      status: event.status,
+      type: event.type,
+      replacement: event.replacement,
+    };
+
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/update/${event.resourceId}`, newEventEnd, { withCredentials: true });
+    schedulerData.updateEventEnd(event, newEnd);
+    this.setState({
+      viewModel: schedulerData,
+    });
+  };
+
 
   const _filter = (value, field) => {
     filter[field] = value
-       Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, filter, {withCredentials: true})
-    .then(res => {
-      console.log(value,'here', field)
-      const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
-        prev.push({
-          id: entry.nokiaid,
-          name: `${entry.lastname}, ${entry.firstname}`,
-        });
-        return prev;
-      }, []);
-      // setResources(fmtUsers)
-      console.log(fmtUsers)
-      schedulerData.setResources(fmtUsers);
-      setCount(0)
+    Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, filter, { withCredentials: true })
+      .then(res => {
+        console.log(value, 'here', field)
+        const fmtUsers = res.data.filterUsers.reduce((prev, entry) => {
+          prev.push({
+            id: entry.nokiaid,
+            name: `${entry.lastname}, ${entry.firstname}`,
+          });
+          return prev;
+        }, []);
+        // setResources(fmtUsers)
+        console.log(fmtUsers)
+        schedulerData.setResources(fmtUsers);
+        setCount(0)
 
-    }
+      }
 
-    )
+      )
   }
 
   const updateState = (data) => {
-     let newEvent = {
+    let newEvent = {
       // schedulerData: schedulerData,
       id: 0,
       start: data.start,
@@ -397,14 +446,14 @@ const updateData = async(data) => {
     schedulerData.addEvent(newEvent);
     setViewModal(schedulerData);
     setCount(0)
-  
-    setEvent(undefined)    
+
+    setEvent(undefined)
   }
   const _eventsFilter = (state, field) => {
 
     setParams(state)
 
-    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, state, {withCredentials: true})
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/get`, state, { withCredentials: true })
       .then(res => {
         const fmtEvents = res.data.schedule.reduce((prev, entry) => {
           prev.push({
@@ -429,7 +478,7 @@ const updateData = async(data) => {
 
   // const filter = async (propsData) => {
   //   var data2 = []
-    
+
   //   filter2()
 
   //   // Axios.post(`${config.baseURL + config.baseLOCATION}/usersPrivate/get/filter`, data, {withCredentials: true})
@@ -452,33 +501,33 @@ const updateData = async(data) => {
 
   return (
     <div>
-      <Filter 
-      filter={(value, field) => _filter(value, field)}
-      eventsFilter={(value, field) => _eventsFilter(value, field)}
+      <Filter
+        filter={(value, field) => _filter(value, field)}
+        eventsFilter={(value, field) => _eventsFilter(value, field)}
       />
-        {(event || editEvent) && params.admin === true   ? (
-          <CustomModal
-            resources={schedulerData.resources}
-            reset={() => reset()}
-            resetEdit={() => resetEdit()}
-            event={event}
-            editEvent={editEvent}
-            sendData={(e) => sendData(e, schedulerData)}
-            updateData={(e) => updateData(e)}
-            types={types}
-          />
-        ) : null}
-        {(event || editEvent) && params.operational === true   ? (
-          <OperationalModal
-            resources={schedulerData.resources}
-            reset={() => reset()}
-            resetEdit={() => resetEdit()}
-            event={event}
-            editEvent={editEvent}
-            updateState={(e) => updateState(e, data)}
-            types={types}
-          />
-        ) : null}
+      {(event || editEvent) && params.admin === true ? (
+        <CustomModal
+          resources={schedulerData.resources}
+          reset={() => reset()}
+          resetEdit={() => resetEdit()}
+          event={event}
+          editEvent={editEvent}
+          sendData={(e) => sendData(e, schedulerData)}
+          updateData={(e) => updateData(e)}
+          types={types}
+        />
+      ) : null}
+      {(event || editEvent) && params.operational === true ? (
+        <OperationalModal
+          resources={schedulerData.resources}
+          reset={() => reset()}
+          resetEdit={() => resetEdit()}
+          event={event}
+          editEvent={editEvent}
+          updateState={(e) => updateState(e, data)}
+          types={types}
+        />
+      ) : null}
       {slot ? (
         <DetailModal
           level={sessionStorage.getItem('roles')}
@@ -487,21 +536,23 @@ const updateData = async(data) => {
         />
       ) : null}
       {refresh ?
-      <Scheduler
-        schedulerData={viewModal2}
-        prevClick={prevClick}
-        nextClick={nextClick}
-        eventItemClick={eventClicked}
-        onViewChange={onViewChange}
-        onSelectDate={onSelectDate}
-        newEvent={newEvent}
-        slotClickedFunc={slotClickedFunc}
-        viewEventClick={sessionStorage.getItem('roles') === "L3" ? editItem : null}  
-        viewEventText="Edit"
-        viewEvent2Text={sessionStorage.getItem('roles') === "L3" ? "Delete" : null}
-        viewEvent2Click={sessionStorage.getItem('roles') === "L3" ? deleteItem : null}  
-      />
-      : null}
+        <Scheduler
+          schedulerData={viewModal2}
+          prevClick={prevClick}
+          nextClick={nextClick}
+          eventItemClick={eventClicked}
+          onViewChange={onViewChange}
+          onSelectDate={onSelectDate}
+          updateEventStart={updateEventStart}
+          updateEventEnd={updateEventEnd}
+          newEvent={newEvent}
+          slotClickedFunc={slotClickedFunc}
+          viewEventClick={sessionStorage.getItem('roles') === "L3" ? editItem : null}
+          viewEventText="Edit"
+          viewEvent2Text={sessionStorage.getItem('roles') === "L3" ? "Delete" : null}
+          viewEvent2Click={sessionStorage.getItem('roles') === "L3" ? deleteItem : null}
+        />
+        : null}
     </div>
   );
 };
