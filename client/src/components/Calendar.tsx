@@ -396,11 +396,19 @@ const Calendar = () => {
       replacement: event.replacement,
     };
 
-    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/update/${event.resourceId}`, newEventEnd, { withCredentials: true });
-    schedulerData.updateEventEnd(event, newEnd);
-    this.setState({
-      viewModel: schedulerData,
-    });
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/update/${event.resourceId}`, newEventEnd, { withCredentials: true })
+      .then(response => {
+        console.log(response)
+        schedulerData.updateEventEnd(event, newEnd);
+        this.setState({
+          viewModel: schedulerData,
+        });
+      })
+      .catch(function (error) {
+        console.log({ error });
+        alert(error)
+      })
+
   };
 
 
