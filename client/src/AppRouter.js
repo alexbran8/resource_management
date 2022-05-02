@@ -35,12 +35,12 @@ export const AppRouter = () => {
     <HashRouter  >
        <Header basename={config.baseLOCATION} />
       <ErrorBoundary FallbackComponent={ErrorHandler}>
-      <AlertComponent
+      {/* <AlertComponent
         messages={[{ message: 'navbar has been updated', type: 'success' }, 
         { message: 'alert bar updated', type: 'success' },
         //  { message: '[planned update] review form options', type: 'info' }
         ]}
-      />
+      /> */}
       <Route exact path={"/"} component={HomePage} />
       <Route exact path={"/error"} component={LoginError} />
       <Route path={"/normcheck/"} component={authGuard(NormCheck)} />
