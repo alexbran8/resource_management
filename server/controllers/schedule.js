@@ -169,7 +169,9 @@ ScheduleController.post("/update/:id?", async (req, res) => {
   } = req.body;
 
   console.log(req.body);
+  
   if (!isNull(start) && !isNull(end) && !isNull(title)) {
+    
     //update DragAndDrop
     const updateScheduleDnD = await db.Schedule.update(
       { title, start, end, nokiaid: newResource, type, replacement },
@@ -379,7 +381,6 @@ ScheduleController.post("/approve", async (req, res, next) => {
 })
 
 ScheduleController.post("/delete", async (req, res, next) => {
-  // console.log(events);
   const Response = { error: null, data: null };
   const { nokiaid, status, ids } = req.body;
   db.Schedule.update(
@@ -390,27 +391,32 @@ ScheduleController.post("/delete", async (req, res, next) => {
       console.log(response)
       return db.Schedule.findAll(
         { where: { id: ids } }
-
       )
     })
     .then(emailData => {
       console.log(emailData)
-      emailData.forEach((item) => {
-        emailFormater(
-          item.nokiaid,
-          'status',
-          item.replacement,
-          item.type,
-          item.createdBy,
-          item.start,
-          item.end,
-          "APPROVAL"
-        );
-      }
-      )
       Response.data = ids
       res.json(Response);
-    })
+      return emailData
+     }
+    )
+    .then(
+      emailData => {
+        emailData.forEach((item) => {
+          emailFormater(
+            item.nokiaid,
+            'status',
+            item.replacement,
+            item.type,
+            item.createdBy,
+            item.start,
+            item.end,
+            "APPROVAL"
+          )
+        }
+        )
+      }
+    )
     .catch(error => {
       console.log(error)
       Response.error = error;
