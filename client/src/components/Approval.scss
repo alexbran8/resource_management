@@ -1,26 +1,91 @@
 #approval-table td {
-    border: 1px solid black;
+    border: 0.25px solid red;
     // padding: 1% 1% 0% 0%;
     text-align: center;
 }
 
 #approval-table thead th {
-    border: 2px solid black;
+    border: 0.5px solid black;
     // padding: 1% 1% 0% 0%;
     background-color: #66d3fa;
     text-align: center;
 }
 #approval-table {
     text-align: center;
-    border: 2px solid black;
+    border: 0.5px solid black;
     margin: 1% 1% 1% 1%;
 }
 
 #approval-table tr td:last-child {
     width: 1%;
     min-width: 100px;
-    white-space: pre-wrap;
+    // white-space: pre-wrap;
 }
-#approval-table tr:hover {
-    background-color: #ffff99;
+// #approval-table tr:hover {
+//     background-color: #ffff99;
+//   }
+
+
+  .tags-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: auto;
+    min-height: 48px;
+    width: 480px;
+    padding: 0 8px;
+    border: 1px solid rgb(214, 216, 218);
+    border-radius: 6px;
+    &:focus-within {
+      border: 1px solid #0052cc;
+    }
+    input {
+      flex: 1;
+      border: none;
+      height: 46px;
+      font-size: 14px;
+      padding: 4px 0 0 0;
+      &:focus {
+        outline: transparent;
+      }
+    }
+  }
+  
+  #tags {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 8px 0 0 0;
+  }
+  
+  .tag {
+    width: auto;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 0 8px;
+    font-size: 14px;
+    list-style: none;
+    border-radius: 6px;
+    margin: 0 8px 8px 0;
+    background: #0052cc;
+    .tag-title {
+      margin-top: 3px;
+    }
+    .tag-close-icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      text-align: center;
+      font-size: 14px;
+      margin-left: 8px;
+      color: #0052cc;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+    }
   }

@@ -1,171 +1,256 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useRef, useState, createRef } from "react";
 import { connect } from "react-redux";
 import Axios from "axios";
-import { config } from "../config";;
+import { config } from "../config";
+import { useSelector, useDispatch } from "react-redux";
 var moment = require("moment");
 
 import "./Approval.scss"
 
 
 
-class Approval extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { events: [], ids: [] };
-  }
+export const Approvals = () => {
+  const user = useSelector((state) => ({ auth: state.auth }));
+  const [state, setState] = useState({ events: [], ids: [], monthList: [] })
+  const [events, setEvents] = useState([])
+  const [elementsRef, setElementsRef] = useState([])
+  const updatedElementsRef = useRef(Object.keys(events).map(() => createRef()));
+  const [elRefs, setElRefs] = React.useState([]);
+  const [ids, setIds] = useState([])
+  const inputRef = useRef([]);
 
-  async componentDidMount() {
+  useEffect(async () => {
     const events = await Axios.get(`${config.baseURL + config.baseLOCATION}/schedule/get/status`, { withCredentials: true });
     let sortedEvents = events.data.data.sort(function (a, b) {
       var key1 = a.start;
       var key2 = b.start;
-  
+
       if (key1 < key2) {
-          return -1;
+        return -1;
       } else if (key1 == key2) {
-          return 0;
+        return 0;
       } else {
-          return 1;
+        return 1;
       }
-  });
-    this.setState({ events: sortedEvents });
-    console.log("events to approve", sortedEvents);
+    });
+
+    let newSortedEvents = sortedEvents.map(obj => ({ ...obj, month: new Date(obj.start).getMonth()+1 + ' - ' + new Date(obj.start).getFullYear() }))
+
+
+    var groups = ['month']
+    var grouped = {}
+    newSortedEvents.forEach(function (a) {
+      groups.reduce(function (o, g, i) {                            // take existing object,
+        o[a[g]] = o[a[g]] || (i + 1 === groups.length ? [] : {}); // or generate new obj, or
+        return o[a[g]];                                         // at last, then an array
+      }, grouped).push(a);
+    });
+
+    setEvents(grouped);
+    // getMonths
+    let allMonths = []
+    newSortedEvents.forEach(item => allMonths.push(item.month))
+    let uniqueMonths = Array.from(new Set(allMonths))
+    setState({ monthList: uniqueMonths });
+
+    setElementsRef(updatedElementsRef)
+  }, [])
+
+  const scrollEffect = (targetRef) => {
+    //  console.log(targetRef)
+    //  console.log(elementsRef.ref = targetRef )
+    //  targetRef.current.focus()
+    const next = inputRef.current[targetRef];
+    if (next) {
+      // next.scrollIntoView(true);
+      next.scrollIntoView({
+        behavior: 'smooth',
+        // block: 's ref={el => inputRef.current[e] = el} ',
+      });
+      next.focus()
+      //   next.hover();
+    }
+    // targetRef.current.scrollIntoView({
+    //   behavior: 'smooth',
+    //   block: 'start',
+    // });
   }
 
-  createArr(id) {
-    if (this.state.ids.includes(id)) {
-      const index = this.state.ids.indexOf(id);
-      this.state.ids.splice(index, 1);
+  const createArr = (id) => {
+    if (ids.includes(id)) {
+      const index = ids.indexOf(id);
+      console.log(ids)
+      let updatedIds = [...ids] 
+      updatedIds.splice(index, 1);
+      setIds(updatedIds)
     } else {
-      this.setState({
-        ids: this.state.ids.concat(id),
-      });
+      let newIds = ids.concat(id)
+      console.log(ids)
+      setIds(newIds);
     }
   }
-
-  renderEvents(data) {
-    if (data.length > 0) {
-      var x = data.map((e, index) => {
+  const renderEvents = (data) => {
+    if (data) {
+      var x = Object.keys(data).map((e, index) => {
         return (
-          <tr key={index}>
-            <td>{e.id}</td>
-            <td>{e.employee.firstname + ', ' + e.employee.lastname}</td>
-            <td>{e.title}</td>
-            {e.replacement !== null && e.replacement !== "" ? (
-              <td>{e.replacement}</td>
-            ) : <td></td>}
-            <td>{e.type}</td>
-            <td>{moment(e.start).format("YYYY-MM-DD h:mm:ss")}</td>
-            <td>{moment(e.end).format("YYYY-MM-DD h:mm:ss")}</td>
-            {e.status === "L1" ? (
-              <td>Need TPM approval</td>
-            ) : (
-              <td>Need LM approval</td>
+          data[e] && data[e].map(tableSpanRow => {
+            return (
+              <tr key={tableSpanRow.id} ref={el => inputRef.current[e] = el} tabIndex={0}>
+                <td>{tableSpanRow.id}</td>
+                <td>{tableSpanRow.employee.firstname + ', ' + tableSpanRow.employee.lastname}</td>
+                <td>{tableSpanRow.title}</td>
+                {tableSpanRow.replacement !== null && tableSpanRow.replacement !== "" ? (
+                  <td>{tableSpanRow.replacement}</td>
+                ) : <td></td>}
+                <td>{moment(tableSpanRow.start).format("YYYY-MM-DD h:mm:ss")}</td>
+                <td>{moment(tableSpanRow.end).format("YYYY-MM-DD h:mm:ss")}</td>
+                <td>{tableSpanRow.type}</td>
+                {tableSpanRow.status === "L1" ? (
+                  <td>Need TPM approval</td>
+                ) : (
+                  <td>Need LM approval</td>
+                )
+                }
+                <td>
+                  <input
+                    className="m-1"
+                    type="checkbox"
+                    checked={ids.find(x => x == tableSpanRow.id) ? true : false}
+                    onChange={() => createArr(tableSpanRow.id)}
+                  />
+                </td>
+                <td rowSpan={1}>{e}
+                </td>
+              </tr>
             )
-            }
-            <td>
-              <input
-                className="m-1"
-                type="checkbox"
-                onChange={() => this.createArr(e.id)}
-              />
-            </td>
-          </tr>
+          }
+          )
+
+
         );
       });
       return x;
     }
   }
 
-  async approveUpdate() {
+  const approveUpdate = async () => {
     const data = {
-      ids: this.state.ids,
-      status: this.props.role,
-      events: this.state.events,
+      ids: ids,
+      status: user.auth.role
     };
 
-    console.log(this);
-
-    const response = await Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/update/`, data, { withCredentials: true });
-    if (!response) {
-      alert("failed");
-    }
-    window.location.reload();
+    Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/approve`, data, { withCredentials: true })
+      .then(response => {
+        response.data.data.forEach(item => {
+          Object.keys(events).forEach(x => {
+            let updatedEvents = events[x].filter(function (el) { return el.id != item; });
+            events[x] = updatedEvents
+            setEvents(events)
+          })
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
-  async declineUpdate() {
-    const ids = this.state.ids;
-    const events = this.state.events;
+  const declineUpdate = async () => {
     if (ids.length > 0) {
-      const response = await Axios.delete(
-        `${config.baseURL + config.baseLOCATION}/schedule/delete/${ids}`,
-        events
-      );
-      if (!response) {
-        alert("failed");
-      }
+      const data = {
+        ids: ids,
+        status: 'L0'
+      };
+
+      Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/delete`, data, { withCredentials: true })
+        .then(response => {
+          response.data.data.forEach(item => {
+            Object.keys(events).forEach(x => {
+              let updatedEvents = events[x].filter(function (el) { return el.id != item; });
+              events[x] = updatedEvents
+              setEvents(events)
+            })
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
-
-    window.location.reload();
   }
 
-  render() {
-    return (
-      <div>
-        {(this.props.role === "L3" || this.props.role === "L2") &&
-          this.state.events.length > 0 ? (
+
+
+
+  return (
+    <div>
+      {(user.auth.role === "L3" || user.auth.role === "L2") &&
+        events ? (
+        <>
           <>
-            <div className="text-center m-4 row">
-              <div className="col">
-                <button
-                  onClick={() => this.approveUpdate()}
-                  className="btn btn-success"
-                >
-                  Approve selected
-                </button>
-              </div>
-              <div className="col">
-                <button
-                  onClick={() => this.declineUpdate()}
-                  className="btn btn-danger"
-                >
-                  Decline selected
-                </button>
-              </div>
+            <div className="tags-input">
+              <ul id="tags">
+                {state.monthList.map((item, index) => {
+                  return <li key={index} className="tag"
+                    onClick={() => { scrollEffect(item) }}
+                  ><span>{item}</span></li>
+                })}
+              </ul>
             </div>
-            <table id='approval-table'>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Resource Name</th>
-                  <th>Title</th>
-                  <th>Replacement Resource</th>
-                  <th>Type</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Status</th>
-                  <th>Check</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderEvents(this.state.events)}
-              </tbody>
-            </table>
           </>
-        ) : (
-          <div className="noApprove text-center">
-            <h1>No requests to approve, yet...</h1>
-            {console.log(this.props.role)}
+          <div className="text-center m-4 row">
+            <div className="col">
+              <button
+                onClick={() => approveUpdate()}
+                className="btn btn-success"
+                disabled={ids.length==0}
+              >
+                Approve selected
+              </button>
+            </div>
+            <div className="col">
+              <button
+                onClick={() => declineUpdate()}
+                disabled={ids.length==0}
+                className="btn btn-danger"
+              >
+                Decline selected
+              </button>
+            </div>
           </div>
-        )}
-      </div>
-    );
-  }
-}
-function MapStateToProps(state) {
-  return {
-    role: state.auth.role,
-  };
+          <table id='approval-table'>
+            <thead>
+              <tr>
+
+                <th>Id</th>
+                <th>Resource Name</th>
+                <th>Title</th>
+                <th>Replacement Resource</th>
+                <th>Start</th>
+                <th>Type</th>
+
+                <th>End</th>
+                <th>Status</th>
+                <th>Check</th>
+                <th>Month</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderEvents(events)}
+            </tbody>
+          </table>
+        </>
+      ) : (
+        <div className="noApprove text-center">
+          <h1>No requests to approve, yet...</h1>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default connect(MapStateToProps)(Approval);
+// function MapStateToProps(state) {
+//   return {
+//     role: state.auth.role,
+//   };
+// }
+
+// export default connect(MapStateToProps)(Approval);

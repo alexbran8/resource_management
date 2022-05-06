@@ -101,7 +101,7 @@ ScheduleController.post("/get", async (req, res) => {
           [Op.and]: [
             { status: "L3" },
             { task_admin: req.body.admin },
-            {start: {[Op.gte]:'01-01-2022'} },
+            { start: { [Op.gte]: '01-01-2022' } },
             { task_operational: req.body.operational }
           ]
         }
@@ -132,7 +132,7 @@ ScheduleController.get("/get/status", async (req, res) => {
         include: [{
           model: db.User,
           // where: ["nokiaid = nokiaid"]
-         }]
+        }]
       });
       if (!schedule) {
         Response.error = { message: "No Schedule found." };
@@ -337,29 +337,85 @@ ScheduleController.post("/update/:id?", async (req, res) => {
   // TODO: add function to process email handler request. for loop if multiple events, go to email formatter if events
 });
 
-ScheduleController.delete("/delete/:id", async (req, res, next) => {
+
+
+ScheduleController.post("/approve", async (req, res, next) => {
+  const { nokiaid, status, ids } = req.body;
+  const Response = { error: null, data: null };
+  db.Schedule.update(
+    { status },
+    { where: { id: ids } }
+  )
+    .then(response => {
+      console.log(response)
+      return db.Schedule.findAll(
+        { where: { id: ids } }
+
+      )
+    })
+    .then(emailData => {
+      console.log(emailData)
+      emailData.forEach((item) => {
+        emailFormater(
+          item.nokiaid,
+          status,
+          item.replacement,
+          item.type,
+          item.createdBy,
+          item.start,
+          item.end,
+          "APPROVAL"
+        );
+      }
+      )
+      Response.data = ids
+      res.json(Response);
+    })
+    .catch(error => {
+      console.log(error)
+      Response.error = error;
+      res.json(Response);
+    })
+})
+
+ScheduleController.post("/delete", async (req, res, next) => {
   // console.log(events);
   const Response = { error: null, data: null };
-  console.log(req.body);
-  const id = JSON.parse("[" + req.params.id + "]");
-  const userlevel = "L1";
-  const deleteSchedule = await db.Schedule.destroy({ where: { id } });
-  if (!deleteSchedule) {
-    Response.error = { message: "No Schedule found." };
-    return res.json(Response);
-  }
-  Response.data = "OK";
-  res.json(Response);
-  // emailFormater(
-  //   nokiaid,
-  //   status,
-  //   replacement,
-  //   type,
-  //   createdBy,
-  //   start,
-  //   end,
-  //   "DELETE"
-  // );
+  const { nokiaid, status, ids } = req.body;
+  db.Schedule.update(
+    { status },
+    { where: { id: ids } }
+  )
+    .then(response => {
+      console.log(response)
+      return db.Schedule.findAll(
+        { where: { id: ids } }
+
+      )
+    })
+    .then(emailData => {
+      console.log(emailData)
+      emailData.forEach((item) => {
+        emailFormater(
+          item.nokiaid,
+          'status',
+          item.replacement,
+          item.type,
+          item.createdBy,
+          item.start,
+          item.end,
+          "APPROVAL"
+        );
+      }
+      )
+      Response.data = ids
+      res.json(Response);
+    })
+    .catch(error => {
+      console.log(error)
+      Response.error = error;
+      res.json(Response);
+    })
 });
 
 module.exports = ScheduleController;

@@ -30,6 +30,12 @@ const emailFormater = async (
   end,
   operation
 ) => {
+  var sendTO =''
+  var sendCC = ''
+  var revStatus = ''
+  var newCreatedBy = ''
+  
+  try{
   //check to see employeer tpm and manager of the person who initiated the function
   const [ check] = await db.query(
     `SELECT employeer,TPM_FIRSTNAME,TPM_LASTNAME,LINE_MANAGER_FIRSTNAME, LINE_MANAGER_LASTNAME FROM employees WHERE nokiaid=${nokiaid}`
@@ -58,7 +64,7 @@ const emailFormater = async (
     `SELECT email FROM employees WHERE nokiaid ='${nokiaid}'`
   );
 
-  let sendCC = "";
+  
   // check if external
   if (
     check[0].employeer === "Deltatel" &&
@@ -70,7 +76,7 @@ const emailFormater = async (
   // check if LM
   console.log(TPMemail)
 
-  if (sendEmail[0][0].sendEmail === "YES") {
+  if (TPMemail &&  LMemail &&  sendEmail && sendEmail[0][0].sendEmail === "YES") {
     sendCC = sendCC + "," + TPMemail[0][0].email + "," + LMemail[0][0].email;
   }
 
@@ -93,22 +99,27 @@ const emailFormater = async (
     revStatus = "";
   }
 
-  const sendTO = OwnerEmail[0][0].email;
+  sendTO = OwnerEmail[0][0].email;
 
-  const metadata = {
-    transporter: transporterConfig,
-    from: "poweremail.ni_gsd_timisoara@nokia.com",
-    to: sendTO,
-    cc: sendCC,
-    subj: `[npt] ${operation}: ${revStatus} - ${type} - ${newCreatedBy} [npt]`,
-    text: `${operation}: ${revStatus} ${newCreatedBy} ${type} from ${start} to ${end}.${
-      replacement !== "" ? ` ${replacement} as replacement.` : ""
-    }`,
-    html: "<div> HTML </div>",
-  };
+
+}
+catch(error) {
+  console.log(error)
+}
+const metadata = {
+  transporter: transporterConfig,
+  from: "poweremail.ni_gsd_timisoara@nokia.com",
+  to: sendTO || 'alexandru.bran@nokia.com',
+  cc: sendCC || 'alexandru.bran@nokia.com',
+  subj: `[npt] ${operation}: ${revStatus} - ${type} - ${newCreatedBy} [npt]`,
+  text: `${operation}: ${revStatus} ${newCreatedBy} ${type} from ${start} to ${end}.${
+    replacement !== "" ? ` ${replacement} as replacement.` : ""
+  }`,
+  html: "<div> HTML </div>",
+};
 
   //UNCOMMENT THIS IF YOU WANT TO SEND THE EMAILS!
-emailHandler(metadata).catch(console.error);
+process.env.NODE_ENV === `development` ? console.log(metadata) : emailHandler(metadata).catch(console.error);
 };
 
 module.exports = {
