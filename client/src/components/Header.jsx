@@ -164,7 +164,7 @@ export const Header = () => {
       </Collapse>
       <div className="navbar-text">
         <Nav navbar>
-          {user.auth.role === 'L3' ?
+          {state.authenticated  && user.auth.role === 'L3' ?
             <>
               <li className="nav-item">
                 <Link

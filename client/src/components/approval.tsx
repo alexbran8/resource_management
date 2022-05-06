@@ -1,13 +1,10 @@
-import React, { Component, useEffect, useRef, useState, createRef } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useRef, useState, createRef } from "react";
 import Axios from "axios";
 import { config } from "../config";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 var moment = require("moment");
 
 import "./Approval.scss"
-
-
 
 export const Approvals = () => {
   const user = useSelector((state) => ({ auth: state.auth }));
@@ -15,11 +12,12 @@ export const Approvals = () => {
   const [events, setEvents] = useState([])
   const [elementsRef, setElementsRef] = useState([])
   const updatedElementsRef = useRef(Object.keys(events).map(() => createRef()));
-  const [elRefs, setElRefs] = React.useState([]);
+
   const [ids, setIds] = useState([])
   const inputRef = useRef([]);
 
   useEffect(async () => {
+
     const events = await Axios.get(`${config.baseURL + config.baseLOCATION}/schedule/get/status`, { withCredentials: true });
     let sortedEvents = events.data.data.sort(function (a, b) {
       var key1 = a.start;
@@ -47,6 +45,7 @@ export const Approvals = () => {
     });
 
     setEvents(grouped);
+
     // getMonths
     let allMonths = []
     newSortedEvents.forEach(item => allMonths.push(item.month))
@@ -54,6 +53,7 @@ export const Approvals = () => {
     setState({ monthList: uniqueMonths });
 
     setElementsRef(updatedElementsRef)
+
   }, [])
 
   const scrollEffect = (targetRef) => {
@@ -220,13 +220,12 @@ export const Approvals = () => {
             <thead>
               <tr>
 
-                <th>Id</th>
+                <th>id</th>
                 <th>Resource Name</th>
                 <th>Title</th>
                 <th>Replacement Resource</th>
                 <th>Start</th>
                 <th>Type</th>
-
                 <th>End</th>
                 <th>Status</th>
                 <th>Check</th>
@@ -246,11 +245,3 @@ export const Approvals = () => {
     </div>
   );
 }
-
-// function MapStateToProps(state) {
-//   return {
-//     role: state.auth.role,
-//   };
-// }
-
-// export default connect(MapStateToProps)(Approval);
