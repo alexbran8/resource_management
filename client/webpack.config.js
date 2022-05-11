@@ -23,10 +23,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/public/dist/'),
     filename: 'main.js',
-    output: {
     chunkFilename: '[name].bundle.js',
-    
-  },
     publicPath: location,
   },
   devServer: {
