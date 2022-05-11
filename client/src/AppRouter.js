@@ -2,7 +2,6 @@ import React from "react";
 import { HomePage } from "./components/HomePage/HomePage";
 import { Header } from "./components/Header/Header";
 import { RequestParent } from "./components/Request/RequestParent";
-import {Approvals} from "./components/approval.tsx";
 
 import Exports from './components/Exports/Exports'
 import LoginError from "./components/LoginError";
@@ -19,7 +18,12 @@ import { AddUsers } from "./components/AddUsers/addUsers";
 // import { AlertComponent } from "./components/common/Alert/Alerts";
 import {ErrorBoundary} from 'react-error-boundary'
 const NormCheck = process.env.NODE_ENV == "development" ? React.lazy(() => import(/* webpackChunkName: "norm_check" */ './components/NormCheck/NormCheck')) : React.lazy(() => import(/* webpackChunkName: "/norm_check" */ './components/NormCheck/NormCheck'));
-// const InvoiceCheck = process.env.NODE_ENV == "development" ? React.lazy(async () => import(/* webpackChunkName: "invoice_check" */ './components/invoiceCheck/InvoiceCheck')) : React.lazy(async () => import(/* webpackChunkName: "/invoice_check" */ './components/invoiceCheck/InvoiceCheck'));
+
+const Approvals = React.lazy(async () => {
+  let obj = await import(/* webpackChunkName: "invoice_check" */ "./components/Approvals/Approval")
+  return typeof obj.default === 'function'?obj:obj.default
+  }
+)
 
 const InvoiceCheck = React.lazy(async () => {
   let obj = await import(/* webpackChunkName: "invoice_check" */ "./components/invoiceCheck/InvoiceCheck")
