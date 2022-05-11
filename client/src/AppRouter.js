@@ -17,7 +17,12 @@ import authGuard from "./HOCs/authGuard.js";
 import { AddUsers } from "./components/AddUsers/addUsers";
 // import { AlertComponent } from "./components/common/Alert/Alerts";
 import {ErrorBoundary} from 'react-error-boundary'
-const NormCheck = process.env.NODE_ENV == "development" ? React.lazy(() => import(/* webpackChunkName: "norm_check" */ './components/NormCheck/NormCheck')) : React.lazy(() => import(/* webpackChunkName: "/norm_check" */ './components/NormCheck/NormCheck'));
+
+const NormCheck = React.lazy(async () => {
+  let obj = await import(/* webpackChunkName: "norm_check" */ "./components/NormCheck/NormCheck")
+  return typeof obj.default === 'function'?obj:obj.default
+  }
+)
 
 const Approvals = React.lazy(async () => {
   let obj = await import(/* webpackChunkName: "approvals" */ "./components/Approvals/Approval")
