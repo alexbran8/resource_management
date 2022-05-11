@@ -38,7 +38,7 @@ query($month:String) {
 }
 `;
 
-export const InvoiceCheck = () => {
+const InvoiceCheck = () => {
     const classes = useStyles();
     const [selectedMonth, setSelectedMonth] = useState()
     const [monthList, setMonthList] = useState([])
@@ -258,3 +258,6 @@ export const InvoiceCheck = () => {
         </div >
     )
 }
+
+
+export default InvoiceCheck;
