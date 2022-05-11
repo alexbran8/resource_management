@@ -14,11 +14,19 @@ import { HashRouter, Route } from "react-router-dom";
 // import  SignUpForm  from './components/SignUp'
 import { config } from "./config"
 import authGuard from "./HOCs/authGuard.js";
-import { InvoiceCheck } from "./components/invoiceCheck/InvoiceCheck";
+
 import { AddUsers } from "./components/AddUsers/addUsers";
-import { AlertComponent } from "./components/common/Alert/Alerts";
+// import { AlertComponent } from "./components/common/Alert/Alerts";
 import {ErrorBoundary} from 'react-error-boundary'
-const NormCheck = process.env.NODE_ENV == "development" ? React.lazy(() => import(/* webpackChunkName: "pip" */ './components/NormCheck/NormCheck')) : React.lazy(() => import(/* webpackChunkName: "/pip" */ './components/NormCheck/NormCheck'));
+const NormCheck = process.env.NODE_ENV == "development" ? React.lazy(() => import(/* webpackChunkName: "norm_check" */ './components/NormCheck/NormCheck')) : React.lazy(() => import(/* webpackChunkName: "/norm_check" */ './components/NormCheck/NormCheck'));
+// const InvoiceCheck = process.env.NODE_ENV == "development" ? React.lazy(async () => import(/* webpackChunkName: "invoice_check" */ './components/invoiceCheck/InvoiceCheck')) : React.lazy(async () => import(/* webpackChunkName: "/invoice_check" */ './components/invoiceCheck/InvoiceCheck'));
+
+const InvoiceCheck = React.lazy(async () => {
+  let obj = await import("./components/invoiceCheck/InvoiceCheck")
+  return typeof obj.default === 'function'?obj:obj.default
+  }
+)
+
 
 function ErrorHandler({error}) {
   return (
