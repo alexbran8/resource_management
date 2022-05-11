@@ -390,7 +390,6 @@ const NormCheck = () => {
 
     return (
         <div className="main">
-            <h5>Prior to checking the below table please update the files using the following <a target="_blank" href="https://apps.gdceur.eecloud.dynamic.nsn-net.net/tools/">application</a> (soon to be integrated here!!!)</h5>
             <div className="tableHeader">
                 <div className="filterContainer">
                     <form
@@ -401,7 +400,10 @@ const NormCheck = () => {
                         }}
                     >
                         <>
-                        {showModal ? <UploadModal /> : null}
+                        {showModal ? 
+                        <UploadModal
+                        handleModal={toggleUploadModal}
+                         /> : null}
                             {/* FIXME:  make upload button inline*/}
                             <Button color="primary"
                                 disabled={false}

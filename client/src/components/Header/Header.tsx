@@ -153,7 +153,24 @@ export const Header = () => {
           authenticated: false,
           error: "Failed to authenticate user"
         });
-        console.log(error)
+        console.log(error);
+        console.log('could nou auth');
+        dispatch({
+          type: AUTH_ERROR,
+          // payload: {
+          //   role: responseJson.user.roles,
+          //   userName: responseJson.user.userName,
+          //   name: responseJson.user.first_name,
+          //   email: responseJson.user.email
+          // },
+
+        });
+        sessionStorage.removeItem('exp')
+        sessionStorage.removeItem('userName')
+        sessionStorage.removeItem('userEmail')
+        sessionStorage.removeItem('name')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('roles')
       });
   }
 

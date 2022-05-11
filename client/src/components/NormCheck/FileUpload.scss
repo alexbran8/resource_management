@@ -1,0 +1,47 @@
+.process-status-container {
+    // border: 0.5px solid #3f51b5;
+    border-radius: 50%;
+    background-color: #3f51b5;
+    padding: 0.5em;
+    width: 150px;
+    height: 150px;
+    margin: 1em auto 1em auto;
+    display: grid;
+    place-items: center;
+  }
+  
+  .circular-chart .text {
+    color: #fff ;
+    fill: #3f51b5;
+    font-size: 0.5em;
+  }
+  
+  .traitment-container .btn {
+    width: 25em;
+    height: 4rem;
+  }
+  
+  
+  
+  .circular-chart {
+      display: block;
+      margin: 10px auto;
+      max-width: 80%;
+      max-height: 250px;
+      display: grid;
+      place-items: center;
+    }
+    
+    .circle {
+      stroke: #4CC790;
+      fill: none;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      animation: progress 1s ease-out forwards;
+    }
+    
+    @keyframes progress {
+      0% {
+        stroke-dasharray: 0 100;
+      }
+    }

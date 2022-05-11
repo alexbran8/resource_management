@@ -45,7 +45,15 @@ export default (state = DEFAULT_STATE, action) => {
         errorMessage: "",
       };
     case AUTH_ERROR:
-      return { ...state, errorMessage: action.payload };
+      return { ...state, 
+        isAuthenticated: false,
+        user:undefined,
+        access_token: undefined,
+        useName:undefined,
+        name: undefined,
+        email:undefined,
+        role: undefined,
+        errorMessage: action.payload };
     default:
       return state;
   }
