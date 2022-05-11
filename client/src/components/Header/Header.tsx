@@ -163,7 +163,6 @@ export const Header = () => {
           //   name: responseJson.user.first_name,
           //   email: responseJson.user.email
           // },
-
         });
         sessionStorage.removeItem('exp')
         sessionStorage.removeItem('userName')

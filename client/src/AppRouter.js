@@ -3,7 +3,7 @@ import { HomePage } from "./components/HomePage/HomePage";
 import { Header } from "./components/Header/Header";
 import { RequestParent } from "./components/Request/RequestParent";
 import {Approvals} from "./components/approval.tsx";
-import NormCheck from './components/NormCheck/NormCheck'
+
 import Exports from './components/Exports/Exports'
 import LoginError from "./components/LoginError";
 import Calendar from './components/Calendar'
@@ -18,7 +18,7 @@ import { InvoiceCheck } from "./components/invoiceCheck/InvoiceCheck";
 import { AddUsers } from "./components/AddUsers/addUsers";
 import { AlertComponent } from "./components/common/Alert/Alerts";
 import {ErrorBoundary} from 'react-error-boundary'
-
+const NormCheck = process.env.NODE_ENV == "development" ? React.lazy(() => import(/* webpackChunkName: "pip" */ './components/NormCheck/NormCheck')) : React.lazy(() => import(/* webpackChunkName: "/pip" */ './components/NormCheck/NormCheck'));
 
 function ErrorHandler({error}) {
   return (
@@ -35,6 +35,7 @@ export const AppRouter = () => {
     <HashRouter  >
        <Header basename={config.baseLOCATION} />
       <ErrorBoundary FallbackComponent={ErrorHandler}>
+      <React.Suspense fallback={<h1>Loading...</h1>}>
       {/* <AlertComponent
         messages={[{ message: 'navbar has been updated', type: 'success' }, 
         { message: 'alert bar updated', type: 'success' },
@@ -54,6 +55,7 @@ export const AppRouter = () => {
       <Route path={"/howto"} component={authGuard(HowTo)} />
       <Route path={"/invoicecheck"} component={authGuard(InvoiceCheck)} />
       {/* <Route  path={"/invoicecheck"} component={authGuard(InvoiceCheckTool)} /> */}
+      </React.Suspense>
       </ErrorBoundary>
     </HashRouter>
   );
