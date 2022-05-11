@@ -22,7 +22,7 @@ const NormCheck = process.env.NODE_ENV == "development" ? React.lazy(() => impor
 // const InvoiceCheck = process.env.NODE_ENV == "development" ? React.lazy(async () => import(/* webpackChunkName: "invoice_check" */ './components/invoiceCheck/InvoiceCheck')) : React.lazy(async () => import(/* webpackChunkName: "/invoice_check" */ './components/invoiceCheck/InvoiceCheck'));
 
 const InvoiceCheck = React.lazy(async () => {
-  let obj = await import("./components/invoiceCheck/InvoiceCheck")
+  let obj = await import(/* webpackChunkName: "invoice_check" */ "./components/invoiceCheck/InvoiceCheck")
   return typeof obj.default === 'function'?obj:obj.default
   }
 )
