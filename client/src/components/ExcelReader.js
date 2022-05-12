@@ -88,20 +88,21 @@ class ExcelReader extends Component {
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, {
-        header: 0,
+        header: 1,
         defval: "",
         raw: false,
         dateNF: 'YYYY-MM-DD'
       }
 
       );
-      let filteredData = data.filter(data => data.Etat == 'A réaliser')
+      console.log('data to be sent is', data)
+      this.props.saveFunction(data)
       /* Update state */
-      this.setState({ data: filteredData, cols: make_cols(ws['!ref']) }, () => {
-        this.appendProjectName();
-        this.sendData(this.state.data);
-        //console.log(JSON.stringify(this.state.data, null, 2));
-      });
+      // this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
+      //   this.appendProjectName();
+      //   // this.sendData(this.state.data);
+      //   //console.log(JSON.stringify(this.state.data, null, 2));
+      // });
 
     };
 
@@ -116,17 +117,14 @@ class ExcelReader extends Component {
     return (
 
       <div>
-        <Button className="button"
-          onClick={() => this.handleModalShowHide()}>
-          Upload your XLSX planning file
-        </Button>
-        <Container fluid>
-          <Modal className="bootstrap-modal" show={this.state.showHide}>
+
+        {/* <Container fluid> */}
+          {/* <Modal className="bootstrap-modal" show={this.state.showHide}>
             <Modal.Header closeButton onClick={() => this.handleModalShowHide()}>
               <Modal.Title>Upload Page</Modal.Title>
             </Modal.Header>
 
-            <Modal.Body>
+            <Modal.Body> */}
               <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
               {this.state.isLoading === true ? <div className="alert alert-info" role="alert">File is being imported...</div> :
                 <div>
@@ -135,19 +133,13 @@ class ExcelReader extends Component {
                   <div> {this.state.messageData.existing >= 0 ? <div className="alert alert-warning" role="alert">existing items: {this.state.messageData.existing}</div> : null} </div>
                 </div>
               }
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => this.handleModalShowHide()}>
-                Close
-              </Button>
-              <Button variant="primary"
-                onClick={() => { this.handleFile() }}
+
+<Button variant="primary"
+                onClick={() => { this.handleFile(this.state.data); console.log(this.state.file) }}
               >
                 Confirm
               </Button>
-            </Modal.Footer>
-          </Modal>
-        </Container>
+        {/* </Container> */}
       </div>
 
     )

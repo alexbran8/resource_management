@@ -8,6 +8,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import XLSX from 'xlsx';
 import "./FileUpload.scss";
 
+import ExcelReader from '../ExcelReader';
+
 function getModalStyle() {
     return {
       width: '80%',
@@ -41,7 +43,7 @@ function getModalStyle() {
 
 
 export const UploadModal = (props) => {
-  const [processStatus, setProcessStatus] = useState(24);
+  const [processStatus, setProcessStatus] = useState(3);
   const [progress, setProgress] = useState(0);
   const [files, setFiles] = useState([]);
 
@@ -55,54 +57,41 @@ export const UploadModal = (props) => {
     };
 
     const handleFile = (file) => {
+      console.log(file)
+      let newFile = file.name
       /* Boilerplate to set up FileReader */
       const reader = new FileReader();
       const rABS = !!reader.readAsBinaryString;
-  
-      reader.onload = (e) => {
-        /* Parse data */
-        const bstr = e.target.result;
-        const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA: false, cellDates: true });
-        /* Get first worksheet */
+
+
+      reader.onload = (evt) => {
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, { type: "binary" });
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws, {
-          header: 0,
-          defval: "",
-          raw: false,
-          dateNF: 'YYYY-MM-DD'
-        }
-  
-        );
-        
-        /* Update state */
-        console.log({data})
-        saveToDb(data)
-        // this.setState({ data: filteredData, cols: make_cols(ws['!ref']) }, () => {
-        //   this.appendProjectName();
-        //   this.sendData(this.state.data);
-        //   //console.log(JSON.stringify(this.state.data, null, 2));
-        // });
-  
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+        console.log(data);
       };
-  
-      // if (rABS) {
-      //   reader.readAsBinaryString(file);
-      // } else {
-      //   reader.readAsArrayBuffer(file);
-      // };
-    }
+      reader.readAsBinaryString(newFile);
+    
 
-    const processFiles = () => {
-      console.log(files)
-      files.forEach(file => 
-        handleFile(file)
-      )
-  }
+    console.log(data)
+  };
+  
+    
 
     const saveToDb = (file) => {
-      console.log({file})
+      try {
+      var newProgress = progress
+      console.log('this is the file data', file)
+      newProgress++;
+      setProgress(newProgress);
+      }
+      catch(error)  {
+        console.log('there has been an error', error)
+        console.log(error.message)
+        setStatus(error.message)
+    }
     }
 
     const handleZip = (zipFile) => {
@@ -111,21 +100,24 @@ export const UploadModal = (props) => {
             .then(function (zip) {
                 var newProgress = progress
                 Object.keys(zip.files).forEach((file, index) => {
-                    zip.files[file].async('string').then(function (fileData) {
-                      console.log(fileData)
+                  handleFile(zip.files[file])
 
-                        // check if file exists in object if not add them
-                        if (files.find(item => item.fileName === file) === undefined) {
-                            //if not add file to archive
-                            var updatedResults = [];
-                            let updatedFiles = []
-                            files.push({ fileName: file, content: fileData, status: 'read-from-client' });
-                            updatedFiles = [...files];
-                            newProgress++;
-                            setProgress(newProgress);
-                            setFiles(updatedFiles);
-                        }
-                    })
+
+                  
+                    // zip.files[file].async('string').then(function (fileData) {
+                    //   handleFile(file)
+                    //     // check if file exists in object if not add them
+                    //     if (files.find(item => item.fileName === file) === undefined) {
+                    //         //if not add file to archive
+                    //         var updatedResults = [];
+                    //         let updatedFiles = []
+                    //         files.push({ fileName: file, content: fileData, status: 'read-from-client' });
+                    //         updatedFiles = [...files];
+                    //         newProgress++;
+                    //         setProgress(newProgress);
+                    //         setFiles(updatedFiles);
+                    //     }
+                    // })
                 })
             })
             .catch(error => {
@@ -141,15 +133,15 @@ export const UploadModal = (props) => {
          <button className={classes.button} type="button" onClick={props.handleModal}>
             <CloseIcon />
           </button>         
-
-          <ReactFileReader multipleFiles={false} fileTypes={[".zip"]} handleFiles={handleZip}>
+          <ExcelReader
+          saveFunction={saveToDb} />
+          {/* <ReactFileReader multipleFiles={false} fileTypes={[".zip"]} handleFiles={handleZip}>
                 <Button color="primary" variant="contained">Upload ZIP</Button>
-            </ReactFileReader>
+            </ReactFileReader> */}
 
             <svg viewBox="0 0 36 36" className="circular-chart">
                         {/* <div className="text"> {processStatus !== 0 ? (progress / processStatus * 100).toFixed(1) + '%' : 'waiting for files'}</div> */}
                         <text x="50%" y="60%" text-anchor="middle"  className="text">{processStatus !== 0 ? (progress / processStatus * 100).toFixed(1) + '%' : 'waiting for files'}</text>
-
                         <path class="circle"
                             stroke-dasharray={`${progress / processStatus * 100}, ${100}`}
                             d="M18 2.0945
@@ -157,10 +149,6 @@ export const UploadModal = (props) => {
                                 a 15.9155 15.9155 0 0 1 0 -31.831"
                         />
                     </svg>
-
-                    <button className={classes.button} type="button" onClick={() =>{processFiles()}} />
-
-
         </div>
     )
 
