@@ -25,7 +25,7 @@ const NormCheck = React.lazy(async () => {
 )
 
 const Approvals = React.lazy(async () => {
-  let obj = await import(/* webpackChunkName: "approvals" */ "./components/Approvals/Approval")
+  let obj = await import(/* webpackChunkName: "approval_component" */ "./components/Approvals/Approval")
   return typeof obj.default === 'function'?obj:obj.default
   }
 )
