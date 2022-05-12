@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, createRef } from "react";
 import Axios from "axios";
-import { config } from "../config";
+import { config } from "../../config";
 import { useSelector } from "react-redux";
 var moment = require("moment");
 
