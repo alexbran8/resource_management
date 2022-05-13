@@ -125,7 +125,14 @@ class ExcelReader extends Component {
             </Modal.Header>
 
             <Modal.Body> */}
+            <div className="inline-container">
               <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
+              <Button variant="primary"
+                onClick={() => { this.handleFile(this.state.data); console.log(this.state.file) }}
+              >
+                Confirm
+              </Button>
+              </div>
               {this.state.isLoading === true ? <div className="alert alert-info" role="alert">File is being imported...</div> :
                 <div>
                   <div >{this.state.messageData.message ? <div className="alert alert-warning" role="alert">{this.state.messageData.message}</div> : null}</div>
@@ -134,11 +141,7 @@ class ExcelReader extends Component {
                 </div>
               }
 
-<Button variant="primary"
-                onClick={() => { this.handleFile(this.state.data); console.log(this.state.file) }}
-              >
-                Confirm
-              </Button>
+
         {/* </Container> */}
       </div>
 
