@@ -6,7 +6,7 @@ var moment = require("moment");
 
 import "./Approval.scss"
 
-export const Approvals = () => {
+const Approvals = () => {
   const user = useSelector((state) => ({ auth: state.auth }));
   const [state, setState] = useState({ events: [], ids: [], monthList: [] })
   const [events, setEvents] = useState([])
@@ -245,3 +245,5 @@ export const Approvals = () => {
     </div>
   );
 }
+
+export default Approvals;
