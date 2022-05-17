@@ -16,7 +16,7 @@ var config = {
     // Azure Application details
     base: process.env.AAD_AUTH_URL || 'https://login.microsoftonline.com/',
     clientID: process.env.AAD_AUTH_CLIENTID || 'ae919e4c-3cba-44d7-80d6-f94ea0898d7d',
-    clientSecret: process.env.AAD_AUTH_CLIENTSECRET || 'khk7Q~uWLrWBtqArp2L6_EZCaUrNSp7x2hjv2',
+    clientSecret: process.env.AAD_AUTH_CLIENTSECRET || '3468Q~asOKu2EViNzg-gIlcF6FZQ4JkLY9KEibUd',
     callbackUri: hostUrl + '/auth/cbAdfs',
     resource: process.env.MS_GRAPH_URL || 'https://graph.microsoft.com/',
     tenant: process.env.AAD_AUTH_TENANT || '5d471751-9675-428d-917b-70f44f9630b0'

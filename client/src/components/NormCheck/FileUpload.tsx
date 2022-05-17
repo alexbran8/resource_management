@@ -7,7 +7,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import XLSX from 'xlsx';
 import "./FileUpload.scss";
-
+import { useMutation, useQuery, gql } from "@apollo/client";
 import ExcelReader from '../ExcelReader';
 
 function getModalStyle() {
@@ -40,7 +40,14 @@ function getModalStyle() {
     }),
   );
 
-
+  const SAVE_FILE_DB = gql`
+  mutation ($data: [capacityFile]) {
+    saveFile (data:$data){
+        success
+        message
+      }
+  }
+`;
 
 export const UploadModal = (props) => {
   const [processStatus, setProcessStatus] = useState(3);
@@ -48,44 +55,42 @@ export const UploadModal = (props) => {
   const [files, setFiles] = useState([]);
 
     const classes = useStyles();
-
-    const [modalStyle] = React.useState(getModalStyle);
-    const make_cols = refstr => {
-      let o = [], C = XLSX.utils.decode_range(refstr).e.c + 1;
-      for (var i = 0; i < C; ++i) o[i] = { name: XLSX.utils.encode_col(i), key: i }
-      return o;
-    };
-
-    const handleFile = (file) => {
-      console.log(file)
-      let newFile = file.name
-      /* Boilerplate to set up FileReader */
-      const reader = new FileReader();
-      const rABS = !!reader.readAsBinaryString;
-
-
-      reader.onload = (evt) => {
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        console.log(data);
-      };
-      reader.readAsBinaryString(newFile);
     
 
-    console.log(data)
-  };
-  
+    const [modalStyle] = React.useState(getModalStyle);
+
+    const [saveDataToDataBase] = useMutation(SAVE_FILE_DB, {
+      onCompleted: (data) => {
+        var newProgress = progress
+        console.log('this is the file data', file)
+        newProgress++;
+        setProgress(newProgress);
+      },
+      onError: (error) => { console.error("Error creating a post", error); alert("Error creating a post request " + error.message) },
+  });
+    
+
+  function selectFewerProps(show){
+    const {id, project} = show;
+    return {id, project};
+  }
     
 
     const saveToDb = (file) => {
       try {
-      var newProgress = progress
-      console.log('this is the file data', file)
-      newProgress++;
-      setProgress(newProgress);
+        if (file) {
+          
+          let file2 = file.map(selectFewerProps)
+          console.log(file2)
+          saveDataToDataBase({
+              variables: {
+                  data: file2
+              }
+          }
+          )
+      }
+      else { alert("error, no file has been imported...") }
+ 
       }
       catch(error)  {
         console.log('there has been an error', error)
@@ -94,39 +99,7 @@ export const UploadModal = (props) => {
     }
     }
 
-    const handleZip = (zipFile) => {
-        const zip = new JSZip();
-        zip.loadAsync(zipFile[0])
-            .then(function (zip) {
-                var newProgress = progress
-                Object.keys(zip.files).forEach((file, index) => {
-                  handleFile(zip.files[file])
-
-
-                  
-                    // zip.files[file].async('string').then(function (fileData) {
-                    //   handleFile(file)
-                    //     // check if file exists in object if not add them
-                    //     if (files.find(item => item.fileName === file) === undefined) {
-                    //         //if not add file to archive
-                    //         var updatedResults = [];
-                    //         let updatedFiles = []
-                    //         files.push({ fileName: file, content: fileData, status: 'read-from-client' });
-                    //         updatedFiles = [...files];
-                    //         newProgress++;
-                    //         setProgress(newProgress);
-                    //         setFiles(updatedFiles);
-                    //     }
-                    // })
-                })
-            })
-            .catch(error => {
-                console.log('there has been an error', error)
-                console.log(error.message)
-                setStatus(error.message)
-            })
-    }
-
+    
     const body = (
         <div style={modalStyle} className={classes.paper}>
 

@@ -88,7 +88,7 @@ class ExcelReader extends Component {
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, {
-        header: 1,
+        // header: 1,
         defval: "",
         raw: false,
         dateNF: 'YYYY-MM-DD'
