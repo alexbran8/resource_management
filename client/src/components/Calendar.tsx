@@ -215,19 +215,27 @@ const Calendar = () => {
   };
 
   const deleteItem = (schedulerData, event) => {
+    let data = {
+      ids: [event.id],
+      status: 'L0'
+    };
     if (sessionStorage.getItem('roles') === "L3") {
       if (
         window.confirm(
           `Are you sure you want to delete: ${event.title}  assigned to ${event.name} with ${event.replacement} as replacement?`
         )
       )
-        console.log(schedulerData)
-      schedulerData.removeEvent(event);
-      Axios.delete(`${config.baseURL + config.baseLOCATION}/schedule/delete/${event.id}`, { withCredentials: true });
+      
 
-      setViewModal2(schedulerData);
-      setCount(1)
-      console.log(schedulerData)
+      Axios.post(`${config.baseURL + config.baseLOCATION}/schedule/delete`, data, { withCredentials: true })
+        .then(response => {
+          schedulerData.removeEvent(event);
+          setViewModal2(schedulerData);
+          setCount(1);
+        })
+        .catch(error => {
+          alert(`There has been an error!${alert}`);
+        })
     } else {
       return;
     }
