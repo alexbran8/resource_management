@@ -411,7 +411,7 @@ ScheduleController.post("/delete", async (req, res, next) => {
             item.createdBy,
             item.start,
             item.end,
-            "APPROVAL"
+            "DELETE"
           )
         }
         )
