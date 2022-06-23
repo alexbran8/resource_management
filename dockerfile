@@ -15,13 +15,13 @@ RUN pwd
 
 RUN rm -rf node_modules
 RUN npm install -g npm@latest
-RUN npm install  cross-env
+RUN npm install  --save-dev  cross-env
 RUN npm run dev
 
 # backend
 WORKDIR /opt/app/server
 RUN npm install
-RUN npm install cross-env
+RUN npm install --save-dev cross-env
 RUN npm install pm2 -g
 
 # start server
