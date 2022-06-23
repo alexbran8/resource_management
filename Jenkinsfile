@@ -12,6 +12,10 @@ node {
             sh 'git log HEAD^..HEAD --pretty="%h %an - %s" > GIT_CHANGES'
             def lastChanges = readFile('GIT_CHANGES')
 
+                dir('/apps/env'){
+                sh "cp .npt_env /apps/npt/.env"
+            }
+
         stage 'Test'
             sh 'echo "test implementation in progress"'
             // sh '. env/bin/activate'

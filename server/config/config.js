@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+require('dotenv').config({ path: '../.env' });
 /* 
  * create a `.env` file with environment variables in order to laod at runtime.
 */
