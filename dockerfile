@@ -1,8 +1,10 @@
 # Dockerfile
 FROM node:16.13.2
+
 # copy source and install dependencies
 RUN mkdir -p /opt/app
 RUN cd ..
+
 # COPY start-server.sh /opt/app/
 # COPY build.sh /opt/app/
 COPY . /opt/app/
@@ -19,7 +21,7 @@ RUN npm run dev
 # backend
 WORKDIR /opt/app/server
 RUN npm install
-RUN npm install --save-dev cross-env
+RUN npm install cross-env
 RUN npm install pm2 -g
 
 # start server
