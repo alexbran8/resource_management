@@ -5,6 +5,14 @@ $bg-color: #424242;
 $muted-color: mix(white, $bg-color, 70%);
 $button-color: #424242;
 
+.dev-env{
+  position: fixed;
+  top: 50%; left: 0;
+  transform: translate(calc(50vw - 50%));
+  font-size: 5rem;
+  color: red;
+}
+
 //first things first
 body {
   padding-top: 100px;

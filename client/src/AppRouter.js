@@ -59,6 +59,7 @@ export const AppRouter = () => {
         //  { message: '[planned update] review form options', type: 'info' }
         ]}
       /> */}
+      {window.location.href.includes('dev')? <div className="dev-env">DEV ENV</div> :null}
       <Route exact path={"/"} component={HomePage} />
       <Route exact path={"/error"} component={LoginError} />
       <Route path={"/normcheck/"} component={authGuard(NormCheck)} />
