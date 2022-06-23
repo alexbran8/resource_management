@@ -14,7 +14,7 @@ RUN ls -l
 RUN pwd
 
 RUN rm -rf node_modules
-RUN package-lock.json yarn.lock
+RUN rm package-lock.json yarn.lock
 RUN npm install  --save-dev  cross-env
 RUN npm install -g npm@latest
 RUN npm run dev
