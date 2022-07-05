@@ -13,6 +13,7 @@ node {
             def lastChanges = readFile('GIT_CHANGES')
 
                 dir('/apps/env'){
+                sh "ls -a"
                 sh "cp .npt_env /apps/npt/.env"
             }
 
