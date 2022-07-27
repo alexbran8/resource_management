@@ -2,3 +2,13 @@
     text-align: center;
     font-size: 1.5em;
 }
+
+.grid{
+    display: grid;
+    
+    grid-template-columns: auto auto;
+}
+
+.grid-child {
+    border: 2px solid black;
+}

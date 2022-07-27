@@ -50,22 +50,22 @@ const Exports = () => {
   // })
 
   useEffect(() => {
-   getData1()
-   .then(res=> getData2())
-   .then(res=>getData3())
-   .then(res=>getData4())
-   .then(res=>getData5())
-   .then(res=>getData6())
-  //  then(
-  //  res => getData2()
-  //  ).then (   getData3())
-  //  .then(
-  //  getData4()
-  //  )
-  //  getData5();
-  //  getData6();
-  //  .then(res => {getData2()} )
-  //  .then(res => {getData3()})
+    getData1()
+      .then(res => getData2())
+      .then(res => getData3())
+      .then(res => getData4())
+      .then(res => getData5())
+      .then(res => getData6())
+    //  then(
+    //  res => getData2()
+    //  ).then (   getData3())
+    //  .then(
+    //  getData4()
+    //  )
+    //  getData5();
+    //  getData6();
+    //  .then(res => {getData2()} )
+    //  .then(res => {getData3()})
 
   }, [])
 
@@ -73,8 +73,9 @@ const Exports = () => {
     await apiclient.query({
       query: GET_EH,
       variables: { type: `'On Call'`, employeer: `'Deltatel'` }
-    }).then(data => {console.log(data)
-    setTableData(data.data.getExtraHours)
+    }).then(data => {
+      console.log(data)
+      setTableData(data.data.getExtraHours)
     }
     )
   }
@@ -90,14 +91,14 @@ const Exports = () => {
     await apiclient.query({
       query: GET_EH,
       variables: { type: `'Hotline'`, employeer: `'Connect 44'` }
-    }).then(data => {setTableData3(data.data.getExtraHours)})
+    }).then(data => { setTableData3(data.data.getExtraHours) })
   }
-  
+
   const getData4 = async () => {
     await apiclient.query({
       query: GET_EH,
       variables: { type: `'On Call'`, employeer: `'Connect 44'` }
-    }).then(data => {setTableData4(data.data.getExtraHours); console.log(data)})
+    }).then(data => { setTableData4(data.data.getExtraHours); console.log(data) })
   }
   const getData5 = async () => {
     let data = await apiclient.query({
@@ -118,72 +119,73 @@ const Exports = () => {
   return (<>
     {user.auth.role == 'L3' ?
       <>
-<div className='table-heading'><b>{`${user.auth.name}`}</b>, please find belore the list with all requests:</div>
-<div>
-        <DynamicTable
-          userName={user.auth.name}
-          // define query as props
-          tableToQuery='extra-hours'
-          tableData={tableData}
+        <div className='table-heading'><b>{`${user.auth.name}`}</b>, please find belore the list with all requests:</div>
+        <div className='grid'>
+          <DynamicTable
+            className="grid-child"
+            userName={user.auth.name}
+            // define query as props
+            tableToQuery='extra-hours'
+            tableData={tableData}
 
-        //define filter as props
+          //define filter as props
 
-        />
-        </div>
-        <div>
-        <DynamicTable
-          userName={user.auth.name}
-          // define query as props
-          tableToQuery='extra-hours'
-          tableData={tableData2}
+          />
 
-        //define filter as props
+          <DynamicTable
+            className="grid-child"
+            userName={user.auth.name}
+            // define query as props
+            tableToQuery='extra-hours'
+            tableData={tableData2}
 
-        />
-        </div>
-        <div>
-        <DynamicTable
-          userName={user.auth.name}
-          // define query as props
-          tableToQuery='extra-hours'
-          tableData={tableData3}
+          //define filter as props
 
-        //define filter as props
+          />
 
-        />
-        </div>
-        <div>
-        <DynamicTable
-          userName={user.auth.name}
-          // define query as props
-          tableToQuery='extra-hours'
-          tableData={tableData4}
+          <DynamicTable
+            className="grid-child"
+            userName={user.auth.name}
+            // define query as props
+            tableToQuery='extra-hours'
+            tableData={tableData3}
 
-        //define filter as props
+          //define filter as props
 
-        />
-        </div>
-        <div>
-        <DynamicTable
-          userName={user.auth.name}
-          // define query as props
-          tableToQuery='extra-hours'
-          tableData={tableData5}
+          />
 
-        //define filter as props
+          <DynamicTable
+            
+            userName={user.auth.name}
+            // define query as props
+            tableToQuery='extra-hours'
+            tableData={tableData4}
 
-        />
-        </div>
-        <div>
-        <DynamicTable
-          userName={user.auth.name}
-          // define query as props
-          tableToQuery='extra-hours'
-          tableData={tableData6}
+          //define filter as props
 
-        //define filter as props
+          />
 
-        />
+          <DynamicTable
+            className="grid-child"
+            userName={user.auth.name}
+            // define query as props
+            tableToQuery='extra-hours'
+            tableData={tableData5}
+
+          //define filter as props
+
+          />
+
+          <DynamicTable
+            className="grid-child"
+            userName={user.auth.name}
+            // define query as props
+            tableToQuery='extra-hours'
+            tableData={tableData6}
+
+          //define filter as props
+
+          />
         </div>
       </>
       :
