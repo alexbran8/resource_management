@@ -6,20 +6,59 @@ const {
 
 
 module.exports = {
-Query: {
-  async getExtraHours(root, args, context) {
-    let result = await db.ExtraHours.findAll({
-      // where: { [Op.and]: [dateFilter, weekFilter, incidentFilter, statusFilter, siteFilter, responsibleFilter, taskFilter] },
-      // limit: firstFilter,
-      order: [
-        ['date', 'DESC'],
+  Query: {
+    async getExtraHours(root, args, context) {
+console.log(args)
+      let monthValue = 7
+      let yearValue = 2022
+      let allTypesToQuery = `'On Call', 'Hotline'`
 
-      ]
-    });
-    await console.log(result)
-    return result;
-  }
-},
+      let prepareTables = await db.sequelize.query(`
+    DROP TABLE IF EXISTS decalate_unpivoted;
+    select final.upi, final.engineer, final.type, SUM(days) days, employeer, final.week
+INTO decalate_unpivoted
+FROM ( 
+select *, ROW_NUMBER () OVER (
+	    PARTITION BY upi 
+	) rank_number FROM (
+select 
+employees.upi, lastname || ', '|| firstname AS Engineer,
+events.type, events.start, events.end,
+DATE_PART('day', events."end" - events.start) + 2  as DAYS, employees.employeer, 
+employees.activity, 
+EXTRACT(week FROM events.start) +1 as week,  'initial' as "whereFrom"  FROM (
+(SELECT events.start, events."end", events.nokiaid, events.title, events."bgColor", events.type, events.status, events.replacement, events."createdBy", events.id
+	FROM public.events 
+ where 
+ events.type in (`+ allTypesToQuery + `) 
+ and  
+ extract(month from events.start) = `+ monthValue + `
+ and
+ extract(year from events.start) = `+ yearValue + `
+--and not events.id in (select id from public.schfited_schedule_processed )
+) as events
+LEFT JOIN 
+(SELECT employees.firstname, employees.lastname, employees.upi, employees.activity,  employees.employeer, nokiaid from public.employees) as employees
+ON events.nokiaid = employees.nokiaid) 
+	)  as test ) as final
+  where employeer = ` + args.employeer + `
+	GROUP BY final.upi, final.engineer, final.type, final.week, final."whereFrom", final.employeer order by upi, type`
+
+      )
+
+      let result = await db.sequelize.query(`select * from crosstab (
+      'select upi, engineer, type, employeer,  week, case when 	days >1 then ''X''  else NULL end from decalate_unpivoted where type ='` + args.type + `' group by 2,1,3,4,5,6 order by 1,2',
+      'VALUES(''28''), (''29''), (''30''), (''31'')'
+      )
+      as newtable (
+      UPI varchar, Engineer varchar, type varchar,employeer varchar, week1 varchar,week2 varchar, week3 varchar, week4 varchar
+      );`
+
+      );
+      await console.log(result[0])
+      return result[0];
+    }
+  },
   Mutation: {
     async addExtraHours(root, args, context) {
       try {

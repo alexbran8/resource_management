@@ -1,0 +1,8 @@
+select * from crosstab (
+    'select upi, engineer, week, case when 	days >3 then x  else null end from decalate_unpivoted group by 1,2,3,4 order by 1,2',
+    'select distinct week from decalate_unpivoted order by 1'
+    )
+    as newtable (
+    UPI varchar, Engineer varchar,week1 integer,week2 varchar, week3 integer, week4 integer
+    );
+	

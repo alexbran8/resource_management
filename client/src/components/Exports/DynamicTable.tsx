@@ -12,13 +12,25 @@ export const DynamicTable = (props) => {
 
  return (
         <>
-            <div className='table-heading'><b>{`${props.userName}`}</b>, please find belore the list with all <i>{props && props.tableToQuery}</i> requests:</div>
-            <ul>
+            
+            <table>
+                <tbody>
                 {console.log(props.tableData)}
                 {props && props.tableData.map(item => {
-                    return <li>{item.date} {item.resource_email} {item.wbs} {item.duration}</li>
+                    return <tr>
+                        <td>{item.upi}</td> 
+                        <td>{item.engineer}</td> 
+                        <td>{item.type}</td> 
+                        <td>{item.week1}</td> 
+                        <td>{item.week2}</td> 
+                        <td>{item.week3}</td> 
+                        <td>{item.week4}</td> 
+                        <td>{item.employeer}</td>
+                        <td>{item.type}</td>
+                    </tr>
                 })}
-            </ul>
+                </tbody>
+            </table>
         </>
     )
 }
