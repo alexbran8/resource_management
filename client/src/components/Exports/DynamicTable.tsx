@@ -11,8 +11,8 @@ import { table } from 'console';
 export const DynamicTable = (props) => {
 
  return (
-        <>
-            
+        <div>
+            <h6>{props.tableData[0] && props.tableData[0].employeer + '-'+ props.tableData[0].type}</h6>    
             <table className="grid-child" id='approval-table'>
             
                 <thead>
@@ -24,8 +24,6 @@ export const DynamicTable = (props) => {
                         <th>WEEK 2</th>
                         <th>WEEK 3</th>
                         <th>WEEK 4</th>
-                        <th>EMPLOYEER</th>
-                        <th>TYPE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,14 +36,10 @@ export const DynamicTable = (props) => {
                         <td>{item.week2}</td> 
                         <td>{item.week3}</td> 
                         <td>{item.week4}</td> 
-                        <td>{item.employeer}</td>
-                        <td>{item.type}</td>
                     </tr>
                 })}
                 </tbody>
             </table>
-
-            {/* <h6>{props.tableData[0] && props.tableData[0].employeer}</h6>     */}
-        </>
+        </div>
     )
 }
