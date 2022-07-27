@@ -13,22 +13,22 @@ export const DynamicTable = (props) => {
  return (
         <>
             
-            <table className="grid-child">
+            <table className="grid-child" id='approval-table'>
+            
                 <thead>
                     <tr>
-                        <td>UPI</td>
-                        <td>Employee Name</td>
-                        <td>Activity</td>
-                        <td>WEEK 1</td>
-                        <td>WEEK 2</td>
-                        <td>WEEK 3</td>
-                        <td>WEEK 4</td>
-                        <td>EMPLOYEER</td>
-                        <td>TYPE</td>
+                        <th>UPI</th>
+                        <th>Employee Name</th>
+                        <th>Activity</th>
+                        <th>WEEK 1</th>
+                        <th>WEEK 2</th>
+                        <th>WEEK 3</th>
+                        <th>WEEK 4</th>
+                        <th>EMPLOYEER</th>
+                        <th>TYPE</th>
                     </tr>
                 </thead>
                 <tbody>
-                {console.log(props.tableData)}
                 {props && props.tableData.map(item => {
                     return <tr>
                         <td>{item.upi}</td> 
@@ -44,6 +44,8 @@ export const DynamicTable = (props) => {
                 })}
                 </tbody>
             </table>
+
+            {/* <h6>{props.tableData[0] && props.tableData[0].employeer}</h6>     */}
         </>
     )
 }

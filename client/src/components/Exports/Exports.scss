@@ -5,10 +5,11 @@
 
 .grid{
     display: grid;
-    
     grid-template-columns: auto auto;
+    margin: 20px;
 }
 
 .grid-child {
+    margin: 20px;
     border: 2px solid black;
 }
