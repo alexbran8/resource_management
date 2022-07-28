@@ -35,7 +35,7 @@ const Exports = () => {
   const [tableData6, setTableData6] = useState([])
   const [data1, setData1] = useState()
 
-  const weeks = ['28', '29', '30', '31', '32']
+  const weeks = ['27', '28', '29', '30', '31']
   // const { data, loading: loading, error: error } = useQuery(GET_EH, {
   //   // variables: { department: 'radio' },
   //   onCompleted: () => {
