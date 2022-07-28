@@ -133,7 +133,6 @@ const Exports = () => {
   return (<>
     {user.auth.role == 'L3' ?
       <>
-      {getWeek('07-01-2022')}
         <div className='table-heading'><b>{`${user.auth.name}`}</b>, please find belore the list with all requests:</div>
         <div className='grid'>
           <DynamicTable
