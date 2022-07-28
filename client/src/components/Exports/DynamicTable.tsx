@@ -20,10 +20,11 @@ export const DynamicTable = (props) => {
                         <th>UPI</th>
                         <th>Employee Name</th>
                         <th>Activity</th>
-                        <th>WEEK 1</th>
-                        <th>WEEK 2</th>
-                        <th>WEEK 3</th>
-                        <th>WEEK 4</th>
+                        <th>WEEK {props.weeks[0]}</th>
+                        <th>WEEK {props.weeks[1]}</th>
+                        <th>WEEK {props.weeks[2]}</th>
+                        <th>WEEK {props.weeks[3]}</th>
+                        <th>WEEK {props.weeks[4]}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,7 @@ export const DynamicTable = (props) => {
                         <td>{item.week2}</td> 
                         <td>{item.week3}</td> 
                         <td>{item.week4}</td> 
+                        <td>{item.week5}</td> 
                     </tr>
                 })}
                 </tbody>
