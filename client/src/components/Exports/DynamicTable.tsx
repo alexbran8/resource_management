@@ -39,8 +39,7 @@ const copyTable = (tableNo) => {
 }
  return (
         <div>
-            <h6>{props.tableData[0] && props.tableData[0].employeer + '-'+ props.tableData[0].type}</h6>    
-            <button onClick={()=>{copyTable(props.no)}}>Copy to table</button>
+            <button onClick={()=>{copyTable(props.no)}}>Copy {props.tableData[0] && props.tableData[0].employeer + '-'+ props.tableData[0].type}</button>
             <table className={`grid-child table${props.no}`} id="approval-table">
             
                 <thead>
