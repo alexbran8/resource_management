@@ -8,8 +8,8 @@ import { apiclient } from "../../";
 import { useEffect } from "react";
 
 const GET_EH = gql`
-  query ($department: String, $type: String, $employeer: String) { 
-    getExtraHours (department: $department type: $type, employeer: $employeer) {
+  query ($department: String, $type: String, $employeer: String, $month:Int, $year: Int) { 
+    getExtraHours (department: $department type: $type, employeer: $employeer, month:$month, year:$year) {
       upi
       engineer
       department
@@ -18,6 +18,7 @@ const GET_EH = gql`
       week3
       week3
       week4
+      week5
       employeer
       type
         }
@@ -33,6 +34,8 @@ const Exports = () => {
   const [tableData5, setTableData5] = useState([])
   const [tableData6, setTableData6] = useState([])
   const [data1, setData1] = useState()
+
+  const weeks = ['28', '29', '30', '31', '32']
   // const { data, loading: loading, error: error } = useQuery(GET_EH, {
   //   // variables: { department: 'radio' },
   //   onCompleted: () => {
@@ -48,6 +51,17 @@ const Exports = () => {
   //     console.log(error)
   //   }
   // })
+
+  const getWeek = (date) => {
+
+    const currentdate = new Date(date);
+    var oneJan = new Date(currentdate.getFullYear(), 0, 1);
+    var numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
+    var result = Math.ceil((currentdate.getDay() +7 + numberOfDays) / 7);
+    return((result - 1 + '-' + currentdate.getFullYear()))
+    // setSelectedWeek(result - 1 + '-' + currentdate.getFullYear())
+
+  }
 
   useEffect(() => {
     getData1()
@@ -119,9 +133,11 @@ const Exports = () => {
   return (<>
     {user.auth.role == 'L3' ?
       <>
+      {getWeek('07-01-2022')}
         <div className='table-heading'><b>{`${user.auth.name}`}</b>, please find belore the list with all requests:</div>
         <div className='grid'>
           <DynamicTable
+            weeks={weeks}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -133,6 +149,7 @@ const Exports = () => {
           />
 
           <DynamicTable
+            weeks={weeks}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -144,6 +161,7 @@ const Exports = () => {
           />
 
           <DynamicTable
+            weeks={weeks}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -155,7 +173,7 @@ const Exports = () => {
           />
 
           <DynamicTable
-            
+            weeks={weeks}
             userName={user.auth.name}
             // define query as props
             tableToQuery='extra-hours'
@@ -166,6 +184,7 @@ const Exports = () => {
           />
 
           <DynamicTable
+            weeks={weeks}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -177,6 +196,7 @@ const Exports = () => {
           />
 
           <DynamicTable
+            weeks={weeks}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
