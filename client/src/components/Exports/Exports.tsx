@@ -138,6 +138,7 @@ const Exports = () => {
         <div className='grid'>
           <DynamicTable
             weeks={weeks}
+            no={1}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -150,6 +151,7 @@ const Exports = () => {
 
           <DynamicTable
             weeks={weeks}
+            no={2}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -162,6 +164,7 @@ const Exports = () => {
 
           <DynamicTable
             weeks={weeks}
+            no={3}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -174,6 +177,7 @@ const Exports = () => {
 
           <DynamicTable
             weeks={weeks}
+            no={4}
             userName={user.auth.name}
             // define query as props
             tableToQuery='extra-hours'
@@ -185,6 +189,7 @@ const Exports = () => {
 
           <DynamicTable
             weeks={weeks}
+            no={5}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
@@ -197,6 +202,7 @@ const Exports = () => {
 
           <DynamicTable
             weeks={weeks}
+            no={6}
             className="grid-child"
             userName={user.auth.name}
             // define query as props
