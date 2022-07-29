@@ -37,6 +37,6 @@ extend type Mutation {
   }
 
 extend type Query {
-  getExtraHours(department:String, employeer: String, type: String, month: Int, year: Int):[schiftedScheduleType]
+  getExtraHours(department:String, employeer: String, type: String, month: Int, year: Int, firstWeek: Int):[schiftedScheduleType]
 }
 `

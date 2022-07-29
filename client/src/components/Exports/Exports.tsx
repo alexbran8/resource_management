@@ -12,8 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
 const GET_EH = gql`
-  query ($department: String, $type: String, $employeer: String, $month:Int, $year: Int) { 
-    getExtraHours (department: $department type: $type, employeer: $employeer, month:$month, year:$year) {
+  query ($department: String, $type: String, $employeer: String, $month:Int, $year: Int, $firstWeek: Int) { 
+    getExtraHours (department: $department type: $type, employeer: $employeer, month:$month, year:$year, firstWeek: $firstWeek) {
       upi
       engineer
       department
@@ -58,6 +58,7 @@ const Exports = () => {
   const [tableData4, setTableData4] = useState()
   const [tableData5, setTableData5] = useState()
   const [tableData6, setTableData6] = useState()
+  const [firstWeek, setFirstWeek]= useState()
   const [data1, setData1] = useState()
   const [monthList, setMonthList] = useState([])
   const [selectedMonth, setSelectedMonth] = useState()
@@ -79,32 +80,36 @@ const Exports = () => {
   //   }
   // })
 
-  const getWeek = (date) => {
-
-    const currentdate = new Date(date);
-    var oneJan = new Date(currentdate.getFullYear(), 0, 1);
+  const getWeek = (month) => {
+    console.log(parseInt(month.substring(0, 4)))
+    console.log(parseInt(month.substring(5, 7)))
+    const currentdate = new Date(parseInt(month.substring(0, 4)), parseInt(month.substring(5, 7)), 1);
+    
+    var oneJan = new Date(currentdate.getFullYear(), 1, 1);
     var numberOfDays = Math.floor((currentdate - oneJan) / (24 * 60 * 60 * 1000));
-    var result = Math.ceil((currentdate.getDay() +7 + numberOfDays) / 7);
-    return((result - 1 + '-' + currentdate.getFullYear()))
+    var result = Math.ceil((currentdate.getDay() + numberOfDays) / 7);
+    return (result + 1)
     // setSelectedWeek(result - 1 + '-' + currentdate.getFullYear())
 
   }
 
   const getAllDataQueries = (month) => {
-    getData1(month)
-    .then(res => getData2(month))
-    .then(res => getData3(month))
-    .then(res => getData4(month))
-    .then(res => getData5(month))
-    .then(res => getData6(month))
+    let firstWeek = getWeek(month)
+    setFirstWeek(firstWeek)
+    getData1(month, firstWeek)
+      .then(res => getData2(month, firstWeek))
+      .then(res => getData3(month, firstWeek))
+      .then(res => getData4(month, firstWeek))
+      .then(res => getData5(month, firstWeek))
+      .then(res => getData6(month, firstWeek))
   }
 
 
 
-  const getData1 = async (month) => {
+  const getData1 = async (month, firstWeek) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'Deltatel'`, year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
+      variables: { type: `'On Call'`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)), firstWeek: firstWeek }
     }).then(data => {
       console.log(data)
       setTableData(data.data.getExtraHours)
@@ -115,156 +120,157 @@ const Exports = () => {
   const getData2 = async (month) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'Deltatel'`,year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
+      variables: { type: `'Hotline'`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
     })
     setTableData2(data.data.getExtraHours)
   }
   const getData3 = async (month) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'Connect 44'`,year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
+      variables: { type: `'Hotline'`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
     }).then(data => { setTableData3(data.data.getExtraHours) })
   }
 
   const getData4 = async (month) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'Connect 44'`, year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
+      variables: { type: `'On Call'`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
     }).then(data => { setTableData4(data.data.getExtraHours); console.log(data) })
   }
   const getData5 = async (month) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'SII'`, year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
+      variables: { type: `'Hotline'`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
     })
     setTableData5(data.data.getExtraHours)
   }
   const getData6 = async (month) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'SII'`,year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
+      variables: { type: `'On Call'`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
     })
     setTableData6(data.data.getExtraHours)
   }
   const { data, error: get_months_error } = useQuery(GET_MONTHS, {
     onCompleted: () => {
-        console.log(data)
-        setMonthList(data.getMonthsQuery)
+      console.log(data)
+      setMonthList(data.getMonthsQuery)
     }
-});
+  });
 
   return (<>
     {user.auth.role == 'L3' ?
       <>
         <div className='table-heading'><b>{`${user.auth.name}`}</b>, please select year-month to fetch requests:</div>
         <div className="filters">
-                <Autocomplete
-                    id="combo-box-demo"
-                    options={monthList}
-                    noOptionsText={'Your Customized No Options Text'}
-                    getOptionLabel={(option) => option.month}
-                    style={{ width: 300 }}
-                    className={classes.textField}
-                    // onChange={(v) => {console.log(v.month);setSelectedMonth(v.month); getAllDataQueries(v.month)}}
-                    onInputChange={(event, newInputValue, reason) => {
-                      console.log(newInputValue)
-                      if (reason === 'clear') {
-         setTableData(null)
-         setTableData2(null)
-         setTableData3(null)
-         setTableData4(null)
-         setTableData5(null)
-         setTableData6(null)
-                      } else {
-                        console.log(newInputValue.month); getAllDataQueries(newInputValue)                      }
-                  }}
-                    renderInput={(params) => <TextField {...params}  label="select month" variant="outlined" />}
-                />
-            </div>
+          <Autocomplete
+            id="combo-box-demo"
+            options={monthList}
+            noOptionsText={'Your Customized No Options Text'}
+            getOptionLabel={(option) => option.month}
+            style={{ width: 300 }}
+            className={classes.textField}
+            // onChange={(v) => {console.log(v.month);setSelectedMonth(v.month); getAllDataQueries(v.month)}}
+            onInputChange={(event, newInputValue, reason) => {
+              console.log(newInputValue)
+              if (reason === 'clear') {
+                setTableData(null)
+                setTableData2(null)
+                setTableData3(null)
+                setTableData4(null)
+                setTableData5(null)
+                setTableData6(null)
+              } else {
+                console.log(newInputValue.month); getAllDataQueries(newInputValue)
+              }
+            }}
+            renderInput={(params) => <TextField {...params} label="select month" variant="outlined" />}
+          />
+        </div>
         <div className='grid'>
-          {tableData ? 
-          <DynamicTable
-            weeks={weeks}
-            no={1}
-            className="grid-child"
-            userName={user.auth.name}
-            // define query as props
-            tableToQuery='extra-hours'
-            tableData={tableData}
+          {tableData ?
+            <DynamicTable
+              weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={1}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData}
 
-          //define filter as props
+            //define filter as props
 
-          />
-          : null}
-          {tableData2 ? 
-          <DynamicTable
-            weeks={weeks}
-            no={2}
-            className="grid-child"
-            userName={user.auth.name}
-            // define query as props
-            tableToQuery='extra-hours'
-            tableData={tableData2}
+            />
+            : null}
+          {tableData2 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={2}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData2}
 
-          //define filter as props
+            //define filter as props
 
-          />
-          : null}
-          {tableData3 ? 
-          <DynamicTable
-            weeks={weeks}
-            no={3}
-            className="grid-child"
-            userName={user.auth.name}
-            // define query as props
-            tableToQuery='extra-hours'
-            tableData={tableData3}
+            />
+            : null}
+          {tableData3 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={3}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData3}
 
-          //define filter as props
+            //define filter as props
 
-          />
-          : null}
-          {tableData4 ? 
-          <DynamicTable
-            weeks={weeks}
-            no={4}
-            userName={user.auth.name}
-            // define query as props
-            tableToQuery='extra-hours'
-            tableData={tableData4}
+            />
+            : null}
+          {tableData4 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={4}
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData4}
 
-          //define filter as props
+            //define filter as props
 
-          />
-          : null}
-          {tableData5 ? 
-          <DynamicTable
-            weeks={weeks}
-            no={5}
-            className="grid-child"
-            userName={user.auth.name}
-            // define query as props
-            tableToQuery='extra-hours'
-            tableData={tableData5}
+            />
+            : null}
+          {tableData5 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={5}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData5}
 
-          //define filter as props
+            //define filter as props
 
-          />
-          : null}
-          {tableData6 ? 
-          <DynamicTable
-            weeks={weeks}
-            no={6}
-            className="grid-child"
-            userName={user.auth.name}
-            // define query as props
-            tableToQuery='extra-hours'
-            tableData={tableData6}
+            />
+            : null}
+          {tableData6 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={6}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData6}
 
-          //define filter as props
+            //define filter as props
 
-          />
-          : null}
+            />
+            : null}
         </div>
       </>
       :

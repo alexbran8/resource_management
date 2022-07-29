@@ -47,7 +47,7 @@ ON events.nokiaid = employees.nokiaid)
 
       let result = await db.sequelize.query(`select * from crosstab (
       'select upi, engineer, type, employeer,  week, case when 	days >1 then ''x''  else NULL end from decalate_unpivoted where type ='` + args.type + `' group by 2,1,3,4,5,6 order by 1,2',
-      'VALUES(''27''), (''28''), (''29''), (''30''), (''31'')'
+      'VALUES(''`+ args.firstWeek + `''), (''28''), (''29''), (''30''), (''31'')'
       )
       as newtable (
       UPI varchar, Engineer varchar, type varchar,employeer varchar, week1 varchar,week2 varchar, week3 varchar, week4 varchar, week5 varchar
