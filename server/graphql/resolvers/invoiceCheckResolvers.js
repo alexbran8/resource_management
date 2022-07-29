@@ -4,8 +4,8 @@ module.exports = {
 
   Query: {
     async getMonthsQuery(root, args, context) {
-      let result = await db.sequelize .query(`SELECT distinct to_char("Receive_Date", 'YYYY-MM') as "month"
-      FROM public.capacity order by month desc;`);
+      let result = await db.sequelize .query(`SELECT distinct to_char("start", 'YYYY-MM') as "month"
+      FROM public.events order by month desc;`);
       return result[0];
 
     },
