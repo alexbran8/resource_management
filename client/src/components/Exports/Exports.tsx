@@ -165,7 +165,19 @@ const Exports = () => {
                     getOptionLabel={(option) => option.month}
                     style={{ width: 300 }}
                     className={classes.textField}
-                    onChange={(e,v) => {console.log(v.month);setSelectedMonth(v.month); getAllDataQueries(v.month)}}
+                    // onChange={(v) => {console.log(v.month);setSelectedMonth(v.month); getAllDataQueries(v.month)}}
+                    onInputChange={(event, newInputValue, reason) => {
+                      console.log(newInputValue)
+                      if (reason === 'clear') {
+         setTableData(null)
+         setTableData2(null)
+         setTableData3(null)
+         setTableData4(null)
+         setTableData5(null)
+         setTableData6(null)
+                      } else {
+                        console.log(newInputValue.month); getAllDataQueries(newInputValue)                      }
+                  }}
                     renderInput={(params) => <TextField {...params}  label="select month" variant="outlined" />}
                 />
             </div>
