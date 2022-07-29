@@ -9,8 +9,7 @@ module.exports = {
   Query: {
     async getExtraHours(root, args, context) {
 console.log(args)
-      let monthValue = 7
-      let yearValue = 2022
+
       let allTypesToQuery = `'On Call', 'Hotline'`
 
       let prepareTables = await db.sequelize.query(`
@@ -32,9 +31,9 @@ EXTRACT(week FROM events.start) +1 as week,  'initial' as "whereFrom"  FROM (
  where 
  events.type in (`+ allTypesToQuery + `) 
  and  
- extract(month from events.start) = `+ monthValue + `
+ extract(month from events.start) = `+ args.month + `
  and
- extract(year from events.start) = `+ yearValue + `
+ extract(year from events.start) = `+ args.year + `
 --and not events.id in (select id from public.schfited_schedule_processed )
 ) as events
 LEFT JOIN 

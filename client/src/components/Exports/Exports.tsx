@@ -7,6 +7,10 @@ import "./Exports.scss"
 import { apiclient } from "../../";
 import { useEffect } from "react";
 
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+
 const GET_EH = gql`
   query ($department: String, $type: String, $employeer: String, $month:Int, $year: Int) { 
     getExtraHours (department: $department type: $type, employeer: $employeer, month:$month, year:$year) {
@@ -25,15 +29,38 @@ const GET_EH = gql`
   }
 `;
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
+const GET_MONTHS = gql`
+query { 
+  getMonthsQuery  {
+      month
+  }
+}
+`;
+
+
 const Exports = () => {
+  const classes = useStyles();
   const user = useSelector((state) => ({ auth: state.auth }));
-  const [tableData, setTableData] = useState([])
-  const [tableData2, setTableData2] = useState([])
-  const [tableData3, setTableData3] = useState([])
-  const [tableData4, setTableData4] = useState([])
-  const [tableData5, setTableData5] = useState([])
-  const [tableData6, setTableData6] = useState([])
+  const [tableData, setTableData] = useState()
+  const [tableData2, setTableData2] = useState()
+  const [tableData3, setTableData3] = useState()
+  const [tableData4, setTableData4] = useState()
+  const [tableData5, setTableData5] = useState()
+  const [tableData6, setTableData6] = useState()
   const [data1, setData1] = useState()
+  const [monthList, setMonthList] = useState([])
+  const [selectedMonth, setSelectedMonth] = useState()
 
   const weeks = ['27', '28', '29', '30', '31']
   // const { data, loading: loading, error: error } = useQuery(GET_EH, {
@@ -63,30 +90,21 @@ const Exports = () => {
 
   }
 
-  useEffect(() => {
-    getData1()
-      .then(res => getData2())
-      .then(res => getData3())
-      .then(res => getData4())
-      .then(res => getData5())
-      .then(res => getData6())
-    //  then(
-    //  res => getData2()
-    //  ).then (   getData3())
-    //  .then(
-    //  getData4()
-    //  )
-    //  getData5();
-    //  getData6();
-    //  .then(res => {getData2()} )
-    //  .then(res => {getData3()})
+  const getAllDataQueries = (month) => {
+    getData1(month)
+    .then(res => getData2(month))
+    .then(res => getData3(month))
+    .then(res => getData4(month))
+    .then(res => getData5(month))
+    .then(res => getData6(month))
+  }
 
-  }, [])
 
-  const getData1 = async () => {
+
+  const getData1 = async (month) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'Deltatel'` }
+      variables: { type: `'On Call'`, employeer: `'Deltatel'`, year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
     }).then(data => {
       console.log(data)
       setTableData(data.data.getExtraHours)
@@ -94,47 +112,65 @@ const Exports = () => {
     )
   }
 
-  const getData2 = async () => {
+  const getData2 = async (month) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'Deltatel'` }
+      variables: { type: `'Hotline'`, employeer: `'Deltatel'`,year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
     })
     setTableData2(data.data.getExtraHours)
   }
-  const getData3 = async () => {
+  const getData3 = async (month) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'Connect 44'` }
+      variables: { type: `'Hotline'`, employeer: `'Connect 44'`,year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
     }).then(data => { setTableData3(data.data.getExtraHours) })
   }
 
-  const getData4 = async () => {
+  const getData4 = async (month) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'Connect 44'` }
+      variables: { type: `'On Call'`, employeer: `'Connect 44'`, year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
     }).then(data => { setTableData4(data.data.getExtraHours); console.log(data) })
   }
-  const getData5 = async () => {
+  const getData5 = async (month) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'SII'` }
+      variables: { type: `'Hotline'`, employeer: `'SII'`, year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
     })
     setTableData5(data.data.getExtraHours)
   }
-  const getData6 = async () => {
+  const getData6 = async (month) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'SII'` }
+      variables: { type: `'On Call'`, employeer: `'SII'`,year: parseInt(month.substring(0,4)), month: parseInt(month.substring(5,7))  }
     })
     setTableData6(data.data.getExtraHours)
   }
-
+  const { data, error: get_months_error } = useQuery(GET_MONTHS, {
+    onCompleted: () => {
+        console.log(data)
+        setMonthList(data.getMonthsQuery)
+    }
+});
 
   return (<>
     {user.auth.role == 'L3' ?
       <>
         <div className='table-heading'><b>{`${user.auth.name}`}</b>, please find belore the list with all requests:</div>
+        <div className="filters">
+                <Autocomplete
+                    id="combo-box-demo"
+                    options={monthList}
+                    noOptionsText={'Your Customized No Options Text'}
+                    getOptionLabel={(option) => option.month}
+                    style={{ width: 300 }}
+                    className={classes.textField}
+                    onChange={(e,v) => {console.log(v.month);setSelectedMonth(v.month); getAllDataQueries(v.month)}}
+                    renderInput={(params) => <TextField {...params}  label="select month" variant="outlined" />}
+                />
+            </div>
         <div className='grid'>
+          {tableData ? 
           <DynamicTable
             weeks={weeks}
             no={1}
@@ -147,7 +183,8 @@ const Exports = () => {
           //define filter as props
 
           />
-
+          : null}
+          {tableData2 ? 
           <DynamicTable
             weeks={weeks}
             no={2}
@@ -160,7 +197,8 @@ const Exports = () => {
           //define filter as props
 
           />
-
+          : null}
+          {tableData3 ? 
           <DynamicTable
             weeks={weeks}
             no={3}
@@ -173,7 +211,8 @@ const Exports = () => {
           //define filter as props
 
           />
-
+          : null}
+          {tableData4 ? 
           <DynamicTable
             weeks={weeks}
             no={4}
@@ -185,7 +224,8 @@ const Exports = () => {
           //define filter as props
 
           />
-
+          : null}
+          {tableData5 ? 
           <DynamicTable
             weeks={weeks}
             no={5}
@@ -198,7 +238,8 @@ const Exports = () => {
           //define filter as props
 
           />
-
+          : null}
+          {tableData6 ? 
           <DynamicTable
             weeks={weeks}
             no={6}
@@ -211,6 +252,7 @@ const Exports = () => {
           //define filter as props
 
           />
+          : null}
         </div>
       </>
       :
