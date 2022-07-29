@@ -156,7 +156,7 @@ const Exports = () => {
   return (<>
     {user.auth.role == 'L3' ?
       <>
-        <div className='table-heading'><b>{`${user.auth.name}`}</b>, please find belore the list with all requests:</div>
+        <div className='table-heading'><b>{`${user.auth.name}`}</b>, please select year-month to fetch requests:</div>
         <div className="filters">
                 <Autocomplete
                     id="combo-box-demo"
