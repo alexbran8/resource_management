@@ -109,7 +109,7 @@ const Exports = () => {
   const getData1 = async (month, firstWeek) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)), firstWeek: firstWeek }
+      variables: { type: `''On Call'', ''Oncall IPSEC'', ''Oncall SAO''`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)), firstWeek: firstWeek }
     }).then(data => {
       console.log(data)
       setTableData(data.data.getExtraHours)
@@ -120,34 +120,34 @@ const Exports = () => {
   const getData2 = async (month, firstWeek) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
+      variables: { type: `''Hotline''`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
     })
     setTableData2(data.data.getExtraHours)
   }
   const getData3 = async (month, firstWeek) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
+      variables: { type: `''Hotline''`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
     }).then(data => { setTableData3(data.data.getExtraHours) })
   }
 
   const getData4 = async (month, firstWeek) => {
     await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
+      variables: { type: `''On Call'', ''Oncall IPSEC'', ''Oncall SAO''`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)),firstWeek: firstWeek }
     }).then(data => { setTableData4(data.data.getExtraHours); console.log(data) })
   }
   const getData5 = async (month, firstWeek) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'Hotline'`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
+      variables: { type: `''Hotline''`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
     })
     setTableData5(data.data.getExtraHours)
   }
   const getData6 = async (month, firstWeek) => {
     let data = await apiclient.query({
       query: GET_EH,
-      variables: { type: `'On Call'`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
+      variables: { type: `''On Call'', ''Oncall IPSEC'', ''Oncall SAO''`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
     })
     setTableData6(data.data.getExtraHours)
   }

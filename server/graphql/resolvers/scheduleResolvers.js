@@ -8,9 +8,9 @@ const {
 module.exports = {
   Query: {
     async getExtraHours(root, args, context) {
-console.log(args)
+      console.log(args)
 
-      let allTypesToQuery = `'On Call', 'Hotline'`
+      let allTypesToQuery = `'On Call', 'Hotline', 'Oncall IPSEC' `
 
       let prepareTables = await db.sequelize.query(`
     DROP TABLE IF EXISTS decalate_unpivoted;
@@ -29,7 +29,7 @@ EXTRACT(week FROM events.start) +1 as week,  'initial' as "whereFrom"  FROM (
 (SELECT events.start, events."end", events.nokiaid, events.title, events."bgColor", events.type, events.status, events.replacement, events."createdBy", events.id
 	FROM public.events 
  where 
- events.type in (`+ allTypesToQuery + `) 
+ events.type in (`+ allTypesToQuery + `)
  and  
  extract(month from events.start) = `+ args.month + `
  and
@@ -46,8 +46,8 @@ ON events.nokiaid = employees.nokiaid)
       )
 
       let result = await db.sequelize.query(`select * from crosstab (
-      'select upi, engineer, type, employeer,  week, case when 	days >1 then ''x''  else NULL end from decalate_unpivoted where type ='` + args.type + `' group by 2,1,3,4,5,6 order by 1,2',
-      'VALUES(''`+ args.firstWeek + `''), (''`+ (args.firstWeek +1) + `''), (''`+ (args.firstWeek +2) + `''), (''`+ (args.firstWeek +3) + `''), (''`+ (args.firstWeek +4) + `'')'
+      'select upi, engineer, type, employeer,  week, case when 	days >1 then ''x''  else NULL end from decalate_unpivoted where type in (` + args.type + `) group by 2,1,3,4,5,6 order by 1,2',
+      'VALUES(''`+ args.firstWeek + `''), (''` + (args.firstWeek + 1) + `''), (''` + (args.firstWeek + 2) + `''), (''` + (args.firstWeek + 3) + `''), (''` + (args.firstWeek + 4) + `'')'
       )
       as newtable (
       UPI varchar, Engineer varchar, type varchar,employeer varchar, week1 varchar,week2 varchar, week3 varchar, week4 varchar, week5 varchar
