@@ -59,6 +59,9 @@ const Exports = () => {
   const [tableData5, setTableData5] = useState()
   const [tableData6, setTableData6] = useState()
   const [tableData7, setTableData7] = useState()
+  const [tableData8, setTableData8] = useState()
+  const [tableData9, setTableData9] = useState()
+  const [tableData10, setTableData10] = useState()
   const [firstWeek, setFirstWeek]= useState()
   const [data1, setData1] = useState()
   const [monthList, setMonthList] = useState([])
@@ -104,6 +107,9 @@ const Exports = () => {
       .then(res => getData5(month, firstWeek))
       .then(res => getData6(month, firstWeek))
       .then(res => getData7(month, firstWeek))
+      .then(res => getData8(month, firstWeek))
+      .then(res => getData9(month, firstWeek))
+      .then(res => getData10(month, firstWeek))
   }
 
 
@@ -161,7 +167,31 @@ const Exports = () => {
     })
     setTableData7(data.data.getExtraHours)
   }
-  
+
+  const getData8 = async (month, firstWeek) => {
+    let data = await apiclient.query({
+      query: GET_EH,
+      variables: { type: `''Vacation'', ''Planned Vacation''`, employeer: `'NOKIA'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
+    })
+    setTableData8(data.data.getExtraHours)
+  }
+
+  const getData9 = async (month, firstWeek) => {
+    let data = await apiclient.query({
+      query: GET_EH,
+      variables: { type: `''Vacation'', ''Planned Vacation''`, employeer: `'SII'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
+    })
+    setTableData9(data.data.getExtraHours)
+  }
+
+  const getData10 = async (month, firstWeek) => {
+    let data = await apiclient.query({
+      query: GET_EH,
+      variables: { type: `''Vacation'', ''Planned Vacation''`, employeer: `'Connect 44'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
+    })
+    setTableData10(data.data.getExtraHours)
+  }
+
   const { data, error: get_months_error } = useQuery(GET_MONTHS, {
     onCompleted: () => {
       console.log(data)
@@ -284,7 +314,7 @@ const Exports = () => {
 
             />
             : null}
-              {tableData6 ?
+              {tableData7 ?
             <DynamicTable
             weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
               no={7}
@@ -293,6 +323,48 @@ const Exports = () => {
               // define query as props
               tableToQuery='extra-hours'
               tableData={tableData7}
+
+            //define filter as props
+
+            />
+            : null}
+                          {tableData8 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={8}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData8}
+
+            //define filter as props
+
+            />
+            : null}
+                          {tableData9 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={9}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData9}
+
+            //define filter as props
+
+            />
+            : null}
+                          {tableData10 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={10}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData10}
 
             //define filter as props
 

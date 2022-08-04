@@ -10,7 +10,7 @@ module.exports = {
     async getExtraHours(root, args, context) {
       console.log(args)
 
-      let allTypesToQuery = `'On Call', 'Hotline', 'Oncall IPSEC' `
+      let allTypesToQuery = `'On Call', 'Hotline', 'Oncall IPSEC' ,'Vacation'`
 
       let prepareTables = await db.sequelize.query(`
     DROP TABLE IF EXISTS decalate_unpivoted;
@@ -45,8 +45,15 @@ ON events.nokiaid = employees.nokiaid)
 
       )
 
+      // add case check type to not replace to X
       let result = await db.sequelize.query(`select * from crosstab (
-      'select upi, engineer, type, employeer,  week, case when 	days >1 then ''x''  else NULL end from decalate_unpivoted where type in (` + args.type + `) group by 2,1,3,4,5,6 order by 1,2',
+      'select upi, engineer, type, employeer,  week, 
+      case 
+      when 	(days >1 and type not in (''Vacation'', ''Planned Vacation'')) then ''x''
+      when 	type in (''Vacation'', ''Planned Vacation'') then days::varchar
+    else NULL 
+    end 
+      from decalate_unpivoted where type in (` + args.type + `) group by 2,1,3,4,5,6 order by 1,2',
       'VALUES(''`+ args.firstWeek + `''), (''` + (args.firstWeek + 1) + `''), (''` + (args.firstWeek + 2) + `''), (''` + (args.firstWeek + 3) + `''), (''` + (args.firstWeek + 4) + `'')'
       )
       as newtable (
