@@ -58,6 +58,7 @@ const Exports = () => {
   const [tableData4, setTableData4] = useState()
   const [tableData5, setTableData5] = useState()
   const [tableData6, setTableData6] = useState()
+  const [tableData7, setTableData7] = useState()
   const [firstWeek, setFirstWeek]= useState()
   const [data1, setData1] = useState()
   const [monthList, setMonthList] = useState([])
@@ -102,6 +103,7 @@ const Exports = () => {
       .then(res => getData4(month, firstWeek))
       .then(res => getData5(month, firstWeek))
       .then(res => getData6(month, firstWeek))
+      .then(res => getData7(month, firstWeek))
   }
 
 
@@ -151,6 +153,15 @@ const Exports = () => {
     })
     setTableData6(data.data.getExtraHours)
   }
+
+  const getData7 = async (month, firstWeek) => {
+    let data = await apiclient.query({
+      query: GET_EH,
+      variables: { type: `''Vacation'', ''Planned Vacation''`, employeer: `'Deltatel'`, year: parseInt(month.substring(0, 4)), month: parseInt(month.substring(5, 7)) ,firstWeek: firstWeek }
+    })
+    setTableData7(data.data.getExtraHours)
+  }
+  
   const { data, error: get_months_error } = useQuery(GET_MONTHS, {
     onCompleted: () => {
       console.log(data)
@@ -172,7 +183,6 @@ const Exports = () => {
             className={classes.textField}
             // onChange={(v) => {console.log(v.month);setSelectedMonth(v.month); getAllDataQueries(v.month)}}
             onInputChange={(event, newInputValue, reason) => {
-              console.log(newInputValue)
               if (reason === 'clear') {
                 setTableData(null)
                 setTableData2(null)
@@ -180,6 +190,7 @@ const Exports = () => {
                 setTableData4(null)
                 setTableData5(null)
                 setTableData6(null)
+                setTableData7(null)
               } else {
                 console.log(newInputValue.month); getAllDataQueries(newInputValue)
               }
@@ -187,7 +198,9 @@ const Exports = () => {
             renderInput={(params) => <TextField {...params} label="select month" variant="outlined" />}
           />
         </div>
+        <h1>Schifted Schedule</h1>
         <div className='grid'>
+        
           {tableData ?
             <DynamicTable
               weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
@@ -266,6 +279,20 @@ const Exports = () => {
               // define query as props
               tableToQuery='extra-hours'
               tableData={tableData6}
+
+            //define filter as props
+
+            />
+            : null}
+              {tableData6 ?
+            <DynamicTable
+            weeks={[firstWeek, firstWeek+1, firstWeek+2, firstWeek+3, firstWeek+4]}
+              no={7}
+              className="grid-child"
+              userName={user.auth.name}
+              // define query as props
+              tableToQuery='extra-hours'
+              tableData={tableData7}
 
             //define filter as props
 
